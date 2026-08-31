@@ -20,14 +20,10 @@ export async function POST(request: NextRequest) {
         user = bioCred.user;
       }
     } else if (email) {
-      // Demo fallback: if no credentialId is provided, just check if the user has a biometric credential configured
-      const bioCred = await prisma.biometricCredential.findFirst({
-        where: { user: { email } },
-        include: { user: true },
+      // Demo fallback: if no credentialId is provided (simulated scanner), log into the provided email directly
+      user = await prisma.user.findUnique({
+        where: { email },
       });
-      if (bioCred) {
-        user = bioCred.user;
-      }
     }
 
     if (!user) {

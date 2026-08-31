@@ -19,8 +19,8 @@ export default function CustomerLoginPage() {
   const router = useRouter();
   const { setCurrentUser } = useBank();
 
-  const [email, setEmail] = useState("customer@cpb.bank");
-  const [password, setPassword] = useState("Customer@2026");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isBiometricScanning, setIsBiometricScanning] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -223,12 +223,7 @@ export default function CustomerLoginPage() {
           </button>
         </form>
 
-        {/* Credentials helper pill */}
-        <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-slate-600 text-[11px] font-mono space-y-1">
-          <p className="font-sans font-bold text-slate-800">Customer Demo Credentials:</p>
-          <p>Email: <span className="text-blue-700 font-bold">customer@cpb.bank</span></p>
-          <p>Password: <span className="text-blue-700 font-bold">Customer@2026</span></p>
-        </div>
+        {/* (Demo credentials helper removed per user request) */}
 
         <div className="pt-2 text-center text-xs text-slate-500">
           <Link href="/" className="font-semibold text-blue-600 hover:underline">
