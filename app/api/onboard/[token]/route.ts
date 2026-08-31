@@ -63,7 +63,7 @@ export async function POST(
     // Hash user password / PIN
     const passwordHash = await bcrypt.hash(password || "Password@123", 10);
 
-    return await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx) => {
       // 1. Create or update User
       let user = await tx.user.findUnique({ where: { email: invite.customerEmail } });
 
@@ -187,43 +187,55 @@ export async function POST(
         },
       });
 
-      // 7. Audit log
-      await logAuditEvent({
-        actorId: user.id,
-        actorName: user.name,
-        actorRole: "CUSTOMER",
-        action: "CUSTOMER_SELF_ONBOARDING_COMPLETE",
-        targetType: "USER",
-        targetId: user.id,
-        metadata: {
-          accountNumber,
-          initialDeposit: initialBal,
-          biometricRegistered: Boolean(biometricCredentialId),
-        },
-        severity: "INFO",
-      });
-
-      return NextResponse.json({
-        success: true,
-        user: {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          role: user.role,
-        },
-        account: {
-          accountNumber: account.accountNumber,
-          type: account.type,
-          balance: Number(account.balance),
-          ifsc: account.ifsc,
-        },
-        card: {
-          cardNumber: card.cardNumber,
-          cvv: card.cvv,
-          expiry: `${card.expiryMonth}/${card.expiryYear}`,
-        },
+      return {
+        user,
+        account,
+        card,
+        accountNumber,
+        initialBal,
         biometricRegistered: Boolean(biometricCredentialId),
-      });
+      };
+    }, {
+      maxWait: 5000,
+      timeout: 20000,
+    });
+
+    // 7. Audit log
+    await logAuditEvent({
+      actorId: result.user.id,
+      actorName: result.user.name,
+      actorRole: "CUSTOMER",
+      action: "CUSTOMER_SELF_ONBOARDING_COMPLETE",
+      targetType: "USER",
+      targetId: result.user.id,
+      metadata: {
+        accountNumber: result.accountNumber,
+        initialDeposit: result.initialBal,
+        biometricRegistered: result.biometricRegistered,
+      },
+      severity: "INFO",
+    });
+
+    return NextResponse.json({
+      success: true,
+      user: {
+        id: result.user.id,
+        name: result.user.name,
+        email: result.user.email,
+        role: result.user.role,
+      },
+      account: {
+        accountNumber: result.account.accountNumber,
+        type: result.account.type,
+        balance: Number(result.account.balance),
+        ifsc: result.account.ifsc,
+      },
+      card: {
+        cardNumber: result.card.cardNumber,
+        cvv: result.card.cvv,
+        expiry: `${result.card.expiryMonth}/${result.card.expiryYear}`,
+      },
+      biometricRegistered: result.biometricRegistered,
     });
   } catch (error: any) {
     console.error("Complete onboarding error:", error);
