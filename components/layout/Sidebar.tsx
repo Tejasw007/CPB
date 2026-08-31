@@ -69,7 +69,8 @@ export function Sidebar({ activePortal, activeTab, setActiveTab }: SidebarProps)
   else if (activePortal === "server") currentNav = serverNav;
 
   return (
-    <aside className="w-64 border-r border-slate-200 bg-white p-4 flex flex-col justify-between hidden md:flex min-h-[calc(100vh-65px)]">
+    <>
+      <aside className="w-64 border-r border-slate-200 bg-white p-4 flex flex-col justify-between hidden md:flex min-h-[calc(100vh-65px)]">
       <div className="space-y-6">
         <div className="px-3">
           <p className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold">
@@ -113,6 +114,31 @@ export function Sidebar({ activePortal, activeTab, setActiveTab }: SidebarProps)
         </div>
         <p className="text-[10px] text-slate-400 font-mono">TiDB Cloud MySQL (cpb_bank)</p>
       </div>
-    </aside>
+      </aside>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 flex justify-between overflow-x-auto z-50 pb-safe">
+        <div className="flex min-w-full px-2 py-1.5">
+          {currentNav.map((item) => {
+            const Icon = item.icon;
+            const isActive = activeTab === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => setActiveTab(item.id)}
+                className={`flex flex-col items-center justify-center p-2 flex-1 min-w-[70px] transition-colors rounded-xl ${
+                  isActive ? "text-blue-600 bg-blue-50" : "text-slate-500 hover:bg-slate-50"
+                }`}
+              >
+                <Icon className={`w-5 h-5 mb-1 ${isActive ? "text-blue-600" : "text-slate-400"}`} />
+                <span className="text-[9px] font-semibold text-center leading-tight truncate w-full px-0.5">
+                  {item.label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </nav>
+    </>
   );
 }

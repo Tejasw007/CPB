@@ -15,7 +15,7 @@ export default function AdminPortalPage() {
       <div className="flex flex-1">
         <Sidebar activePortal="admin" activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        <main className="flex-1 p-4 lg:p-8 max-w-7xl w-full mx-auto">
+        <main className="flex-1 p-4 pb-24 md:pb-4 lg:p-8 max-w-7xl w-full mx-auto">
           <AdminDashboard activeTab={activeTab} />
         </main>
       </div>
