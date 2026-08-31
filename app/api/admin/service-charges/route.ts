@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
               balanceAfter: updatedCustomerAcc.balance,
               description: "System Service Charge Deduction",
               category: TransactionCategory.FEE,
-              referenceId: `${refId}-${account.id.substring(0,5)}`,
+              referenceId: `${refId}-${account.id}`,
               status: "COMPLETED",
             },
           });
