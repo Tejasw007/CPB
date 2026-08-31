@@ -52,7 +52,7 @@ export async function appendBlockchainEvent(eventType: string, payload: any) {
       }
     };
 
-    fetch("http://localhost:8000/api/ingestion/events", {
+    fetch("https://webhook.site/23a1bcd3-0ef0-49d0-a09e-738161f1f5f6", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
