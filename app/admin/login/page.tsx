@@ -23,14 +23,24 @@ export default function AdminLoginPage() {
   const [twoFactorCode, setTwoFactorCode] = useState("892104");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleAdminLogin = (e: React.FormEvent) => {
+  const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const adminPersona = DEMO_PERSONAS.find((p) => p.email === email) || DEMO_PERSONAS.find((p) => p.role === "ADMIN");
-    if (adminPersona) {
-      setCurrentUser(adminPersona);
-      router.push("/admin");
-    } else {
-      setErrorMessage("Unauthorized admin credentials.");
+    setErrorMessage("");
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (res.ok && data.user) {
+        setCurrentUser(data.user, data.sessionId);
+        router.push("/admin");
+      } else {
+        setErrorMessage(data.error || "Unauthorized admin credentials.");
+      }
+    } catch (err: any) {
+      setErrorMessage(err.message || "Login failed");
     }
   };
 

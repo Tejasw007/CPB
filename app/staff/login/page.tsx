@@ -25,14 +25,24 @@ export default function StaffLoginPage() {
   const [password, setPassword] = useState("Staff@2026");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleStaffLogin = (e: React.FormEvent) => {
+  const handleStaffLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    const staffPersona = DEMO_PERSONAS.find((p) => p.email === email) || DEMO_PERSONAS.find((p) => p.role === "STAFF");
-    if (staffPersona) {
-      setCurrentUser(staffPersona);
-      router.push("/staff");
-    } else {
-      setErrorMessage("Invalid Staff credentials or Branch authorization failed.");
+    setErrorMessage("");
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (res.ok && data.user) {
+        setCurrentUser(data.user, data.sessionId);
+        router.push("/staff");
+      } else {
+        setErrorMessage(data.error || "Invalid Staff credentials.");
+      }
+    } catch (err: any) {
+      setErrorMessage(err.message || "Login failed");
     }
   };
 
