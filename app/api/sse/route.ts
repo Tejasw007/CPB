@@ -3,79 +3,61 @@ import { prisma } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(req: NextRequest) {
-  const accountId = req.nextUrl.searchParams.get("accountId");
+export async function GET(request: NextRequest) {
+  const userId = request.nextUrl.searchParams.get("userId");
   
-  if (!accountId) {
-    return NextResponse.json({ error: "Missing accountId" }, { status: 400 });
+  if (!userId) {
+    return NextResponse.json({ error: "Missing userId" }, { status: 400 });
   }
 
-  const stream = new TransformStream();
-  const writer = stream.writable.getWriter();
+  // Get the most recent transaction to establish a baseline
+  const initialLastTx = await prisma.transaction.findFirst({
+    where: { account: { userId } },
+    orderBy: { createdAt: 'desc' }
+  });
   
-  let lastTxId = req.nextUrl.searchParams.get("lastTxId") || null;
-  let isClosed = false;
+  let lastCheckedTime = initialLastTx ? initialLastTx.createdAt : new Date(Date.now() - 60000);
 
-  req.signal.addEventListener("abort", () => {
-    isClosed = true;
+  const stream = new ReadableStream({
+    async start(controller) {
+      // Send an initial connected message to keep the stream alive
+      controller.enqueue(`data: ${JSON.stringify({ type: "CONNECTED" })}\n\n`);
+
+      const interval = setInterval(async () => {
+        try {
+          // Poll for new transactions since last check
+          const newTxns = await prisma.transaction.findMany({
+            where: {
+              account: { userId },
+              createdAt: { gt: lastCheckedTime },
+            },
+            orderBy: { createdAt: 'asc' }
+          });
+
+          if (newTxns.length > 0) {
+            lastCheckedTime = newTxns[newTxns.length - 1].createdAt;
+            controller.enqueue(`data: ${JSON.stringify({ type: "NEW_TRANSACTIONS", txns: newTxns })}\n\n`);
+          } else {
+            // Send heartbeat to prevent timeout
+            controller.enqueue(`:\n\n`);
+          }
+        } catch (error) {
+          console.error("SSE Polling error:", error);
+        }
+      }, 2000);
+
+      // Clean up when client disconnects
+      request.signal.addEventListener("abort", () => {
+        clearInterval(interval);
+        controller.close();
+      });
+    },
   });
 
-  const encoder = new TextEncoder();
-  const sendEvent = async (data: any) => {
-    if (!isClosed) {
-      await writer.write(encoder.encode(`data: ${JSON.stringify(data)}\n\n`));
-    }
-  };
-
-  // Initially send a ping to establish connection
-  await sendEvent({ type: "ping" });
-
-  const interval = setInterval(async () => {
-    if (isClosed) {
-      clearInterval(interval);
-      return;
-    }
-
-    try {
-      // Find new transactions for this account since lastTxId
-      // Because we don't know the lastTxId timestamp easily if null, 
-      // we just look for transactions created in the last 3 seconds if lastTxId is null.
-      const queryParams: any = {
-        where: { accountId },
-        orderBy: { createdAt: 'asc' },
-      };
-
-      if (lastTxId) {
-        queryParams.where.id = { gt: lastTxId };
-      } else {
-        // Fallback: only fetch transactions from the last 3 seconds
-        const threeSecondsAgo = new Date(Date.now() - 3000);
-        queryParams.where.createdAt = { gt: threeSecondsAgo };
-      }
-
-      const newTxns = await prisma.transaction.findMany(queryParams);
-
-      if (newTxns.length > 0) {
-        lastTxId = newTxns[newTxns.length - 1].id;
-        await sendEvent({ type: "new_transactions", transactions: newTxns });
-      } else {
-        // Heartbeat to keep connection alive
-        await sendEvent({ type: "heartbeat" });
-      }
-    } catch (e) {
-      console.error("SSE Polling Error", e);
-    }
-  }, 2000); // Poll every 2 seconds
-
-  // Clean up interval if connection closes
-  req.signal.addEventListener("abort", () => {
-    clearInterval(interval);
-  });
-
-  return new NextResponse(stream.readable, {
+  return new NextResponse(stream, {
     headers: {
       "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache",
+      "Cache-Control": "no-cache, no-transform",
       "Connection": "keep-alive",
     },
   });
