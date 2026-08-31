@@ -8,6 +8,7 @@ export const dynamic = "force-dynamic";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
+    const { email } = body;
     if (!email) {
       return NextResponse.json(
         { error: "Email is required for biometric scan verification." },
