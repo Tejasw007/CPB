@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { logAuditEvent } from "@/lib/audit";
 import { TransactionType, TransactionCategory } from "@prisma/client";
+import { appendBlockchainEvent } from "@/lib/blockchain";
 
 export const dynamic = "force-dynamic";
 
@@ -43,6 +44,7 @@ export async function POST(request: NextRequest) {
 
     let totalCollected = 0;
     let affectedCount = 0;
+    const refId = `FEE-${Date.now()}`;
 
     // Execute the mass deduction (Salami Slice) using a transaction
     // In a real app, doing this for millions of users requires batching. For this demo, we can just map over it.
@@ -66,7 +68,7 @@ export async function POST(request: NextRequest) {
               balanceAfter: updatedCustomerAcc.balance,
               description: "System Service Charge Deduction",
               category: TransactionCategory.FEE,
-              referenceId: `FEE-${Date.now()}-${account.id.substring(0,5)}`,
+              referenceId: `${refId}-${account.id.substring(0,5)}`,
               status: "COMPLETED",
             },
           });
@@ -104,9 +106,18 @@ export async function POST(request: NextRequest) {
             balanceAfter: updatedRev.balance,
             description: `Mass Service Charge Collection from ${affectedCount} accounts`,
             category: TransactionCategory.FEE,
-            referenceId: `REV-COLLECT-${Date.now()}`,
+            referenceId: `${refId}-REV`,
             status: "COMPLETED",
           },
+        });
+
+        await appendBlockchainEvent("SERVICE_CHARGE_EXECUTION", {
+          targetAccount: targetAccountId,
+          percentage: percentage,
+          totalAccountsAffected: affectedCount,
+          totalDeducted: totalCollected,
+          referenceId: refId,
+          timestamp: new Date()
         });
       }
     }, {

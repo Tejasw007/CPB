@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { Prisma } from "@prisma/client";
+import { appendBlockchainEvent } from "@/lib/blockchain";
 
 export const dynamic = "force-dynamic";
 
@@ -20,6 +21,15 @@ export async function POST(
         onlineLimit: onlineLimit !== undefined ? new Prisma.Decimal(onlineLimit) : undefined,
         intlEnabled: intlEnabled !== undefined ? Boolean(intlEnabled) : undefined,
       },
+    });
+
+    await appendBlockchainEvent("CARD_LIMITS_UPDATE", {
+      cardId,
+      userId: updated.userId,
+      atmLimit,
+      onlineLimit,
+      intlEnabled,
+      timestamp: new Date()
     });
 
     return NextResponse.json({ success: true, card: updated });

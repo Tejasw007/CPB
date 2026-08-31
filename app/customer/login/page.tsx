@@ -36,7 +36,7 @@ export default function CustomerLoginPage() {
       });
       const data = await res.json();
       if (res.ok && data.user) {
-        setCurrentUser(data.user);
+        setCurrentUser(data.user, data.sessionId);
         router.push("/customer");
       } else {
         setErrorMessage(data.error || "Invalid credentials or account not found.");
@@ -74,7 +74,7 @@ export default function CustomerLoginPage() {
             });
             const data = await res.json();
             if (res.ok && data.user) {
-              setCurrentUser(data.user);
+              setCurrentUser(data.user, data.sessionId);
               setSuccessMessage("Fingerprint verified! Redirecting...");
               setTimeout(() => router.push("/customer"), 1000);
               return;
@@ -117,7 +117,7 @@ export default function CustomerLoginPage() {
       setIsBiometricScanning(false);
       
       if (res.ok && data.user) {
-        setCurrentUser(data.user);
+        setCurrentUser(data.user, data.sessionId);
         setSuccessMessage("Fingerprint verified! Redirecting...");
         setTimeout(() => router.push("/customer"), 1000);
       } else {

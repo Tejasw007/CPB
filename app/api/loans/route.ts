@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { LoanType, LoanStatus, Prisma } from "@prisma/client";
+import { appendBlockchainEvent } from "@/lib/blockchain";
 
 export const dynamic = "force-dynamic";
 
@@ -42,6 +43,16 @@ export async function POST(request: NextRequest) {
         creditScore: 780,
         purpose: purpose || "General Purpose",
       },
+    });
+
+    await appendBlockchainEvent("LOAN_APPLICATION", {
+      userId: user.id,
+      userEmail,
+      loanType: type,
+      principal,
+      tenureMonths,
+      purpose,
+      timestamp: new Date()
     });
 
     return NextResponse.json({ success: true, loan });

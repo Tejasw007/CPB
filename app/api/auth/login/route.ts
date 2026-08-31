@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { logAuditEvent } from "@/lib/audit";
+import { appendBlockchainEvent } from "@/lib/blockchain";
 
 export const dynamic = "force-dynamic";
 
@@ -37,8 +38,28 @@ export async function POST(request: NextRequest) {
       severity: "INFO",
     });
 
+    const session = await prisma.sessionDevice.create({
+      data: {
+        userId: user.id,
+        deviceInfo: request.headers.get("user-agent") || "Unknown Device",
+        ipAddress: request.headers.get("x-forwarded-for") || "127.0.0.1",
+        loginAt: new Date(),
+      }
+    });
+
+    await appendBlockchainEvent("LOGIN", {
+      userId: user.id,
+      email: user.email,
+      sessionId: session.id,
+      method: "PASSWORD",
+      ip: session.ipAddress,
+      device: session.deviceInfo,
+      action: "User logged into the platform"
+    });
+
     return NextResponse.json({
       success: true,
+      sessionId: session.id,
       user: {
         id: user.id,
         name: user.name,

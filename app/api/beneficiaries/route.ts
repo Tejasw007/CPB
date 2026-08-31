@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { appendBlockchainEvent } from "@/lib/blockchain";
 
 export const dynamic = "force-dynamic";
 
@@ -35,6 +36,15 @@ export async function POST(request: NextRequest) {
         coolingPeriodEndsAt,
         dailyLimit: 25000.0, // Reduced limit during first 24h
       },
+    });
+
+    await appendBlockchainEvent("BENEFICIARY_ADDED", {
+      userId: user.id,
+      userEmail,
+      beneficiaryName: name,
+      beneficiaryAccount: accountNumber,
+      bankName: bankName || "Code Paglu Bank",
+      timestamp: new Date()
     });
 
     return NextResponse.json({ success: true, beneficiary });

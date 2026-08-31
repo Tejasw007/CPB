@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { TicketCategory, TicketPriority, TicketStatus } from "@prisma/client";
+import { appendBlockchainEvent } from "@/lib/blockchain";
 
 export const dynamic = "force-dynamic";
 
@@ -32,6 +33,15 @@ export async function POST(request: NextRequest) {
         include: {
           messages: true,
         },
+      });
+
+      await appendBlockchainEvent("SUPPORT_TICKET_CREATED", {
+        ticketNumber,
+        userId,
+        subject,
+        category: category || "GENERAL",
+        priority: priority || "MEDIUM",
+        timestamp: new Date()
       });
 
       return NextResponse.json({ success: true, ticket: newTicket });

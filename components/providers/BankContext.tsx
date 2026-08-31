@@ -6,7 +6,8 @@ import { DEMO_PERSONAS, getDefaultUser } from "@/lib/auth/session";
 
 interface BankContextType {
   currentUser: BankUser;
-  setCurrentUser: (user: BankUser) => void;
+  setCurrentUser: (user: BankUser, sessionId?: string) => void;
+  currentSessionId: string | null;
   accounts: BankAccount[];
   selectedAccount: BankAccount | null;
   setSelectedAccount: (acc: BankAccount) => void;
@@ -52,6 +53,7 @@ const BankContext = createContext<BankContextType | undefined>(undefined);
 
 export function BankProvider({ children }: { children: React.ReactNode }) {
   const [currentUser, setCurrentUser] = useState<BankUser>(getDefaultUser());
+  const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const [accounts, setAccounts] = useState<BankAccount[]>([]);
   const [selectedAccount, setSelectedAccount] = useState<BankAccount | null>(null);
   const [transactions, setTransactions] = useState<BankTransaction[]>([]);
@@ -258,7 +260,11 @@ export function BankProvider({ children }: { children: React.ReactNode }) {
     <BankContext.Provider
       value={{
         currentUser,
-        setCurrentUser,
+        setCurrentUser: (user, sessionId) => {
+          setCurrentUser(user);
+          if (sessionId) setCurrentSessionId(sessionId);
+        },
+        currentSessionId,
         accounts,
         selectedAccount,
         setSelectedAccount,

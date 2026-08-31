@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ledger } from "@/lib/ledger";
 import { TransferMode } from "@prisma/client";
+import { appendBlockchainEvent } from "@/lib/blockchain";
 
 export const dynamic = "force-dynamic";
 
@@ -56,6 +57,18 @@ export async function POST(request: NextRequest) {
         actorRole,
         ipAddress,
       });
+
+      if (result && result.referenceId) {
+        await appendBlockchainEvent("INTERNAL_TRANSFER", {
+          sourceAccountId,
+          destinationAccountNumber,
+          amount: Number(amount),
+          referenceId: result.referenceId,
+          transferMode: transferMode || "INTRA_BANK",
+          timestamp: new Date()
+        });
+      }
+
       return NextResponse.json(result);
     }
   } catch (err: any) {

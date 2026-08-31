@@ -23,7 +23,7 @@ interface NavbarProps {
 
 export function Navbar({ portalType }: NavbarProps) {
   const router = useRouter();
-  const { currentUser, notifications, markNotificationRead } = useBank();
+  const { currentUser, currentSessionId, notifications, markNotificationRead } = useBank();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
 
@@ -64,7 +64,18 @@ export function Navbar({ portalType }: NavbarProps) {
 
   const portalInfo = getPortalInfo();
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+    if (currentSessionId) {
+      try {
+        await fetch("/api/auth/logout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionId: currentSessionId, userId: currentUser?.id })
+        });
+      } catch (e) {
+        console.error("Logout API error:", e);
+      }
+    }
     router.push(portalInfo.loginPath);
   };
 

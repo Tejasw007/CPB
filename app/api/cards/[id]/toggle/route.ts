@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { CardStatus } from "@prisma/client";
+import { appendBlockchainEvent } from "@/lib/blockchain";
 
 export const dynamic = "force-dynamic";
 
@@ -21,6 +22,13 @@ export async function POST(
     const updated = await prisma.card.update({
       where: { id: cardId },
       data: { status: newStatus },
+    });
+
+    await appendBlockchainEvent("CARD_STATUS_TOGGLE", {
+      cardId,
+      newStatus,
+      userId: updated.userId,
+      timestamp: new Date()
     });
 
     return NextResponse.json({ success: true, status: updated.status });

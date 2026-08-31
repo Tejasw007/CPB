@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { FdStatus, Prisma, TransactionType, TransactionCategory } from "@prisma/client";
+import { appendBlockchainEvent } from "@/lib/blockchain";
 
 export const dynamic = "force-dynamic";
 
@@ -70,6 +71,16 @@ export async function POST(request: NextRequest) {
           referenceId: `CPB-FD-${dateStr}-${randomSuffix}`,
           counterpartyBank: "Code Paglu Bank Treasury",
         },
+      });
+
+      await appendBlockchainEvent("FD_BOOKING", {
+        accountId,
+        userEmail,
+        principal,
+        tenureMonths,
+        rate,
+        maturityAmount,
+        timestamp: new Date()
       });
 
       return NextResponse.json({ success: true, fd, balanceAfter: Number(newBalance) });

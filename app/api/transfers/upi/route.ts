@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { TransactionType, TransactionCategory, TransferMode } from "@prisma/client";
+import { appendBlockchainEvent } from "@/lib/blockchain";
 
 export const dynamic = "force-dynamic";
 
@@ -124,7 +125,20 @@ export async function POST(request: NextRequest) {
           },
         });
 
-        return NextResponse.json({ success: true, message: "UPI Transfer Successful", refId });
+        // --- 4. Append to Immutable Blockchain Ledger ---
+        await appendBlockchainEvent("TRANSACTION", {
+          type: "UPI_TRANSFER",
+          referenceId: refId,
+          sourceAccountId: source.id,
+          targetUpiId,
+          amount: numAmount,
+          currency: "INR",
+          status: "COMPLETED",
+          description,
+          timestamp: new Date()
+        });
+
+        return NextResponse.json({ success: true, message: `Successfully sent ₹${numAmount} via UPI`, refId });
       });
     }
 

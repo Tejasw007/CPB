@@ -414,6 +414,8 @@ model SessionDevice {
   deviceInfo String
   ipAddress  String
   location   String?
+  loginAt    DateTime @default(now())
+  logoutAt   DateTime?
   lastActive DateTime @default(now())
   trusted    Boolean  @default(true)
   isCurrent  Boolean  @default(false)
@@ -495,4 +497,16 @@ model BiometricCredential {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
+}
+
+model BlockchainEvent {
+  id           String   @id @default(cuid())
+  previousHash String
+  currentHash  String   @unique
+  eventType    String   // LOGIN, LOGOUT, TRANSACTION
+  payload      String   @db.Text
+  timestamp    DateTime @default(now())
+
+  @@index([eventType])
+  @@index([timestamp])
 }
