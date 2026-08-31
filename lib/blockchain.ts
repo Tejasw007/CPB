@@ -2,36 +2,54 @@ import { prisma } from "./db";
 import crypto from "crypto";
 
 export async function appendBlockchainEvent(eventType: string, payload: any) {
-  // Use Prisma transaction to ensure atomicity when reading the last block and appending the new one.
-  const createdBlock = await prisma.$transaction(async (tx) => {
-    // 1. Get the most recent block to get its hash
-    const lastBlock = await tx.blockchainEvent.findFirst({
-      orderBy: { timestamp: 'desc' },
-    });
+  let createdBlock = null;
+  let attempt = 0;
+  const maxRetries = 5;
 
-    const previousHash = lastBlock ? lastBlock.currentHash : "GENESIS_BLOCK_0000000000000000000000000000";
+  while (attempt < maxRetries) {
+    try {
+      // Use Prisma transaction to ensure atomicity when reading the last block and appending the new one.
+      createdBlock = await prisma.$transaction(async (tx) => {
+        // 1. Get the most recent block to get its hash
+        const lastBlock = await tx.blockchainEvent.findFirst({
+          orderBy: { timestamp: 'desc' },
+        });
 
-    // 2. Prepare current payload string and timestamp
-    const payloadString = JSON.stringify(payload);
-    const timestamp = new Date();
+        const previousHash = lastBlock ? lastBlock.currentHash : "GENESIS_BLOCK_0000000000000000000000000000";
 
-    // 3. Calculate current Hash: SHA-256(previousHash + payloadString + timestamp)
-    const dataToHash = `${previousHash}|${payloadString}|${timestamp.toISOString()}`;
-    const currentHash = crypto.createHash("sha256").update(dataToHash).digest("hex");
+        // 2. Prepare current payload string and timestamp
+        const payloadString = JSON.stringify(payload);
+        const timestamp = new Date();
 
-    // 4. Create the new block
-    const newBlock = await tx.blockchainEvent.create({
-      data: {
-        previousHash,
-        currentHash,
-        eventType,
-        payload: payloadString,
-        timestamp,
+        // 3. Calculate current Hash: SHA-256(previousHash + payloadString + timestamp)
+        const dataToHash = `${previousHash}|${payloadString}|${timestamp.toISOString()}`;
+        const currentHash = crypto.createHash("sha256").update(dataToHash).digest("hex");
+
+        // 4. Create the new block
+        return await tx.blockchainEvent.create({
+          data: {
+            previousHash,
+            currentHash,
+            eventType,
+            payload: payloadString,
+            timestamp,
+          }
+        });
+      });
+      break; // Success, exit retry loop
+    } catch (error: any) {
+      if (error.code === 'P2002' && error.meta?.target?.includes('previousHash')) {
+        attempt++;
+        if (attempt >= maxRetries) throw new Error("Blockchain append failed after max retries due to concurrent forks.");
+        // Wait a random small amount of time (exponential backoff) before retrying
+        await new Promise(res => setTimeout(res, 50 * Math.pow(2, attempt) + Math.random() * 50));
+        continue;
       }
-    });
+      throw error;
+    }
+  }
 
-    return newBlock;
-  });
+  if (!createdBlock) return null;
 
   // Asynchronously stream the block to the SOC platform
   try {

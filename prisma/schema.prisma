@@ -501,7 +501,7 @@ model BiometricCredential {
 
 model BlockchainEvent {
   id           String   @id @default(cuid())
-  previousHash String
+  previousHash String   @unique
   currentHash  String   @unique
   eventType    String   // LOGIN, LOGOUT, TRANSACTION
   payload      String   @db.Text
