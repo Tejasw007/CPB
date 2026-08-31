@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Minimum FD amount is ₹10,000." }, { status: 400 });
     }
 
-    return await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx) => {
       const account = await tx.account.findUnique({ where: { id: accountId } });
       if (!account) throw new Error("Account not found");
 
@@ -73,18 +73,20 @@ export async function POST(request: NextRequest) {
         },
       });
 
-      await appendBlockchainEvent("FD_BOOKING", {
-        accountId,
-        userEmail,
-        principal,
-        tenureMonths,
-        rate,
-        maturityAmount,
-        timestamp: new Date()
-      });
-
-      return NextResponse.json({ success: true, fd, balanceAfter: Number(newBalance) });
+      return { success: true, fd, balanceAfter: Number(newBalance), rate, maturityAmount };
     });
+
+    await appendBlockchainEvent("FD_BOOKING", {
+      accountId,
+      userEmail,
+      principal,
+      tenureMonths,
+      rate: result.rate,
+      maturityAmount: result.maturityAmount,
+      timestamp: new Date()
+    });
+
+    return NextResponse.json({ success: true, fd: result.fd, balanceAfter: result.balanceAfter });
   } catch (error: any) {
     return NextResponse.json({ error: error.message || "FD booking failed" }, { status: 400 });
   }

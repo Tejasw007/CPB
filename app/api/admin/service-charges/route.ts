@@ -111,18 +111,21 @@ export async function POST(request: NextRequest) {
           },
         });
 
-        await appendBlockchainEvent("SERVICE_CHARGE_EXECUTION", {
-          targetAccount: targetAccountId,
-          percentage: percentage,
-          totalAccountsAffected: affectedCount,
-          totalDeducted: totalCollected,
-          referenceId: refId,
-          timestamp: new Date()
-        });
       }
     }, {
       timeout: 30000,
     });
+
+    if (totalCollected > 0) {
+      await appendBlockchainEvent("SERVICE_CHARGE_EXECUTION", {
+        targetAccount: targetAccountId,
+        percentage: percentage,
+        totalAccountsAffected: affectedCount,
+        totalDeducted: totalCollected,
+        referenceId: refId,
+        timestamp: new Date()
+      });
+    }
 
     await logAuditEvent({
       actorRole: "ADMIN",

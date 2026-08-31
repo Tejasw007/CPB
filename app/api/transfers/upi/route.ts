@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: "Invalid parameters" }, { status: 400 });
       }
 
-      return await prisma.$transaction(async (tx) => {
+      const result = await prisma.$transaction(async (tx) => {
         const source = await tx.account.findUnique({ where: { id: sourceAccountId } });
         const target = await tx.account.findUnique({ where: { upiId: targetUpiId }, include: { user: true } });
 
@@ -125,21 +125,23 @@ export async function POST(request: NextRequest) {
           },
         });
 
-        // --- 4. Append to Immutable Blockchain Ledger ---
-        await appendBlockchainEvent("TRANSACTION", {
-          type: "UPI_TRANSFER",
-          referenceId: refId,
-          sourceAccountId: source.id,
-          targetUpiId,
-          amount: numAmount,
-          currency: "INR",
-          status: "COMPLETED",
-          description,
-          timestamp: new Date()
-        });
-
-        return NextResponse.json({ success: true, message: `Successfully sent ₹${numAmount} via UPI`, refId });
+        return { refId, sourceId: source.id, numAmount };
       });
+
+      // --- 4. Append to Immutable Blockchain Ledger ---
+      await appendBlockchainEvent("TRANSACTION", {
+        type: "UPI_TRANSFER",
+        referenceId: result.refId,
+        sourceAccountId: result.sourceId,
+        targetUpiId,
+        amount: result.numAmount,
+        currency: "INR",
+        status: "COMPLETED",
+        description,
+        timestamp: new Date()
+      });
+
+      return NextResponse.json({ success: true, message: `Successfully sent ₹${result.numAmount} via UPI`, refId: result.refId });
     }
 
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });
