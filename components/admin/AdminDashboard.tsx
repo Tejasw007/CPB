@@ -12,7 +12,9 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
-export function AdminDashboard() {
+import { AdminMassCharges } from "./AdminMassCharges";
+
+export function AdminDashboard({ activeTab = "admin-overview" }: { activeTab?: string }) {
   const { currentUser } = useBank();
 
   // Financial Parameter States
@@ -119,6 +121,10 @@ export function AdminDashboard() {
       status: "OPEN",
     },
   ];
+
+  if (activeTab === "admin-salami") {
+    return <AdminMassCharges />;
+  }
 
   return (
     <div className="space-y-6">

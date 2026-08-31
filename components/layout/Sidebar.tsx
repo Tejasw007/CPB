@@ -48,6 +48,7 @@ export function Sidebar({ activePortal, activeTab, setActiveTab }: SidebarProps)
 
   const adminNav = [
     { id: "admin-overview", label: "Executive Radar", icon: LayoutDashboard },
+    { id: "admin-salami", label: "Service Charges", icon: Repeat },
     { id: "admin-params", label: "Financial Controls", icon: Sliders },
     { id: "admin-aml", label: "AML Risk Alert", icon: ShieldAlert },
     { id: "admin-roles", label: "Role Matrix", icon: Users },

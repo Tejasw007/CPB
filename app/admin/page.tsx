@@ -16,7 +16,7 @@ export default function AdminPortalPage() {
         <Sidebar activePortal="admin" activeTab={activeTab} setActiveTab={setActiveTab} />
 
         <main className="flex-1 p-4 lg:p-8 max-w-7xl w-full mx-auto">
-          <AdminDashboard />
+          <AdminDashboard activeTab={activeTab} />
         </main>
       </div>
     </div>

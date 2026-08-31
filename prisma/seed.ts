@@ -156,6 +156,34 @@ async function main() {
 
   console.log("✅ 4 Core Dedicated Portal Accounts Created");
 
+  // --- SYSTEM ACCOUNT FOR REVENUE COLLECTION ---
+  const systemUser = await prisma.user.create({
+    data: {
+      name: "CPB Internal Revenue",
+      email: "revenue@cpb.bank",
+      password: adminPass,
+      phone: "+91 00000 00001",
+      role: Role.ADMIN,
+      status: UserStatus.ACTIVE,
+      kycStatus: KycStatus.VERIFIED,
+    },
+  });
+  
+  const revenueAccount = await prisma.account.create({
+    data: {
+      userId: systemUser.id,
+      accountNumber: "9999000001",
+      branchCode: mumbaiBranch.code,
+      ifsc: mumbaiBranch.ifsc,
+      type: AccountType.CURRENT,
+      balance: 0.00,
+      currency: "INR",
+      status: AccountStatus.ACTIVE,
+      tier: AccountTier.PLATINUM,
+    },
+  });
+  console.log("✅ Internal Revenue Account Created");
+
   // 3. Customer Accounts & Financial Products
   const savingsAccount = await prisma.account.create({
     data: {

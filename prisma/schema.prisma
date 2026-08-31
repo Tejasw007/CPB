@@ -68,6 +68,7 @@ enum TransferMode {
   NEFT
   RTGS
   IMPS
+  UPI
 }
 
 enum TransactionStatus {
@@ -185,6 +186,7 @@ model Account {
   type          AccountType     @default(SAVINGS)
   balance       Decimal         @default(0.0) @db.Decimal(15, 2)
   currency      String          @default("INR")
+  upiId         String?         @unique
   status        AccountStatus   @default(ACTIVE)
   tier          AccountTier     @default(SILVER)
   openedAt      DateTime        @default(now())

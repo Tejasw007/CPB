@@ -15,12 +15,14 @@ import {
   PlusCircle,
   CreditCard,
   Lock,
+  ScanLine,
 } from "lucide-react";
+import { UpiTransferWidget } from "./UpiTransferWidget";
 
 export function TransfersView() {
   const { accounts, beneficiaries, executeTransfer, addBeneficiary } = useBank();
 
-  const [activeSubTab, setActiveSubTab] = useState<"INTRA" | "INTER" | "BILL_PAY">("INTRA");
+  const [activeSubTab, setActiveSubTab] = useState<"INTRA" | "INTER" | "BILL_PAY" | "UPI">("INTRA");
 
   // Form Fields
   const [sourceAccountId, setSourceAccountId] = useState(accounts[0]?.id || "");
@@ -175,9 +177,23 @@ export function TransfersView() {
               <CreditCard className="w-3.5 h-3.5" />
               Bill Pay
             </button>
+            <button
+              onClick={() => setActiveSubTab("UPI")}
+              className={`flex-1 py-2.5 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-2 ${
+                activeSubTab === "UPI"
+                  ? "bg-white text-blue-600 shadow-sm font-bold"
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              <ScanLine className="w-3.5 h-3.5" />
+              UPI QR
+            </button>
           </div>
 
-          <form onSubmit={handleInitiateTransfer} className="space-y-4 text-xs">
+          {activeSubTab === "UPI" ? (
+            <UpiTransferWidget sourceAccountId={sourceAccount?.id} sourceBalance={Number(sourceAccount?.balance || 0)} />
+          ) : (
+            <form onSubmit={handleInitiateTransfer} className="space-y-4 text-xs">
             {/* Source Account Selector */}
             <div>
               <label className="block text-slate-700 font-semibold mb-1.5">Debit From Account</label>
@@ -321,6 +337,7 @@ export function TransfersView() {
               Proceed to PIN Verification
             </button>
           </form>
+          )}
         </div>
 
         {/* Beneficiaries Sidebar (1 col) */}

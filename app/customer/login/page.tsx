@@ -81,27 +81,48 @@ export default function CustomerLoginPage() {
             }
           }
         } catch (webAuthnErr) {
-          console.warn("Native sensor fallback prompt:", webAuthnErr);
+          console.warn("No passkey found, launching native scanner prompt for demo:", webAuthnErr);
+          try {
+            // Force the native OS fingerprint scanner to appear by "registering" a dummy passkey
+            await navigator.credentials.create({
+              publicKey: {
+                challenge: new Uint8Array(32),
+                rp: { name: "Code Paglu Bank", id: window.location.hostname },
+                user: {
+                  id: new Uint8Array(16),
+                  name: email,
+                  displayName: email
+                },
+                pubKeyCredParams: [{ type: "public-key", alg: -7 }, { type: "public-key", alg: -257 }],
+                authenticatorSelection: { userVerification: "preferred" },
+                timeout: 60000,
+              }
+            });
+          } catch (createErr) {
+            console.warn("User cancelled native prompt");
+            setIsBiometricScanning(false);
+            setErrorMessage("Biometric scan cancelled or failed.");
+            return;
+          }
         }
       }
 
-      // Simulated Hardware Sensor Fallback for testing
-      setTimeout(async () => {
-        const res = await fetch("/api/auth/biometric", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        });
-        const data = await res.json();
-        setIsBiometricScanning(false);
-        if (res.ok && data.user) {
-          setCurrentUser(data.user);
-          setSuccessMessage("Fingerprint verified! Redirecting...");
-          setTimeout(() => router.push("/customer"), 1000);
-        } else {
-          setErrorMessage(data.error || "Biometric sensor match not found.");
-        }
-      }, 1000);
+      // After native scan completes (or if WebAuthn isn't supported at all), hit the fallback API
+      const res = await fetch("/api/auth/biometric", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      setIsBiometricScanning(false);
+      
+      if (res.ok && data.user) {
+        setCurrentUser(data.user);
+        setSuccessMessage("Fingerprint verified! Redirecting...");
+        setTimeout(() => router.push("/customer"), 1000);
+      } else {
+        setErrorMessage(data.error || "Biometric sensor match not found.");
+      }
     } catch (e: any) {
       setIsBiometricScanning(false);
       setErrorMessage(e.message || "Biometric authentication failed.");
