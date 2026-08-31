@@ -92,8 +92,6 @@ export function UpiTransferWidget({ sourceAccountId, sourceBalance }: { sourceAc
     }
   };
 
-  };
-
   return (
     <div className="space-y-6">
       {/* Action Buttons */}
