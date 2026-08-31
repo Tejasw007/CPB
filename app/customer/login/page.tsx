@@ -29,13 +29,17 @@ export default function CustomerLoginPage() {
     e.preventDefault();
     setErrorMessage("");
     try {
-      const res = await fetch(`/api/data?userId=${encodeURIComponent(email)}`);
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
       const data = await res.json();
       if (res.ok && data.user) {
         setCurrentUser(data.user);
         router.push("/customer");
       } else {
-        setErrorMessage("Invalid credentials or account not found.");
+        setErrorMessage(data.error || "Invalid credentials or account not found.");
       }
     } catch (err: any) {
       setErrorMessage(err.message || "Login failed");

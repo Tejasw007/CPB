@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import bcrypt from "bcryptjs";
 import { logAuditEvent } from "@/lib/audit";
 
 export const dynamic = "force-dynamic";
@@ -7,32 +8,31 @@ export const dynamic = "force-dynamic";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { credentialId, email } = body;
+    const { email, password } = body;
 
-    let user;
-
-    if (credentialId) {
-      const bioCred = await prisma.biometricCredential.findUnique({
-        where: { credentialId },
-        include: { user: true },
-      });
-      if (bioCred) {
-        user = bioCred.user;
-      }
+    if (!email || !password) {
+      return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
     }
 
-    if (!user) {
-      return NextResponse.json(
-        { error: "Biometric sensor match not found on record. Please log in with password." },
-        { status: 404 }
-      );
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user || !user.password) {
+      return NextResponse.json({ error: "Invalid credentials or account not found." }, { status: 401 });
+    }
+
+    const isValidPassword = await bcrypt.compare(password, user.password);
+
+    if (!isValidPassword) {
+      return NextResponse.json({ error: "Invalid credentials or account not found." }, { status: 401 });
     }
 
     await logAuditEvent({
       actorId: user.id,
       actorName: user.name,
       actorRole: user.role,
-      action: "BIOMETRIC_FINGERPRINT_LOGIN_SUCCESS",
+      action: "PASSWORD_LOGIN_SUCCESS",
       targetType: "AUTH_SESSION",
       severity: "INFO",
     });
@@ -50,6 +50,6 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message || "Biometric login failed." }, { status: 500 });
+    return NextResponse.json({ error: error.message || "Login failed." }, { status: 500 });
   }
 }
