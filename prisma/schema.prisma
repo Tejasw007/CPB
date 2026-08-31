@@ -1,0 +1,496 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  CUSTOMER
+  STAFF
+  ADMIN
+  INFRA_ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+  CLOSED
+}
+
+enum KycStatus {
+  PENDING
+  VERIFIED
+  REJECTED
+}
+
+enum AccountType {
+  SAVINGS
+  CURRENT
+  FIXED_DEPOSIT
+}
+
+enum AccountStatus {
+  ACTIVE
+  FROZEN
+  DORMANT
+  CLOSED
+}
+
+enum AccountTier {
+  SILVER
+  GOLD
+  PLATINUM
+}
+
+enum TransactionType {
+  DEBIT
+  CREDIT
+}
+
+enum TransactionCategory {
+  TRANSFER
+  BILL_PAY
+  LOAN_DISBURSEMENT
+  LOAN_EMI
+  FD_DEPOSIT
+  INTEREST
+  FEE
+  REVERSAL
+  CASH_DEPOSIT
+  CASH_WITHDRAWAL
+}
+
+enum TransferMode {
+  INTRA_BANK
+  NEFT
+  RTGS
+  IMPS
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REVERSED
+}
+
+enum CardType {
+  DEBIT
+  CREDIT
+}
+
+enum CardStatus {
+  ACTIVE
+  BLOCKED
+  EXPIRED
+}
+
+enum LoanType {
+  PERSONAL
+  HOME
+  AUTO
+  EDUCATION
+}
+
+enum LoanStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  DISBURSED
+  CLOSED
+}
+
+enum FdStatus {
+  ACTIVE
+  MATURED
+  PREMATURE_CLOSED
+}
+
+enum TicketCategory {
+  TRANSACTION
+  CARD
+  LOAN
+  ACCOUNT
+  GENERAL
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  ESCALATED
+  RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum StaffDesignation {
+  TELLER
+  LOAN_OFFICER
+  SUPPORT_AGENT
+  BRANCH_MANAGER
+}
+
+model User {
+  id               String          @id @default(cuid())
+  name             String
+  email            String          @unique
+  password         String?
+  phone            String?
+  role             Role            @default(CUSTOMER)
+  status           UserStatus      @default(ACTIVE)
+  kycStatus        KycStatus       @default(PENDING)
+  firebaseUid      String?         @unique
+  avatarUrl        String?
+  dob              DateTime?
+  panNumber        String?
+  aadhaarNumber    String?
+  address          String?
+  twoFactorEnabled Boolean         @default(false)
+  twoFactorSecret  String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  accounts         Account[]
+  beneficiaries    Beneficiary[]
+  cards            Card[]
+  loans            Loan[]
+  fixedDeposits    FixedDeposit[]
+  tickets          SupportTicket[]
+  ticketMessages   TicketMessage[]
+  auditLogs        AuditLog[]
+  staffMember      StaffMember?
+  notifications    Notification[]
+  sessions         SessionDevice[]
+  biometrics       BiometricCredential[]
+
+  @@index([email])
+  @@index([role])
+}
+
+model Account {
+  id            String          @id @default(cuid())
+  userId        String
+  accountNumber String          @unique
+  branchCode    String          @default("CPB001")
+  ifsc          String          @default("CPBN0001042")
+  type          AccountType     @default(SAVINGS)
+  balance       Decimal         @default(0.0) @db.Decimal(15, 2)
+  currency      String          @default("INR")
+  status        AccountStatus   @default(ACTIVE)
+  tier          AccountTier     @default(SILVER)
+  openedAt      DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions  Transaction[]
+  cards         Card[]
+  fixedDeposits FixedDeposit[]
+
+  @@index([userId])
+  @@index([accountNumber])
+}
+
+model Transaction {
+  id                  String              @id @default(cuid())
+  accountId           String
+  type                TransactionType
+  amount              Decimal             @db.Decimal(15, 2)
+  balanceAfter        Decimal             @db.Decimal(15, 2)
+  description         String
+  category            TransactionCategory @default(TRANSFER)
+  referenceId         String              @unique
+  counterpartyAccount String?
+  counterpartyName    String?
+  counterpartyBank    String?
+  transferMode        TransferMode?
+  status              TransactionStatus   @default(COMPLETED)
+  idempotencyKey      String?             @unique
+  metadata            String?             @db.Text
+  createdAt           DateTime            @default(now())
+
+  account             Account             @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([accountId])
+  @@index([referenceId])
+  @@index([createdAt])
+}
+
+model Beneficiary {
+  id                  String    @id @default(cuid())
+  userId              String
+  name                String
+  accountNumber       String
+  bankName            String    @default("Code Paglu Bank")
+  ifsc                String
+  nickname            String?
+  verified            Boolean   @default(true)
+  coolingPeriodEndsAt DateTime?
+  dailyLimit          Decimal   @default(100000.0) @db.Decimal(15, 2)
+  createdAt           DateTime  @default(now())
+
+  user                User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Card {
+  id                 String     @id @default(cuid())
+  userId             String
+  accountId          String
+  cardNumber         String
+  cardHolderName     String
+  type               CardType   @default(DEBIT)
+  expiryMonth        Int        @default(12)
+  expiryYear         Int        @default(2028)
+  cvv                String     @default("882")
+  status             CardStatus @default(ACTIVE)
+  atmLimit           Decimal    @default(50000) @db.Decimal(10, 2)
+  onlineLimit        Decimal    @default(100000) @db.Decimal(10, 2)
+  intlEnabled        Boolean    @default(false)
+  contactlessEnabled Boolean    @default(true)
+  createdAt          DateTime   @default(now())
+
+  user               User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account            Account    @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([accountId])
+}
+
+model Loan {
+  id           String     @id @default(cuid())
+  userId       String
+  type         LoanType   @default(PERSONAL)
+  principal    Decimal    @db.Decimal(15, 2)
+  interestRate Float      @default(10.5)
+  tenureMonths Int        @default(24)
+  emiAmount    Decimal    @db.Decimal(15, 2)
+  status       LoanStatus @default(PENDING)
+  creditScore  Int        @default(750)
+  purpose      String?
+  disbursedAt  DateTime?
+  notes        String?    @db.Text
+  createdAt    DateTime   @default(now())
+
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model FixedDeposit {
+  id             String    @id @default(cuid())
+  accountId      String
+  userId         String
+  principal      Decimal   @db.Decimal(15, 2)
+  rate           Float     @default(7.1)
+  tenureMonths   Int       @default(12)
+  maturityAmount Decimal   @db.Decimal(15, 2)
+  startDate      DateTime  @default(now())
+  maturityDate   DateTime
+  status         FdStatus  @default(ACTIVE)
+  createdAt      DateTime  @default(now())
+
+  account        Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([accountId])
+  @@index([userId])
+}
+
+model SupportTicket {
+  id              String         @id @default(cuid())
+  ticketNumber    String         @unique
+  userId          String
+  subject         String
+  category        TicketCategory @default(GENERAL)
+  status          TicketStatus   @default(OPEN)
+  priority        TicketPriority @default(MEDIUM)
+  assignedStaffId String?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages        TicketMessage[]
+
+  @@index([userId])
+}
+
+model TicketMessage {
+  id         String        @id @default(cuid())
+  ticketId   String
+  senderId   String
+  senderRole String
+  senderName String
+  message    String        @db.Text
+  createdAt  DateTime      @default(now())
+
+  ticket     SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  user       User          @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId])
+}
+
+model StaffMember {
+  id                 String           @id @default(cuid())
+  userId             String           @unique
+  branchId           String?
+  department         String           @default("Retail Banking")
+  designation        StaffDesignation @default(TELLER)
+  permissions        String?          @db.Text
+  dailyReversalLimit Decimal          @default(50000) @db.Decimal(15, 2)
+  createdAt          DateTime         @default(now())
+
+  user               User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  branch             Branch?          @relation(fields: [branchId], references: [id], onDelete: SetNull)
+
+  @@index([branchId])
+}
+
+model Branch {
+  id         String        @id @default(cuid())
+  name       String
+  code       String        @unique
+  ifsc       String        @unique
+  address    String
+  city       String
+  state      String
+  phone      String?
+  staffCount Int           @default(1)
+  createdAt  DateTime      @default(now())
+
+  staff      StaffMember[]
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actorName  String?
+  actorRole  String?
+  action     String
+  targetType String?
+  targetId   String?
+  ipAddress  String?
+  userAgent  String?
+  metadata   String?  @db.Text
+  severity   String   @default("INFO")
+  createdAt  DateTime @default(now())
+
+  user       User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([actorId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String   @default("SYSTEM")
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  link      String?
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model SessionDevice {
+  id         String   @id @default(cuid())
+  userId     String
+  deviceInfo String
+  ipAddress  String
+  location   String?
+  lastActive DateTime @default(now())
+  trusted    Boolean  @default(true)
+  isCurrent  Boolean  @default(false)
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model SystemSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String   @db.Text
+  category    String
+  description String?
+  updatedBy   String?
+  updatedAt   DateTime @updatedAt
+}
+
+model Incident {
+  id           String    @id @default(cuid())
+  title        String
+  severity     String
+  status       String
+  summary      String    @db.Text
+  timeline     String?   @db.Text
+  postMortem   String?   @db.Text
+  leadEngineer String?
+  createdAt    DateTime  @default(now())
+  resolvedAt   DateTime?
+}
+
+model Deployment {
+  id            String   @id @default(cuid())
+  version       String
+  commitHash    String
+  environment   String   @default("PRODUCTION")
+  deployedBy    String
+  status        String   @default("SUCCESS")
+  deployedAt    DateTime @default(now())
+  rollbackNotes String?  @db.Text
+}
+
+model OnboardingInvitation {
+  id                    String      @id @default(cuid())
+  token                 String      @unique
+  customerName          String
+  customerEmail         String
+  customerPhone         String
+  branchCode            String      @default("CPB001")
+  accountType           AccountType @default(SAVINGS)
+  initialDeposit        Decimal     @default(5000.00) @db.Decimal(15, 2)
+  status                String      @default("INVITED") // INVITED, IN_PROGRESS, COMPLETED, EXPIRED
+  panNumber             String?
+  aadhaarNumber         String?
+  address               String?
+  biometricRegistered   Boolean     @default(false)
+  biometricCredentialId String?
+  registeredUserId      String?
+  createdByStaffId      String?
+  createdByStaffName    String?
+  expiresAt             DateTime
+  completedAt           DateTime?
+  createdAt             DateTime    @default(now())
+
+  @@index([token])
+  @@index([customerEmail])
+}
+
+model BiometricCredential {
+  id           String   @id @default(cuid())
+  userId       String
+  credentialId String   @unique
+  publicKey    String   @db.Text
+  counter      Int      @default(0)
+  deviceName   String   @default("Customer Mobile Biometric Sensor")
+  createdAt    DateTime @default(now())
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
