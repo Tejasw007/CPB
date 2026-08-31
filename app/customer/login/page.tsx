@@ -14,6 +14,7 @@ import {
   AlertCircle,
   Sparkles,
 } from "lucide-react";
+import { FingerprintModal } from "@/components/auth/FingerprintModal";
 
 export default function CustomerLoginPage() {
   const router = useRouter();
@@ -24,6 +25,7 @@ export default function CustomerLoginPage() {
   const [isBiometricScanning, setIsBiometricScanning] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [showFingerprintModal, setShowFingerprintModal] = useState(false);
 
   const handlePasswordLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,68 +48,22 @@ export default function CustomerLoginPage() {
     }
   };
 
-  const handleBiometricLogin = async () => {
+  const handleBiometricInitiate = () => {
+    if (!email) {
+      setErrorMessage("Please enter your registered email address first to locate your biometric profile.");
+      return;
+    }
+    setErrorMessage("");
+    setShowFingerprintModal(true);
+  };
+
+  const executeBiometricLogin = async () => {
+    setShowFingerprintModal(false);
     setIsBiometricScanning(true);
     setErrorMessage("");
     setSuccessMessage("");
 
     try {
-      if (typeof window !== "undefined" && window.PublicKeyCredential) {
-        try {
-          const challenge = new Uint8Array(32);
-          window.crypto.getRandomValues(challenge);
-
-          const assertion = await navigator.credentials.get({
-            publicKey: {
-              challenge,
-              rpId: window.location.hostname,
-              userVerification: "preferred",
-              timeout: 60000,
-            },
-          });
-
-          if (assertion) {
-            const res = await fetch("/api/auth/biometric", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ credentialId: assertion.id, email }),
-            });
-            const data = await res.json();
-            if (res.ok && data.user) {
-              setCurrentUser(data.user, data.sessionId);
-              setSuccessMessage("Fingerprint verified! Redirecting...");
-              setTimeout(() => router.push("/customer"), 1000);
-              return;
-            }
-          }
-        } catch (webAuthnErr) {
-          console.warn("No passkey found, launching native scanner prompt for demo:", webAuthnErr);
-          try {
-            // Force the native OS fingerprint scanner to appear by "registering" a dummy passkey
-            await navigator.credentials.create({
-              publicKey: {
-                challenge: new Uint8Array(32),
-                rp: { name: "Code Paglu Bank", id: window.location.hostname },
-                user: {
-                  id: new Uint8Array(16),
-                  name: email,
-                  displayName: email
-                },
-                pubKeyCredParams: [{ type: "public-key", alg: -7 }, { type: "public-key", alg: -257 }],
-                authenticatorSelection: { userVerification: "preferred" },
-                timeout: 60000,
-              }
-            });
-          } catch (createErr) {
-            console.warn("User cancelled native prompt");
-            setIsBiometricScanning(false);
-            setErrorMessage("Biometric scan cancelled or failed.");
-            return;
-          }
-        }
-      }
-
-      // After native scan completes (or if WebAuthn isn't supported at all), hit the fallback API
       const res = await fetch("/api/auth/biometric", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -150,18 +106,18 @@ export default function CustomerLoginPage() {
             Use your phone or device&apos;s fingerprint / TouchID sensor for passwordless instant login.
           </p>
           <button
-            onClick={handleBiometricLogin}
+            onClick={handleBiometricInitiate}
             disabled={isBiometricScanning}
             className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow-md shadow-blue-500/10 transition-all flex items-center justify-center gap-2"
           >
             {isBiometricScanning ? (
               <span className="flex items-center gap-2">
                 <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Scanning Fingerprint...
+                Processing Identity...
               </span>
             ) : (
               <>
-                <Fingerprint className="w-4 h-4" /> Touch Fingerprint Sensor
+                <Fingerprint className="w-4 h-4" /> Open Fingerprint Scanner
               </>
             )}
           </button>
@@ -231,6 +187,13 @@ export default function CustomerLoginPage() {
           </Link>
         </div>
       </div>
+      
+      {/* Independent Fingerprint Modal */}
+      <FingerprintModal 
+        isOpen={showFingerprintModal} 
+        onClose={() => setShowFingerprintModal(false)}
+        onSuccess={executeBiometricLogin}
+      />
     </div>
   );
 }

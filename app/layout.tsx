@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { BankProvider } from "@/components/providers/BankContext";
+import { TransactionListener } from "@/components/providers/TransactionListener";
 
 export const metadata: Metadata = {
   title: "Code Paglu Bank (CPB) — Core Banking Platform",
@@ -20,6 +21,7 @@ export default function RootLayout({
       <body className="bg-[#F8FAFC] text-[#0F172A] antialiased selection:bg-blue-600 selection:text-white min-h-screen">
         <BankProvider>
           {children}
+          <TransactionListener />
         </BankProvider>
       </body>
     </html>

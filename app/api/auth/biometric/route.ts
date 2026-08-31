@@ -8,24 +8,16 @@ export const dynamic = "force-dynamic";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { credentialId, email } = body;
-
-    let user;
-
-    if (credentialId) {
-      const bioCred = await prisma.biometricCredential.findUnique({
-        where: { credentialId },
-        include: { user: true },
-      });
-      if (bioCred) {
-        user = bioCred.user;
-      }
-    } else if (email) {
-      // Demo fallback: if no credentialId is provided (simulated scanner), log into the provided email directly
-      user = await prisma.user.findUnique({
-        where: { email },
-      });
+    if (!email) {
+      return NextResponse.json(
+        { error: "Email is required for biometric scan verification." },
+        { status: 400 }
+      );
     }
+
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
 
     if (!user) {
       return NextResponse.json(
