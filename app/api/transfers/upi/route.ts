@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
       }
 
       const result = await prisma.$transaction(async (tx) => {
-        const source = await tx.account.findUnique({ where: { id: sourceAccountId } });
+        const source = await tx.account.findUnique({ where: { id: sourceAccountId }, include: { user: true } });
         const target = await tx.account.findUnique({ where: { upiId: targetUpiId }, include: { user: true } });
 
         if (!source || !target) throw new Error("Invalid source or target");
@@ -121,6 +121,8 @@ export async function POST(request: NextRequest) {
             referenceId: `${refId}-CR`,
             transferMode: TransferMode.UPI,
             counterpartyAccount: source.accountNumber,
+            counterpartyName: source.user.name,
+            counterpartyBank: "Code Paglu Bank",
             status: "COMPLETED",
           },
         });
