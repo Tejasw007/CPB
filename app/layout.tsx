@@ -6,9 +6,19 @@ import { TransactionListener } from "@/components/providers/TransactionListener"
 export const metadata: Metadata = {
   title: "Code Paglu Bank (CPB) — Core Banking Platform",
   description: "Production-grade core banking ecosystem with distinct Customer, Staff, Admin, and Server/DevOps portals.",
-  icons: {
-    icon: "/favicon.ico",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "CPB",
   },
+};
+
+export const viewport = {
+  themeColor: "#ffffff",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
