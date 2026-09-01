@@ -9,12 +9,12 @@ import {
   Lock,
   Mail,
   ArrowRight,
-  ShieldCheck,
   CheckCircle2,
   AlertCircle,
-  Sparkles,
+  ScanFace,
 } from "lucide-react";
 import { FingerprintModal } from "@/components/auth/FingerprintModal";
+import { FaceScanModal } from "@/components/auth/FaceScanModal";
 
 export default function CustomerLoginPage() {
   const router = useRouter();
@@ -26,6 +26,7 @@ export default function CustomerLoginPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [showFingerprintModal, setShowFingerprintModal] = useState(false);
+  const [showFaceScanModal, setShowFaceScanModal] = useState(false);
 
   const handlePasswordLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,17 +49,9 @@ export default function CustomerLoginPage() {
     }
   };
 
-  const handleBiometricInitiate = () => {
-    if (!email) {
-      setErrorMessage("Please enter your registered email address first to locate your biometric profile.");
-      return;
-    }
-    setErrorMessage("");
-    setShowFingerprintModal(true);
-  };
-
   const executeBiometricLogin = async () => {
     setShowFingerprintModal(false);
+    setShowFaceScanModal(false);
     setIsBiometricScanning(true);
     setErrorMessage("");
     setSuccessMessage("");
@@ -74,7 +67,7 @@ export default function CustomerLoginPage() {
       
       if (res.ok && data.user) {
         setCurrentUser(data.user, data.sessionId);
-        setSuccessMessage("Fingerprint verified! Redirecting...");
+        setSuccessMessage("Authentication verified! Redirecting...");
         setTimeout(() => router.push("/customer"), 1000);
       } else {
         setErrorMessage(data.error || "Biometric sensor match not found.");
@@ -97,30 +90,30 @@ export default function CustomerLoginPage() {
           <p className="text-xs text-slate-500 font-medium">Secure sign in to your Code Paglu Bank account</p>
         </div>
 
-        {/* Biometric Quick Login Button */}
+        {/* Biometric Quick Login Buttons */}
         <div className="p-4 rounded-2xl bg-blue-50/70 border border-blue-100 text-center space-y-3">
           <div className="flex items-center justify-center gap-2 text-xs font-bold text-blue-700">
-            <Fingerprint className="w-4 h-4 text-blue-600" /> One-Touch Biometric Authentication
+            <Fingerprint className="w-4 h-4 text-blue-600" /> Biometric Authentication
           </div>
           <p className="text-[11px] text-slate-600">
-            Use your phone or device&apos;s fingerprint / TouchID sensor for passwordless instant login.
+            Use your device's biometrics for passwordless instant login.
           </p>
-          <button
-            onClick={handleBiometricInitiate}
-            disabled={isBiometricScanning}
-            className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs shadow-md shadow-blue-500/10 transition-all flex items-center justify-center gap-2"
-          >
-            {isBiometricScanning ? (
-              <span className="flex items-center gap-2">
-                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Processing Identity...
-              </span>
-            ) : (
-              <>
-                <Fingerprint className="w-4 h-4" /> Open Fingerprint Scanner
-              </>
-            )}
-          </button>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => setShowFingerprintModal(true)}
+              disabled={isBiometricScanning}
+              className="py-2.5 rounded-xl border border-blue-200 bg-white hover:bg-blue-50 text-blue-700 font-semibold text-xs transition-all flex items-center justify-center gap-2"
+            >
+              <Fingerprint className="w-4 h-4" /> Fingerprint
+            </button>
+            <button
+              onClick={() => setShowFaceScanModal(true)}
+              disabled={isBiometricScanning}
+              className="py-2.5 rounded-xl border border-blue-200 bg-white hover:bg-blue-50 text-blue-700 font-semibold text-xs transition-all flex items-center justify-center gap-2"
+            >
+              <ScanFace className="w-4 h-4" /> Face ID
+            </button>
+          </div>
         </div>
 
         <div className="flex items-center gap-3">
@@ -192,6 +185,13 @@ export default function CustomerLoginPage() {
       <FingerprintModal 
         isOpen={showFingerprintModal} 
         onClose={() => setShowFingerprintModal(false)}
+        onSuccess={executeBiometricLogin}
+      />
+      
+      {/* Independent Face Recognition Modal */}
+      <FaceScanModal 
+        isOpen={showFaceScanModal} 
+        onClose={() => setShowFaceScanModal(false)}
         onSuccess={executeBiometricLogin}
       />
     </div>
