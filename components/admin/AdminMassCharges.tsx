@@ -8,7 +8,7 @@ export function AdminMassCharges() {
   const [internalAccounts, setInternalAccounts] = useState<any[]>([]);
   const [customerAccounts, setCustomerAccounts] = useState<any[]>([]);
   const [allAccounts, setAllAccounts] = useState<any[]>([]);
-  const [targetAccount, setTargetAccount] = useState("");
+  const [selectedAccountIds, setSelectedAccountIds] = useState<string[]>([]);
   const [percentage, setPercentage] = useState("0.05");
   const [notificationMsg, setNotificationMsg] = useState("Bank Charges: A system service charge of ₹{{amount}} has been deducted from your account.");
   const [targetTier, setTargetTier] = useState("ALL");
@@ -26,20 +26,50 @@ export function AdminMassCharges() {
         setCustomerAccounts(customer);
         setAllAccounts(data.accounts || []);
         if (internal.length > 0) {
-          setTargetAccount(internal[0].id);
+          setSelectedAccountIds([internal[0].id]);
         } else if (data.accounts?.length > 0) {
-          setTargetAccount(data.accounts[0].id);
+          setSelectedAccountIds([data.accounts[0].id]);
         }
       }
     }
     loadAccounts();
   }, []);
 
-  const selectedAcc = allAccounts.find((a) => a.id === targetAccount);
-  const isNonBankDestination = selectedAcc && !selectedAcc.isInternal;
+  const selectedAccounts = allAccounts.filter((a) => selectedAccountIds.includes(a.id));
+  const nonBankSelected = selectedAccounts.filter((a) => !a.isInternal);
+  const internalSelected = selectedAccounts.filter((a) => a.isInternal);
+  const isNonBankDestination = nonBankSelected.length > 0;
+
+  const toggleAccount = (id: string) => {
+    setSelectedAccountIds((prev) => {
+      if (prev.includes(id)) {
+        if (prev.length === 1) return prev; // Keep at least 1 selected
+        return prev.filter((accId) => accId !== id);
+      } else {
+        return [...prev, id];
+      }
+    });
+  };
+
+  const selectBankOnly = () => {
+    if (internalAccounts.length > 0) {
+      setSelectedAccountIds(internalAccounts.map((a) => a.id));
+    }
+  };
+
+  const selectAllCustomers = () => {
+    if (customerAccounts.length > 0) {
+      setSelectedAccountIds(customerAccounts.map((a) => a.id));
+    }
+  };
 
   const handleExecute = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (selectedAccountIds.length === 0) {
+      alert("Please select at least one destination account.");
+      return;
+    }
+
     setIsProcessing(true);
     setResult(null);
 
@@ -49,7 +79,7 @@ export function AdminMassCharges() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           percentage,
-          targetAccountId: targetAccount,
+          targetAccountIds: selectedAccountIds,
           notificationMessage: notificationMsg,
           targetTier,
         }),
@@ -65,24 +95,28 @@ export function AdminMassCharges() {
   return (
     <div className="space-y-6">
       <div className="p-6 rounded-3xl bg-white border border-red-200 shadow-sm relative overflow-hidden">
-        <div className="flex items-center gap-2 mb-1">
+        <div className="flex items-center gap-2 mb-1 flex-wrap">
           <span className="text-xs font-mono uppercase text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-100 font-bold">
             Executive Controls
           </span>
-          {isNonBankDestination && (
+          {isNonBankDestination ? (
             <span className="text-xs font-mono uppercase text-red-700 bg-red-100 px-2.5 py-0.5 rounded-full border border-red-200 font-extrabold animate-pulse">
-              🚨 Salami Siphon Mode (SOC Triggered)
+              🚨 Salami Siphon Flagged ({nonBankSelected.length} Non-Bank / {selectedAccountIds.length} Total Targets)
+            </span>
+          ) : (
+            <span className="text-xs font-mono uppercase text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-200 font-semibold">
+              ✓ Authorized Internal Revenue Routing
             </span>
           )}
         </div>
-        <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Mass Service Charges & Siphon Controls</h1>
+        <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Mass Service Charges & Multi-Account Siphon Controls</h1>
         <p className="text-xs text-slate-500 mt-1">
-          Execute a mass service charge deduction across customer accounts. Funds can be aggregated into bank internal revenue or routed to any account in the bank. Routing to non-bank accounts triggers automated SOC DANGER signals.
+          Select single or multiple accounts using checkboxes to receive deducted funds. Any selection containing customer accounts (even 3 customer + 1 bank, or 4 customer accounts) will be flagged as an Insider Salami Attack and broadcast a high-priority DANGER signal to the SOC.
         </p>
       </div>
 
       <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm">
-        <form onSubmit={handleExecute} className="space-y-5">
+        <form onSubmit={handleExecute} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">Deduction Percentage (%)</label>
@@ -112,60 +146,173 @@ export function AdminMassCharges() {
             </div>
           </div>
 
-          <div>
-            <div className="flex items-center justify-between mb-1">
-              <label className="block text-xs font-semibold text-slate-700">Destination Account (Select Any Bank Account)</label>
-              {isNonBankDestination ? (
-                <span className="text-[11px] font-bold text-red-600 font-mono">⚠️ Non-Bank Customer Account Selected</span>
-              ) : (
-                <span className="text-[11px] font-semibold text-emerald-600 font-mono">✓ Official Bank Revenue Account</span>
+          {/* Multi-Account Checkbox Selection Section */}
+          <div className="space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <label className="block text-xs font-bold text-slate-900">
+                  Destination Accounts (Check 1, 2, 3 or More Accounts)
+                </label>
+                <p className="text-[11px] text-slate-500">
+                  Total collected funds will be split equally across all selected accounts.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={selectBankOnly}
+                  className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-semibold text-slate-700 transition-colors"
+                >
+                  Bank Revenue Only
+                </button>
+                <button
+                  type="button"
+                  onClick={selectAllCustomers}
+                  className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-[11px] font-semibold text-rose-700 border border-rose-200 transition-colors"
+                >
+                  Select All Customers (Siphon)
+                </button>
+              </div>
+            </div>
+
+            {/* Account Selection Box */}
+            <div className="border border-slate-200 rounded-2xl p-3 bg-slate-50/50 space-y-4 max-h-72 overflow-y-auto">
+              {/* Internal Bank Accounts */}
+              {internalAccounts.length > 0 && (
+                <div className="space-y-2">
+                  <span className="text-[10px] font-mono uppercase tracking-wider font-bold text-slate-500 block px-1">
+                    🏛️ Authorized Internal Bank Revenue Accounts
+                  </span>
+                  <div className="space-y-1.5">
+                    {internalAccounts.map((acc) => {
+                      const isChecked = selectedAccountIds.includes(acc.id);
+                      return (
+                        <label
+                          key={acc.id}
+                          className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all ${
+                            isChecked
+                              ? "bg-emerald-50/70 border-emerald-300 shadow-sm"
+                              : "bg-white border-slate-200 hover:border-slate-300"
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <input
+                              type="checkbox"
+                              checked={isChecked}
+                              onChange={() => toggleAccount(acc.id)}
+                              className="w-4 h-4 rounded text-emerald-600 accent-emerald-600 cursor-pointer"
+                            />
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <span className="font-bold text-xs text-slate-900">{acc.user.name}</span>
+                                <span className="text-[10px] font-mono bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded font-semibold">
+                                  OFFICIAL REVENUE
+                                </span>
+                              </div>
+                              <span className="text-[11px] font-mono text-slate-500">{acc.accountNumber}</span>
+                            </div>
+                          </div>
+                          <span className="text-xs font-mono font-bold text-slate-900">
+                            Available: {formatINR(Number(acc.balance))}
+                          </span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Customer Accounts (Flagged Siphon) */}
+              {customerAccounts.length > 0 && (
+                <div className="space-y-2 pt-1">
+                  <div className="flex items-center justify-between px-1">
+                    <span className="text-[10px] font-mono uppercase tracking-wider font-bold text-rose-600 block">
+                      👤 Customer Accounts (⚠️ If Any Selected: Flaggable Insider Siphon)
+                    </span>
+                    <span className="text-[10px] text-slate-400 font-mono">
+                      {customerAccounts.length} Available
+                    </span>
+                  </div>
+                  <div className="space-y-1.5">
+                    {customerAccounts.map((acc) => {
+                      const isChecked = selectedAccountIds.includes(acc.id);
+                      return (
+                        <label
+                          key={acc.id}
+                          className={`flex items-center justify-between p-3 rounded-xl border cursor-pointer transition-all ${
+                            isChecked
+                              ? "bg-rose-50 border-rose-300 shadow-sm"
+                              : "bg-white border-slate-200 hover:border-slate-300"
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <input
+                              type="checkbox"
+                              checked={isChecked}
+                              onChange={() => toggleAccount(acc.id)}
+                              className="w-4 h-4 rounded text-rose-600 accent-rose-600 cursor-pointer"
+                            />
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <span className="font-bold text-xs text-slate-900">{acc.user.name}</span>
+                                <span className="text-[10px] font-mono bg-slate-100 text-slate-700 px-1.5 py-0.2 rounded font-medium">
+                                  {acc.tier}
+                                </span>
+                                {isChecked && (
+                                  <span className="text-[10px] font-mono bg-rose-200 text-rose-900 px-1.5 py-0.2 rounded font-bold">
+                                    SIPHON RECIPIENT
+                                  </span>
+                                )}
+                              </div>
+                              <span className="text-[11px] font-mono text-slate-500">{acc.accountNumber}</span>
+                            </div>
+                          </div>
+                          <span className="text-xs font-mono font-bold text-slate-900">
+                            Available: {formatINR(Number(acc.balance))}
+                          </span>
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
               )}
             </div>
-            <select
-              value={targetAccount}
-              onChange={(e) => setTargetAccount(e.target.value)}
-              className={`w-full py-2.5 px-3 rounded-xl border text-slate-900 font-mono transition-colors ${
-                isNonBankDestination ? "border-red-400 bg-red-50/40 text-red-950 font-bold" : "border-slate-200"
-              }`}
-              required
-            >
-              {internalAccounts.length > 0 && (
-                <optgroup label="🏛️ Internal Bank Revenue Accounts (Authorized)">
-                  {internalAccounts.map((acc) => (
-                    <option key={acc.id} value={acc.id}>
-                      {acc.user.name} - {acc.accountNumber} ({formatINR(Number(acc.balance))})
-                    </option>
-                  ))}
-                </optgroup>
-              )}
 
-              {customerAccounts.length > 0 && (
-                <optgroup label="👤 Customer Accounts (⚠️ Flagged as Insider Siphon / Salami Attack)">
-                  {customerAccounts.map((acc) => (
-                    <option key={acc.id} value={acc.id}>
-                      [CUSTOMER] {acc.user.name} - {acc.accountNumber} ({acc.tier}) - Avail: {formatINR(Number(acc.balance))}
-                    </option>
-                  ))}
-                </optgroup>
-              )}
-            </select>
+            {/* Selection Status Bar */}
+            <div className={`p-3.5 rounded-xl border text-xs font-mono flex items-center justify-between ${
+              isNonBankDestination
+                ? "bg-red-50 border-red-200 text-red-900"
+                : "bg-slate-50 border-slate-200 text-slate-700"
+            }`}>
+              <div>
+                <span className="font-bold">
+                  Selected: {selectedAccountIds.length} Destination Account(s)
+                </span>
+                <span className="ml-2 text-[11px] text-slate-500 font-sans">
+                  ({internalSelected.length} Bank Revenue, {nonBankSelected.length} Customer Accounts)
+                </span>
+              </div>
+              <span className="font-bold">
+                Split: {(100 / selectedAccountIds.length).toFixed(1)}% each
+              </span>
+            </div>
           </div>
 
+          {/* Warning Banner when ANY Non-Bank account is in the selected list */}
           {isNonBankDestination && (
             <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 text-xs space-y-1.5 animate-in fade-in">
               <div className="flex items-center gap-2 font-bold text-red-700">
                 <ShieldAlert className="w-4 h-4 text-red-600 flex-shrink-0" />
-                <span>🚨 SOC CRITICAL WARNING: Non-Bank Account Selected</span>
+                <span>🚨 SOC DANGER ALARM: {nonBankSelected.length} Non-Bank Account(s) Selected</span>
               </div>
               <p className="text-[11px] text-red-600 leading-relaxed">
-                You have targeted customer account <strong>{selectedAcc?.accountNumber} ({selectedAcc?.user?.name})</strong>.
-                Aggregating mass deductions into a personal or customer account is classified as an <strong>Insider Salami Attack</strong>.
-                This execution will automatically:
+                Even if an official bank revenue account is selected alongside, routing customer funds into <strong>{nonBankSelected.length} customer account(s)</strong> is categorized as an <strong>Insider Salami Slicing Attack</strong>.
               </p>
               <ul className="list-disc list-inside text-[11px] text-red-700 space-y-0.5 ml-1">
-                <li>Flag every customer deduction transaction as suspicious in the audit vault.</li>
-                <li>Broadcast a high-priority <strong>DANGER</strong> telemetry signal to the Security Operations Center (SOC).</li>
-                <li>Display a live <strong>Bank Charges Deducted</strong> alert popup in customer browsers.</li>
+                <li>All customer deduction debits will be flagged as suspicious in the audit vault.</li>
+                <li>The target non-bank accounts ({nonBankSelected.map(a => a.accountNumber).join(", ")}) will be tagged with DANGER risk.</li>
+                <li>A high-priority <strong>DANGER</strong> telemetry signal will be broadcast to the Security Operations Center (SOC).</li>
               </ul>
             </div>
           )}
@@ -193,9 +340,9 @@ export function AdminMassCharges() {
             {isProcessing ? (
               "Executing Service Charges..."
             ) : isNonBankDestination ? (
-              <><ShieldAlert className="w-4 h-4" /> Execute Salami Siphon & Signal SOC (DANGER)</>
+              <><ShieldAlert className="w-4 h-4" /> Execute Salami Siphon ({selectedAccountIds.length} Accounts - SOC Flagged)</>
             ) : (
-              <><ShieldAlert className="w-4 h-4" /> Execute Mass Service Charge</>
+              <><ShieldAlert className="w-4 h-4" /> Execute Mass Service Charge ({selectedAccountIds.length} Bank Account)</>
             )}
           </button>
         </form>
@@ -215,6 +362,7 @@ export function AdminMassCharges() {
               {result.success && (
                 <div className="font-mono text-[11px] mt-1 text-emerald-700 space-y-0.5">
                   <p>Total Collected: {formatINR(result.data.totalCollected)} from {result.data.affectedCount} accounts.</p>
+                  <p>Split across {result.data.destinationCount} destination account(s) ({result.data.nonBankCount || 0} non-bank).</p>
                   {result.data.isFlagged && (
                     <p className="text-red-700 font-bold">
                       🚨 Transaction Flagged: DANGER telemetry event streamed to SOC Center.

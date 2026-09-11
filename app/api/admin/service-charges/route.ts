@@ -9,31 +9,42 @@ export const dynamic = "force-dynamic";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { percentage, targetAccountId, notificationMessage, targetTier } = body;
+    const { percentage, targetAccountId, targetAccountIds, notificationMessage, targetTier } = body;
 
-    if (!percentage || !targetAccountId) {
-      return NextResponse.json({ error: "Percentage and Target Account are required." }, { status: 400 });
+    // Support both single targetAccountId and multiple targetAccountIds
+    const accountIds: string[] = Array.isArray(targetAccountIds) && targetAccountIds.length > 0
+      ? targetAccountIds
+      : targetAccountId ? [targetAccountId] : [];
+
+    if (!percentage || accountIds.length === 0) {
+      return NextResponse.json({ error: "Percentage and at least one Destination Account are required." }, { status: 400 });
     }
 
     const feePercent = Number(percentage) / 100;
 
-    // Fetch the target destination account
-    const revenueAccount = await prisma.account.findUnique({
-      where: { id: targetAccountId },
+    // Fetch all specified target destination accounts
+    const destinationAccounts = await prisma.account.findMany({
+      where: { id: { in: accountIds } },
       include: { user: true },
     });
 
-    if (!revenueAccount) {
-      return NextResponse.json({ error: "Target destination account not found." }, { status: 404 });
+    if (destinationAccounts.length === 0) {
+      return NextResponse.json({ error: "Target destination account(s) not found." }, { status: 404 });
     }
 
-    // Check if the destination is a legitimate bank internal revenue account
-    const isNonBankDestination = revenueAccount.user.email !== "revenue@cpb.bank" && revenueAccount.user.role !== "ADMIN";
+    // Check if ANY of the destination accounts is non-bank (e.g. 3 customer + 1 bank, or all customer)
+    const nonBankDestinations = destinationAccounts.filter(
+      (acc) => acc.user.email !== "revenue@cpb.bank" && acc.user.role !== "ADMIN"
+    );
+    const isNonBankDestination = nonBankDestinations.length > 0;
 
-    // Fetch customer accounts to deduct from (excluding the target destination account to prevent self-deduction)
+    // Destination account IDs to exclude from customer deduction loop
+    const destAccountIds = destinationAccounts.map((a) => a.id);
+
+    // Fetch customer accounts to deduct from (excluding all destination accounts)
     const whereClause: any = {
       status: "ACTIVE",
-      id: { not: revenueAccount.id },
+      id: { notIn: destAccountIds },
       user: {
         role: "CUSTOMER",
       },
@@ -63,14 +74,18 @@ export async function POST(request: NextRequest) {
             data: { balance: { decrement: deductionAmount } },
           });
 
-          // Metadata marking if flagged as an unauthorized siphon / salami attack
+          // Metadata marking if flagged as an unauthorized siphon / multi-account attack
           const debitMetadata = isNonBankDestination ? JSON.stringify({
             flagged: true,
             riskLevel: "DANGER",
             attackType: "SALAMI_MASS_SIPHON",
-            destinationAccountId: revenueAccount.id,
-            destinationAccountNumber: revenueAccount.accountNumber,
-            destinationName: revenueAccount.user.name,
+            destinationCount: destinationAccounts.length,
+            nonBankCount: nonBankDestinations.length,
+            destinations: destinationAccounts.map((d) => ({
+              accountNumber: d.accountNumber,
+              name: d.user.name,
+              isInternal: d.user.email === "revenue@cpb.bank" || d.user.role === "ADMIN",
+            })),
             deductedUnder: "Bank Charges",
           }) : null;
 
@@ -85,8 +100,10 @@ export async function POST(request: NextRequest) {
               category: TransactionCategory.FEE,
               referenceId: `${refId}-${account.id}`,
               metadata: debitMetadata,
-              counterpartyAccount: revenueAccount.accountNumber,
-              counterpartyName: isNonBankDestination ? revenueAccount.user.name : "CPB Internal Revenue",
+              counterpartyAccount: destinationAccounts.map((d) => d.accountNumber).join(", "),
+              counterpartyName: isNonBankDestination
+                ? `Split (${destinationAccounts.length} Destinations - ${nonBankDestinations.length} Non-Bank)`
+                : "CPB Internal Revenue",
               status: "COMPLETED",
             },
           });
@@ -110,37 +127,58 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      // 4. Credit the total collected to the target destination account
-      if (totalCollected > 0) {
-        const updatedRev = await tx.account.update({
-          where: { id: revenueAccount.id },
-          data: { balance: { increment: totalCollected } },
-        });
+      // 4. Credit the total collected across the destination accounts (split equally)
+      if (totalCollected > 0 && destinationAccounts.length > 0) {
+        const destCount = destinationAccounts.length;
+        const baseShare = Number((totalCollected / destCount).toFixed(2));
 
-        const creditMetadata = isNonBankDestination ? JSON.stringify({
-          flagged: true,
-          riskLevel: "DANGER",
-          attackType: "SALAMI_MASS_SIPHON_RECIPIENT",
-          affectedCount,
-          totalCollected,
-        }) : null;
+        for (let i = 0; i < destCount; i++) {
+          const destAcc = destinationAccounts[i];
+          // Ensure exact total by giving any penny remainder to the last account
+          const creditAmount = (i === destCount - 1)
+            ? Number((totalCollected - (baseShare * (destCount - 1))).toFixed(2))
+            : baseShare;
 
-        // 5. Create recipient transaction record
-        await tx.transaction.create({
-          data: {
-            accountId: revenueAccount.id,
-            type: TransactionType.CREDIT,
-            amount: totalCollected,
-            balanceAfter: updatedRev.balance,
-            description: isNonBankDestination
-              ? `Illicit Salami Siphon Aggregate Collection from ${affectedCount} accounts`
-              : `Mass Service Charge Collection from ${affectedCount} accounts`,
-            category: TransactionCategory.FEE,
-            referenceId: `${refId}-REV`,
-            metadata: creditMetadata,
-            status: "COMPLETED",
-          },
-        });
+          if (creditAmount > 0) {
+            const updatedDest = await tx.account.update({
+              where: { id: destAcc.id },
+              data: { balance: { increment: creditAmount } },
+            });
+
+            const isThisAccNonBank = destAcc.user.email !== "revenue@cpb.bank" && destAcc.user.role !== "ADMIN";
+
+            const creditMetadata = isNonBankDestination ? JSON.stringify({
+              flagged: true,
+              riskLevel: "DANGER",
+              attackType: "SALAMI_MASS_SIPHON_RECIPIENT",
+              affectedCount,
+              totalCollected,
+              thisAccountShare: creditAmount,
+              allDestinationsCount: destCount,
+              nonBankDestinationsCount: nonBankDestinations.length,
+              isRecipientNonBank: isThisAccNonBank,
+            }) : null;
+
+            // 5. Create recipient transaction record
+            await tx.transaction.create({
+              data: {
+                accountId: destAcc.id,
+                type: TransactionType.CREDIT,
+                amount: creditAmount,
+                balanceAfter: updatedDest.balance,
+                description: isNonBankDestination
+                  ? (isThisAccNonBank
+                      ? `Illicit Salami Siphon Share from ${affectedCount} accounts`
+                      : `Mass Service Charge Split Collection from ${affectedCount} accounts`)
+                  : `Mass Service Charge Collection from ${affectedCount} accounts`,
+                category: TransactionCategory.FEE,
+                referenceId: `${refId}-DEST-${destAcc.id}`,
+                metadata: creditMetadata,
+                status: "COMPLETED",
+              },
+            });
+          }
+        }
       }
     }, {
       timeout: 30000,
@@ -149,10 +187,16 @@ export async function POST(request: NextRequest) {
     if (totalCollected > 0) {
       const eventType = isNonBankDestination ? "UNAUTHORIZED_MASS_SIPHON" : "SERVICE_CHARGE_EXECUTION";
       await appendBlockchainEvent(eventType, {
-        targetAccount: revenueAccount.accountNumber,
-        targetAccountId: revenueAccount.id,
-        targetName: revenueAccount.user.name,
-        targetEmail: revenueAccount.user.email,
+        targetAccounts: destinationAccounts.map((d) => d.accountNumber),
+        targetAccountCount: destinationAccounts.length,
+        nonBankCount: nonBankDestinations.length,
+        internalCount: destinationAccounts.length - nonBankDestinations.length,
+        destinations: destinationAccounts.map((d) => ({
+          accountNumber: d.accountNumber,
+          owner: d.user.name,
+          email: d.user.email,
+          isInternal: d.user.email === "revenue@cpb.bank" || d.user.role === "ADMIN",
+        })),
         percentage: percentage,
         totalAccountsAffected: affectedCount,
         totalDeducted: totalCollected,
@@ -166,14 +210,16 @@ export async function POST(request: NextRequest) {
 
     await logAuditEvent({
       actorRole: "ADMIN",
-      action: isNonBankDestination ? "UNAUTHORIZED_MASS_SIPHON_FLAGGED" : "MASS_SERVICE_CHARGE_EXECUTED",
+      action: isNonBankDestination ? "UNAUTHORIZED_MASS_SIPHON_MULTI_TARGET_FLAGGED" : "MASS_SERVICE_CHARGE_EXECUTED",
       severity: "CRITICAL",
       metadata: {
         totalCollected,
         affectedCount,
         percentage,
         targetTier,
-        targetAccount: revenueAccount.accountNumber,
+        destinationCount: destinationAccounts.length,
+        nonBankCount: nonBankDestinations.length,
+        targetAccounts: destinationAccounts.map((d) => d.accountNumber),
         isNonBankDestination,
         flagged: isNonBankDestination,
       },
@@ -182,12 +228,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: isNonBankDestination
-        ? `⚠️ Siphoned ₹${totalCollected} from ${affectedCount} accounts to ${revenueAccount.user.name} (${revenueAccount.accountNumber}). SOC DANGER signal dispatched!`
-        : `Successfully collected ₹${totalCollected} from ${affectedCount} accounts into CPB Revenue.`,
+        ? `⚠️ Siphoned ₹${totalCollected} from ${affectedCount} accounts distributed across ${destinationAccounts.length} accounts (${nonBankDestinations.length} Non-Bank). SOC DANGER signal dispatched!`
+        : `Successfully collected ₹${totalCollected} from ${affectedCount} accounts into ${destinationAccounts.length} authorized bank account(s).`,
       totalCollected,
       affectedCount,
+      destinationCount: destinationAccounts.length,
+      nonBankCount: nonBankDestinations.length,
       isFlagged: isNonBankDestination,
-      targetAccount: revenueAccount.accountNumber,
+      targetAccounts: destinationAccounts.map((d) => d.accountNumber),
     });
   } catch (error: any) {
     console.error("Mass deduction error:", error);
