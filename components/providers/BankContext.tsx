@@ -47,6 +47,7 @@ interface BankContextType {
   bookFixedDeposit: (principal: number, tenureMonths: number) => Promise<{ success: boolean; message: string }>;
   notifications: Array<{ id: string; title: string; message: string; type: string; time: string; read: boolean }>;
   markNotificationRead: (id: string) => void;
+  logout: () => void;
 }
 
 const BankContext = createContext<BankContextType | undefined>(undefined);
@@ -63,6 +64,24 @@ export function BankProvider({ children }: { children: React.ReactNode }) {
   const [fixedDeposits, setFixedDeposits] = useState<BankFixedDeposit[]>([]);
   const [tickets, setTickets] = useState<BankTicket[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    // Restore session on mount
+    try {
+      const storedUser = localStorage.getItem("cpb_session_user");
+      const storedSession = localStorage.getItem("cpb_session_id");
+      if (storedUser) {
+        setCurrentUser(JSON.parse(storedUser));
+      }
+      if (storedSession) {
+        setCurrentSessionId(storedSession);
+      }
+    } catch (e) {
+      console.error("Failed to restore session from local storage", e);
+    }
+    setIsHydrated(true);
+  }, []);
 
   const [notifications, setNotifications] = useState([
     {
@@ -119,8 +138,10 @@ export function BankProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    loadData();
-  }, [currentUser]);
+    if (isHydrated) {
+      loadData();
+    }
+  }, [currentUser, isHydrated]);
 
   const executeTransfer = async (params: {
     sourceAccountId: string;
@@ -262,7 +283,11 @@ export function BankProvider({ children }: { children: React.ReactNode }) {
         currentUser,
         setCurrentUser: (user, sessionId) => {
           setCurrentUser(user);
-          if (sessionId) setCurrentSessionId(sessionId);
+          localStorage.setItem("cpb_session_user", JSON.stringify(user));
+          if (sessionId) {
+            setCurrentSessionId(sessionId);
+            localStorage.setItem("cpb_session_id", sessionId);
+          }
         },
         currentSessionId,
         accounts,
@@ -284,6 +309,12 @@ export function BankProvider({ children }: { children: React.ReactNode }) {
         bookFixedDeposit,
         notifications,
         markNotificationRead,
+        logout: () => {
+          setCurrentUser(getDefaultUser());
+          setCurrentSessionId(null);
+          localStorage.removeItem("cpb_session_user");
+          localStorage.removeItem("cpb_session_id");
+        },
       }}
     >
       {children}

@@ -23,7 +23,7 @@ interface NavbarProps {
 
 export function Navbar({ portalType }: NavbarProps) {
   const router = useRouter();
-  const { currentUser, currentSessionId, notifications, markNotificationRead } = useBank();
+  const { currentUser, currentSessionId, notifications, markNotificationRead, logout } = useBank();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
 
@@ -76,6 +76,7 @@ export function Navbar({ portalType }: NavbarProps) {
         console.error("Logout API error:", e);
       }
     }
+    logout();
     router.push(portalInfo.loginPath);
   };
 
