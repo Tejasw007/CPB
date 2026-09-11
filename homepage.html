@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CPB - Code Paglu Commercial Bank</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        @layer base {
+
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                overscroll-behavior: none;
+            }
+
+            main>:first-child {
+                margin-top: 0 !important;
+            }
+
+            main>:last-child {
+                margin-bottom: 0 !important;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#5a2e00",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#dbe1ff",
+                        "tertiary-container": "#7c4100",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f9f9ff",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed": "#ffdcc3",
+                        "on-background": "#111c2d",
+                        "surface-tint": "#2156c9",
+                        "surface-variant": "#d8e3fb",
+                        "outline-variant": "#c3c6d6",
+                        "inverse-on-surface": "#ecf1ff",
+                        "secondary-container": "#c4dcff",
+                        "surface": "#f9f9ff",
+                        "inverse-primary": "#b3c5ff",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "on-tertiary-fixed": "#2f1500",
+                        "primary": "#003289",
+                        "primary-fixed-dim": "#b3c5ff",
+                        "surface-container": "#e7eeff",
+                        "on-tertiary-container": "#ffb273",
+                        "on-surface": "#111c2d",
+                        "inverse-surface": "#263143",
+                        "on-surface-variant": "#434653",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "surface-container-low": "#f0f3ff",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#0047ba",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#d2e4ff",
+                        "on-primary-container": "#aec1ff",
+                        "surface-dim": "#cfdaf2",
+                        "background": "#f9f9ff",
+                        "on-secondary-fixed-variant": "#314865",
+                        "surface-container-high": "#dee8ff",
+                        "secondary-fixed-dim": "#b0c8eb",
+                        "on-secondary-fixed": "#001c37",
+                        "surface-container-highest": "#d8e3fb",
+                        "on-primary-fixed-variant": "#003ea6",
+                        "secondary": "#49607e",
+                        "on-primary-fixed": "#00174a",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#49617f",
+                        "outline": "#737685"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "space-xs": "0.25rem",
+                        "space-lg": "1.5rem",
+                        "margin": "1.5rem",
+                        "gutter-desktop": "1.5rem",
+                        "margin-desktop": "2.5rem",
+                        "space-md": "1rem",
+                        "space-sm": "0.5rem",
+                        "gutter": "1.25rem",
+                        "space-xl": "2rem"
+                    },
+                    "fontFamily": {
+                        "financial-numeric": ["IBM Plex Sans"],
+                        "headline-lg": ["IBM Plex Sans"],
+                        "headline-lg-mobile": ["IBM Plex Sans"],
+                        "label-md": ["IBM Plex Sans"],
+                        "label-lg": ["IBM Plex Sans"],
+                        "headline-md": ["IBM Plex Sans"],
+                        "label-sm": ["IBM Plex Sans"],
+                        "headline-xl": ["IBM Plex Sans"],
+                        "headline-xl-mobile": ["IBM Plex Sans"],
+                        "body-lg": ["IBM Plex Sans"],
+                        "headline-sm": ["IBM Plex Sans"],
+                        "body-md": ["IBM Plex Sans"],
+                        "body-sm": ["IBM Plex Sans"]
+                    },
+                    "fontSize": {
+                        "financial-numeric": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["22px", { "lineHeight": "30px", "letterSpacing": "0em", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }</script>
+</head>
+
+<body class="bg-background font-body-md text-body-md text-on-surface antialiased">
+    <header class="fixed top-0 w-full z-50 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.06)]">
+        <div class="bg-on-background text-surface-variant h-9 px-margin-desktop">
+            <div class="max-w-[1280px] mx-auto h-full flex items-center justify-between text-label-sm font-label-sm">
+                <div class="flex items-center gap-space-md"><span
+                        class="text-surface-container-lowest font-semibold tracking-wider">SEGMENT:</span>
+                    <div class="flex items-center gap-space-sm"><a
+                            class="text-surface-container-lowest font-medium hover:text-primary-fixed-dim transition-colors"
+                            href="#">Personal</a><span class="text-secondary">|</span><a
+                            class="text-surface-variant hover:text-surface-container-lowest transition-colors"
+                            href="#">NRI</a><span class="text-secondary">|</span><a
+                            class="text-surface-variant hover:text-surface-container-lowest transition-colors"
+                            href="#">Business / SME</a><span class="text-secondary">|</span><a
+                            class="text-surface-variant hover:text-surface-container-lowest transition-colors"
+                            href="#">Corporate</a><span class="text-secondary">|</span><a
+                            class="text-surface-variant hover:text-surface-container-lowest transition-colors"
+                            href="#">Institutional</a><span class="text-secondary">|</span><a
+                            class="text-surface-variant hover:text-surface-container-lowest transition-colors"
+                            href="#">Wealth</a></div>
+                </div>
+                <div class="flex items-center gap-space-lg">
+                    <div class="flex items-center gap-space-xs"><span
+                            class="material-symbols-outlined text-[14px] text-surface-container-lowest">call</span><span
+                            class="text-surface-variant">24x7 Care:</span><span
+                            class="text-surface-container-lowest font-semibold font-financial-numeric">1800-419-0068</span>
+                    </div><a
+                        class="hover:text-surface-container-lowest transition-colors flex items-center gap-space-xs"
+                        href="#"><span class="material-symbols-outlined text-[14px]">location_on</span>Locate Branch
+                        &amp; ATM</a><a
+                        class="hover:text-surface-container-lowest transition-colors flex items-center gap-space-xs"
+                        href="#"><span class="material-symbols-outlined text-[14px]">percent</span>Rates &amp;
+                        Charges</a><a class="hover:text-surface-container-lowest transition-colors" href="#">Regulatory
+                        Disclosures</a>
+                    <div class="flex items-center gap-space-xs bg-inverse-surface px-space-xs py-0.5 rounded"><span
+                            class="material-symbols-outlined text-[13px]">translate</span><span
+                            class="text-surface-container-lowest">EN / हिन्दी</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="h-20 bg-surface-container-lowest px-margin-desktop">
+            <div class="max-w-[1280px] mx-auto h-full flex items-center justify-between gap-space-lg">
+                <div class="flex items-center gap-space-md"><img alt="CPB Code Paglu Bank Logo"
+                        class="h-8 w-auto object-contain"
+                        src="https://lh3.googleusercontent.com/aida/AEtjO1XZWHXbXdudoSMhFLDsnn9TAtobCsWRsLTwKvpJhqKXCcb6P5w-0EiZZ8t5j88HQi1qLu0gMBR_AbvIBHGKnOBp5-a7edeAteqj2wbS_aCXtQw0t0tjURR7ScCwdF0MfRMI2HMCRDxDggd8DwRjLF5LvtiMEyW2m3ZeOXk72uWsK8eNWENo9x31SskPcoVCvMfPldavvulH68h3QIHEEf8UjBxgJ3yXuqJ1TdWKBJvxTCiBMBiO-8Nqs0I" />
+                    <div class="flex flex-col"><span
+                            class="text-headline-sm font-headline-sm text-primary tracking-tight font-bold leading-none">CPB
+                            BANK</span><span
+                            class="text-label-sm font-label-sm text-secondary tracking-widest uppercase text-[9px]">Code
+                            Paglu Commercial Bank</span></div>
+                </div>
+                <nav class="hidden xl:flex items-center gap-space-lg h-full"
+                    data-active-classes="text-primary font-bold border-b-2 border-primary"><a aria-current="page"
+                        class="transition-colors h-full flex items-center text-primary font-bold border-b-2 border-primary"
+                        data-path="accounts" href="#">Accounts</a><a
+                        class="text-label-lg font-label-lg text-on-surface-variant hover:text-primary transition-colors h-full flex items-center"
+                        data-path="cards" href="#">Cards</a><a
+                        class="text-label-lg font-label-lg text-on-surface-variant hover:text-primary transition-colors h-full flex items-center"
+                        data-path="loans" href="#">Loans</a><a
+                        class="text-label-lg font-label-lg text-on-surface-variant hover:text-primary transition-colors h-full flex items-center"
+                        data-path="investments-and-wealth" href="#">Investments &amp; Wealth</a><a
+                        class="text-label-lg font-label-lg text-on-surface-variant hover:text-primary transition-colors h-full flex items-center"
+                        data-path="digital-banking" href="#">Digital Banking</a><a
+                        class="text-label-lg font-label-lg text-on-surface-variant hover:text-primary transition-colors h-full flex items-center"
+                        data-path="security-and-fraud-center" href="#">Security &amp; Fraud Center</a><a
+                        class="text-label-lg font-label-lg text-on-surface-variant hover:text-primary transition-colors h-full flex items-center"
+                        data-path="branch-and-atm-locator" href="#">Locator</a></nav>
+                <div class="flex items-center gap-space-md">
+                    <div class="relative hidden lg:block"><input
+                            class="w-56 h-9 pl-8 pr-3 bg-surface-container-low text-body-sm font-body-sm text-on-surface placeholder:text-outline rounded-lg focus:outline-none focus:ring-1 focus:ring-primary"
+                            placeholder="Search IFSC, schemes, forms..." type="text" /><span
+                            class="material-symbols-outlined absolute left-2.5 top-2.5 text-[16px] text-outline">search</span>
+                    </div><a
+                        class="flex items-center gap-space-xs bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg px-space-md py-space-sm rounded-lg transition-colors shadow-sm"
+                        data-path="secure-netbanking-login" href="#"><span
+                            class="material-symbols-outlined text-[18px]">lock</span><span>NetBanking</span></a>
+                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span
+                            class="material-symbols-outlined text-on-primary text-[18px]">person</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-secondary-container text-on-secondary-container h-10 px-margin-desktop flex items-center">
+            <div class="max-w-[1280px] mx-auto w-full flex items-center justify-between text-body-sm font-body-sm">
+                <div class="flex items-center gap-space-sm overflow-hidden"><span
+                        class="material-symbols-outlined text-primary text-[18px] shrink-0">verified_user</span><span
+                        class="font-label-md font-label-md uppercase tracking-wider text-primary shrink-0">RBI
+                        Advisory:</span><span class="truncate text-on-surface-variant">Never share your OTP, UPI PIN,
+                        CVV, or NetBanking password with anyone. Bank officials will never solicit credentials.</span>
+                </div>
+                <div class="shrink-0 ml-space-md flex items-center gap-space-xs"><span
+                        class="material-symbols-outlined text-error text-[16px]">warning</span><span
+                        class="text-label-sm font-label-sm">National Cyber Fraud Helpline:</span><span
+                        class="font-bold font-financial-numeric text-label-md text-error">1930</span></div>
+            </div>
+        </div>
+    </header>
+    <main class="w-full pt-36 min-h-screen bg-background" id="page-content">
+        <div class="max-w-[1280px] mx-auto px-margin-desktop py-space-lg">
+            <div class="flex flex-col w-full">
+                <!-- Breadcrumb Navigation -->
+                <nav aria-label="Breadcrumb"
+                    class="flex items-center gap-space-xs text-body-sm font-body-sm text-secondary mb-space-md">
+                    <a class="hover:text-primary transition-colors" href="#">Home</a>
+                    <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+                    <span class="text-on-surface font-semibold">Accounts &amp; Deposits</span>
+                </nav>
+                <!-- Page Header Title Block -->
+                <header class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm mb-space-lg">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+                        <div class="space-y-space-xs max-w-3xl">
+                            <div
+                                class="inline-flex items-center gap-space-xs px-space-xs py-0.5 bg-surface-container rounded text-label-sm font-label-sm text-primary uppercase tracking-wider">
+                                <span class="material-symbols-outlined text-[14px]">assured_workload</span>
+                                RBI Regulated Scheduled Commercial Bank
+                            </div>
+                            <h1 class="text-headline-xl font-headline-xl text-primary tracking-tight">CPB Retail &amp;
+                                Institutional Deposit Accounts</h1>
+                            <p class="text-body-lg font-body-lg text-on-surface-variant">
+                                Transparent interest yields, multi-tier regulatory compliance, and seamless paperless
+                                digital account opening under RBI guidelines.
+                            </p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-sm shrink-0">
+                            <a class="inline-flex items-center justify-center gap-space-xs bg-surface-container-low text-primary hover:bg-surface-container font-label-lg text-label-lg px-space-md py-space-sm rounded-lg transition-colors"
+                                href="#quick-calculator">
+                                <span class="material-symbols-outlined text-[18px]">calculate</span>
+                                <span>Yield Calculator</span>
+                            </a>
+                            <a class="inline-flex items-center justify-center gap-space-xs bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg px-space-md py-space-sm rounded-lg transition-colors shadow-sm"
+                                href="#process-flow">
+                                <span class="material-symbols-outlined text-[18px]">verified</span>
+                                <span>Instant Video KYC</span>
+                            </a>
+                        </div>
+                    </div>
+                </header>
+                <!-- Rate Card Strip (Live Rates Table) -->
+                <section aria-label="Deposit Rates Strip"
+                    class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm mb-space-lg">
+                    <div
+                        class="flex flex-col lg:flex-row items-start lg:items-center justify-between pb-space-md mb-space-md bg-surface-container-low p-space-md rounded-lg gap-space-sm">
+                        <div class="flex items-center gap-space-sm">
+                            <span class="material-symbols-outlined text-primary text-[24px]">trending_up</span>
+                            <div>
+                                <h2 class="text-headline-sm font-headline-sm text-on-surface">Standard Card Rates for
+                                    Retail Term &amp; Savings Deposits</h2>
+                                <p class="text-body-sm font-body-sm text-secondary">Effective w.e.f. Current Financial
+                                    Quarter | Applicable for amounts &lt; ₹3.00 Crores</p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-center gap-space-xs text-label-sm font-label-sm text-tertiary-container bg-tertiary-fixed px-space-sm py-1 rounded">
+                            <span class="material-symbols-outlined text-[16px]">info</span>
+                            <span>Senior Citizen +0.50% p.a. benefit applicable across select tenures</span>
+                        </div>
+                    </div>
+                    <!-- Rate Badges Matrix -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter-desktop">
+                        <!-- Rate 1 -->
+                        <div class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between">
+                            <div>
+                                <span
+                                    class="text-label-sm font-label-sm uppercase tracking-wider text-secondary">Savings
+                                    Account</span>
+                                <div class="flex items-baseline gap-space-xs mt-space-xs">
+                                    <span
+                                        class="text-headline-xl font-headline-xl text-primary font-financial-numeric">4.00%</span>
+                                    <span class="text-label-sm font-label-sm text-on-surface-variant font-medium">p.a.
+                                        max</span>
+                                </div>
+                                <p class="text-body-sm font-body-sm text-on-surface-variant mt-space-xs">Calculated on
+                                    daily end-of-day balances, paid quarterly.</p>
+                            </div>
+                            <div
+                                class="mt-space-md pt-space-sm bg-surface-container px-space-xs py-1 rounded text-label-sm font-label-sm text-primary flex items-center justify-between">
+                                <span>Tier: Above ₹1.00 Lakh</span>
+                                <span class="font-financial-numeric">3.50% - 4.00%</span>
+                            </div>
+                        </div>
+                        <!-- Rate 2 -->
+                        <div class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between">
+                            <div>
+                                <span
+                                    class="text-label-sm font-label-sm uppercase tracking-wider text-secondary">Regular
+                                    FD (1 Year)</span>
+                                <div class="flex items-baseline gap-space-xs mt-space-xs">
+                                    <span
+                                        class="text-headline-xl font-headline-xl text-primary font-financial-numeric">7.10%</span>
+                                    <span
+                                        class="text-label-sm font-label-sm text-on-surface-variant font-medium">p.a.</span>
+                                </div>
+                                <p class="text-body-sm font-body-sm text-on-surface-variant mt-space-xs">Guaranteed
+                                    yield with quarterly compounding option.</p>
+                            </div>
+                            <div
+                                class="mt-space-md pt-space-sm bg-surface-container px-space-xs py-1 rounded text-label-sm font-label-sm text-primary flex items-center justify-between">
+                                <span>Senior Citizen Yield</span>
+                                <span class="font-financial-numeric font-bold">7.60% p.a.</span>
+                            </div>
+                        </div>
+                        <!-- Rate 3 (Highlighted Special) -->
+                        <div
+                            class="bg-surface-container-high p-space-md rounded-lg flex flex-col justify-between relative shadow-sm">
+                            <div
+                                class="absolute -top-3 right-4 bg-primary text-on-primary text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider shadow-sm">
+                                Flagship Tenure
+                            </div>
+                            <div>
+                                <span
+                                    class="text-label-sm font-label-sm uppercase tracking-wider text-primary font-bold">CPB
+                                    444-Day Special FD</span>
+                                <div class="flex items-baseline gap-space-xs mt-space-xs">
+                                    <span
+                                        class="text-headline-xl font-headline-xl text-primary font-financial-numeric">7.45%</span>
+                                    <span class="text-label-sm font-label-sm text-on-surface font-medium">p.a.</span>
+                                </div>
+                                <p class="text-body-sm font-body-sm text-on-surface-variant mt-space-xs">Peak return
+                                    tenure designed for maximized capital appreciation.</p>
+                            </div>
+                            <div
+                                class="mt-space-md pt-space-sm bg-surface-container-lowest px-space-xs py-1 rounded text-label-sm font-label-sm text-primary font-semibold flex items-center justify-between">
+                                <span>Senior Citizens:</span>
+                                <span class="font-financial-numeric text-primary font-bold text-headline-sm">7.95%
+                                    p.a.</span>
+                            </div>
+                        </div>
+                        <!-- Rate 4 -->
+                        <div class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between">
+                            <div>
+                                <span class="text-label-sm font-label-sm uppercase tracking-wider text-secondary">Tax
+                                    Saver 5-Yr FD (80C)</span>
+                                <div class="flex items-baseline gap-space-xs mt-space-xs">
+                                    <span
+                                        class="text-headline-xl font-headline-xl text-primary font-financial-numeric">7.25%</span>
+                                    <span
+                                        class="text-label-sm font-label-sm text-on-surface-variant font-medium">p.a.</span>
+                                </div>
+                                <p class="text-body-sm font-body-sm text-on-surface-variant mt-space-xs">Deduction up to
+                                    ₹1,50,000 per FY with 5-year lock-in.</p>
+                            </div>
+                            <div
+                                class="mt-space-md pt-space-sm bg-surface-container px-space-xs py-1 rounded text-label-sm font-label-sm text-primary flex items-center justify-between">
+                                <span>Lock-in Period</span>
+                                <span class="font-semibold">60 Months Mandatory</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Interactive Interest Calculator Drawer / Box -->
+                <section class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm mb-space-lg"
+                    id="quick-calculator">
+                    <div
+                        class="flex items-center justify-between mb-space-md pb-space-sm bg-surface-container-low p-space-md rounded-lg">
+                        <div class="flex items-center gap-space-sm">
+                            <span class="material-symbols-outlined text-primary text-[24px]">tune</span>
+                            <div>
+                                <h2 class="text-headline-sm font-headline-sm text-primary">Interest Yield Calculator
+                                    Preview</h2>
+                                <p class="text-body-sm font-body-sm text-secondary">Estimate cumulative returns prior to
+                                    opening or booking term deposits</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-secondary">verified_user</span>
+                    </div>
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter-desktop items-center">
+                        <!-- Input Sliders -->
+                        <div class="lg:col-span-7 space-y-space-md">
+                            <div>
+                                <div class="flex items-center justify-between mb-space-xs">
+                                    <label class="text-label-lg font-label-lg text-on-surface"
+                                        for="deposit-amount">Deposit Principal (₹)</label>
+                                    <span class="font-financial-numeric text-headline-sm text-primary"
+                                        id="amount-display">₹5,00,000</span>
+                                </div>
+                                <input
+                                    class="w-full accent-primary h-2 bg-surface-container-high rounded cursor-pointer"
+                                    id="deposit-amount" max="5000000" min="10000" step="10000" type="range"
+                                    value="500000" />
+                                <div class="flex justify-between text-body-sm font-body-sm text-secondary mt-1">
+                                    <span>₹10,000</span>
+                                    <span>₹25,00,000</span>
+                                    <span>₹50,00,000</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-space-xs">
+                                    <label class="text-label-lg font-label-lg text-on-surface">Tenure Preset</label>
+                                    <span class="font-financial-numeric text-headline-sm text-primary"
+                                        id="tenure-display">444 Days (7.45%)</span>
+                                </div>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-space-xs">
+                                    <button
+                                        class="tenure-btn px-space-sm py-2 rounded-lg bg-surface-container-low text-on-surface text-label-md font-label-md text-center hover:bg-surface-container transition-colors"
+                                        onclick="selectTenure(365, 7.10, '1 Year (7.10%)', this)" type="button">
+                                        1 Year (7.10%)
+                                    </button>
+                                    <button
+                                        class="tenure-btn active-tenure px-space-sm py-2 rounded-lg bg-primary text-on-primary text-label-md font-label-md text-center transition-colors"
+                                        onclick="selectTenure(444, 7.45, '444 Days (7.45%)', this)" type="button">
+                                        444 Days Special
+                                    </button>
+                                    <button
+                                        class="tenure-btn px-space-sm py-2 rounded-lg bg-surface-container-low text-on-surface text-label-md font-label-md text-center hover:bg-surface-container transition-colors"
+                                        onclick="selectTenure(730, 7.00, '2 Years (7.00%)', this)" type="button">
+                                        2 Years (7.00%)
+                                    </button>
+                                    <button
+                                        class="tenure-btn px-space-sm py-2 rounded-lg bg-surface-container-low text-on-surface text-label-md font-label-md text-center hover:bg-surface-container transition-colors"
+                                        onclick="selectTenure(1825, 7.25, '5 Years Tax Saver', this)" type="button">
+                                        5 Yrs (80C)
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-space-md pt-space-xs">
+                                <label
+                                    class="inline-flex items-center gap-space-xs cursor-pointer text-body-md font-body-md text-on-surface">
+                                    <input class="w-4 h-4 text-primary rounded focus:ring-0 accent-primary"
+                                        id="senior-citizen-toggle" onchange="toggleSeniorCitizen()" type="checkbox" />
+                                    <span>Senior Citizen Depositor (+0.50% p.a.)</span>
+                                </label>
+                            </div>
+                        </div>
+                        <!-- Result Card -->
+                        <div
+                            class="lg:col-span-5 bg-surface-container p-space-lg rounded-xl flex flex-col justify-between">
+                            <div>
+                                <span
+                                    class="text-label-sm font-label-sm uppercase tracking-wider text-secondary">Estimated
+                                    Maturity Value</span>
+                                <div class="mt-space-xs">
+                                    <span class="text-headline-xl font-headline-xl font-financial-numeric text-primary"
+                                        id="maturity-amount">₹5,46,674</span>
+                                </div>
+                                <div class="mt-space-md space-y-space-xs text-body-sm font-body-sm">
+                                    <div
+                                        class="flex justify-between py-1 bg-surface-container-lowest px-space-sm rounded">
+                                        <span class="text-on-surface-variant">Principal Amount:</span>
+                                        <span class="font-financial-numeric font-semibold text-on-surface"
+                                            id="summary-principal">₹5,00,000</span>
+                                    </div>
+                                    <div
+                                        class="flex justify-between py-1 bg-surface-container-lowest px-space-sm rounded">
+                                        <span class="text-on-surface-variant">Total Interest Accrued:</span>
+                                        <span class="font-financial-numeric font-semibold text-primary"
+                                            id="summary-interest">₹46,674</span>
+                                    </div>
+                                    <div
+                                        class="flex justify-between py-1 bg-surface-container-lowest px-space-sm rounded">
+                                        <span class="text-on-surface-variant">Annualized Rate:</span>
+                                        <span class="font-financial-numeric font-semibold text-on-surface"
+                                            id="summary-rate">7.45% p.a.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-space-lg">
+                                <a class="w-full inline-flex items-center justify-center gap-space-xs bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg px-space-md py-space-sm rounded-lg transition-colors shadow-sm"
+                                    href="#">
+                                    <span class="material-symbols-outlined text-[18px]">lock_open</span>
+                                    <span>Book this Deposit Online</span>
+                                </a>
+                                <p class="text-[11px] text-secondary text-center mt-space-xs leading-tight">
+                                    Subject to TDS under Sec 194A. Non-residents subject to DTAA guidelines.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Detailed Product Comparison Matrix (4 Core Account Types) -->
+                <section aria-label="Core Account Types" class="mb-space-lg">
+                    <div class="mb-space-md">
+                        <h2 class="text-headline-lg font-headline-lg text-on-background tracking-tight">Institutional
+                            &amp; Retail Core Accounts</h2>
+                        <p class="text-body-md font-body-md text-on-surface-variant">Choose from specialized checking,
+                            high-yield savings, salary structures, or commercial trade accounts.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-gutter-desktop">
+                        <!-- Product A: CPB Advantage Savings Account -->
+                        <article
+                            class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                            <div>
+                                <div class="flex items-center justify-between mb-space-sm">
+                                    <div
+                                        class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+                                        <span
+                                            class="material-symbols-outlined text-[24px]">account_balance_wallet</span>
+                                    </div>
+                                    <span
+                                        class="text-label-sm font-label-sm bg-surface-container px-2 py-0.5 rounded text-primary font-semibold">Retail
+                                        Flagship</span>
+                                </div>
+                                <h3 class="text-headline-md font-headline-md text-on-surface">CPB Advantage Savings</h3>
+                                <p class="text-body-sm font-body-sm text-secondary mt-space-xs">General retail
+                                    high-liquidity checking account with modern digital privileges.</p>
+                                <div
+                                    class="mt-space-md pt-space-sm bg-surface-container-low p-space-sm rounded-lg space-y-space-sm">
+                                    <div class="flex items-start gap-space-xs text-body-sm font-body-sm">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                                        <span><strong>₹10,000</strong> Average Monthly Balance (AMB) requirement in
+                                            Metro branches.</span>
+                                    </div>
+                                    <div class="flex items-start gap-space-xs text-body-sm font-body-sm">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                                        <span><strong>Free Platinum RuPay / Visa Chip</strong> contactless debit card
+                                            issued instantly.</span>
+                                    </div>
+                                    <div class="flex items-start gap-space-xs text-body-sm font-body-sm">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                                        <span><strong>Unlimited Free ATM</strong> cash withdrawals across all CPB
+                                            network ATMs.</span>
+                                    </div>
+                                    <div class="flex items-start gap-space-xs text-body-sm font-body-sm">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                                        <span><strong>Zero digital charges</strong> on NEFT, RTGS, and IMPS through
+                                            NetBanking &amp; CPB Mobile App.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-space-lg space-y-space-xs">
+                                <a class="w-full inline-flex items-center justify-center gap-space-xs bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg px-space-md py-space-sm rounded-lg transition-colors shadow-sm"
+                                    href="#">
+                                    <span class="material-symbols-outlined text-[18px]">videocam</span>
+                                    <span>Open Instantly with Video KYC</span>
+                                </a>
+                                <a class="w-full inline-flex items-center justify-center text-body-sm font-body-sm text-primary hover:text-on-primary-fixed-variant transition-colors py-1"
+                                    href="#">
+                                    View MITC &amp; Schedule of Fees
+                                </a>
+                            </div>
+                        </article>
+                        <!-- Product B: CPB Smart Salary Account -->
+                        <article
+                            class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                            <div>
+                                <div class="flex items-center justify-between mb-space-sm">
+                                    <div
+                                        class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+                                        <span class="material-symbols-outlined text-[24px]">badge</span>
+                                    </div>
+                                    <span
+                                        class="text-label-sm font-label-sm bg-secondary-fixed text-on-secondary-fixed font-semibold px-2 py-0.5 rounded">Corporate
+                                        Tie-up</span>
+                                </div>
+                                <h3 class="text-headline-md font-headline-md text-on-surface">CPB Smart Salary</h3>
+                                <p class="text-body-sm font-body-sm text-secondary mt-space-xs">Zero-balance
+                                    institutional payroll account engineered for salaried corporate personnel.</p>
+                                <div
+                                    class="mt-space-md pt-space-sm bg-surface-container-low p-space-sm rounded-lg space-y-space-sm">
+                                    <div class="flex items-start gap-space-xs text-body-sm font-body-sm">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                                        <span><strong>Zero Balance Account:</strong> No monthly average balance penalty
+                                            or maintenance fee.</span>
+                                    </div>
+                                    <div class="flex items-start gap-space-xs text-body-sm font-body-sm">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                                        <span><strong>Free ₹50 Lakh</strong> complimentary accidental &amp; air death
+                                            insurance cover.</span>
+                                    </div>
+                                    <div class="flex items-start gap-space-xs text-body-sm font-body-sm">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                                        <span><strong>2 Complimentary Lounge Visits</strong> per calendar quarter at
+                                            domestic airports.</span>
+                                    </div>
+                                    <div class="flex items-start gap-space-xs text-body-sm font-body-sm">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                                        <span><strong>Preferential rate discount</strong> (25 bps) on Retail Home &amp;
+                                            Personal Loans.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-space-lg space-y-space-xs">
+                                <a class="w-full inline-flex items-center justify-center gap-space-xs bg-primary text-on-primary hover:bg-primary-container font-label-lg text-label-lg px-space-md py-space-sm rounded-lg transition-colors shadow-sm"
+                                    href="#">
+                                    <span class="material-symbols-outlined text-[18px]">corporate_fare</span>
+                                    <span>Corporate Tie-Up Request</span>
+                                </a>
+                                <a class="w-full inline-flex items-center justify-center text-body-sm font-body-sm text-primary hover:text-on-primary-fixed-variant transition-colors py-1"
+                                    href="#">
+                                    Download Corporate Enrollment Deck
+                                </a>
+                            </div>
+                        </article>
+                        <!-- Product C: CPB High-Yield Fixed Deposit -->
+                        <article
+                            class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                            <div>
+                                <div class="flex items-center justify-between mb-space-sm">
+                                    <div
+                                        class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+                                        <span class="material-symbols-outlined text-[24px]">savings</span>
+                                    </div>
+                                    <span
+                                        class="text-label-sm font-label-sm bg-surface-variant text-on-surface font-semibold px-2 py-0.5 rounded">Guaranteed
+                                        ROI</span>
+                                </div>
+                                <h3 class="text-headline-md font-headline-md text-on-surface">CPB High-Yield FD</h3>
+                                <p class="text-body-sm font-body-sm text-secondary mt-space-xs">Callable &amp;
+                                    non-callable institutional fixed deposits with compounding schedules.</p>
+                                <div
+                                    class="mt-space-md pt-space-sm bg-surface-container-low p-space-sm rounded-lg space-y-space-sm">
+                                    <div class="flex items-start gap-space-xs text-body-sm font-body-sm">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                                        <span><strong>Yield up to 7.95% p.a.</strong> with monthly, quarterly, or
+                                            cumulative payout options.</span>
+                                    </div>
+                                    <div class="flex items-start gap-space-xs text-body-sm font-body-sm">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                                        <span><strong>DICGC Insured:</strong> Fully covered under RBI DICGC framework up
+                                            to ₹5,00,000.</span>
+                                    </div>
+                                    <div class="flex items-start gap-space-xs text-body-sm font-body-sm">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                                        <span><strong>Instant Overdraft Facility:</strong> Draw credit up to 90% of
+                                            deposit without breaking FD.</span>
+                                    </div>
+                                    <div class="flex items-start gap-space-xs text-body-sm font-body-sm">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                                        <span><strong>Auto-Renewal options</strong> with configurable maturity mandates
+                                            online.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-space-lg space-y-space-xs">
+                                <a class="w-full inline-flex items-center justify-center gap-space-xs bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg px-space-md py-space-sm rounded-lg transition-colors shadow-sm"
+                                    href="#">
+                                    <span class="material-symbols-outlined text-[18px]">add_task</span>
+                                    <span>Book FD Online</span>
+                                </a>
+                                <a class="w-full inline-flex items-center justify-center text-body-sm font-body-sm text-primary hover:text-on-primary-fixed-variant transition-colors py-1"
+                                    href="#">
+                                    Check Premature Closure Terms
+                                </a>
+                            </div>
+                        </article>
+                        <!-- Product D: CPB Current Account for Enterprises -->
+                        <article
+                            class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+                            <div>
+                                <div class="flex items-center justify-between mb-space-sm">
+                                    <div
+                                        class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+                                        <span class="material-symbols-outlined text-[24px]">store</span>
+                                    </div>
+                                    <span
+                                        class="text-label-sm font-label-sm bg-surface-container-highest text-on-surface font-semibold px-2 py-0.5 rounded">MSME
+                                        &amp; Traders</span>
+                                </div>
+                                <h3 class="text-headline-md font-headline-md text-on-surface">CPB Current Account</h3>
+                                <p class="text-body-sm font-body-sm text-secondary mt-space-xs">Built for high-volume
+                                    cash inflows, trader merchant settlement, and MSME operations.</p>
+                                <div
+                                    class="mt-space-md pt-space-sm bg-surface-container-low p-space-sm rounded-lg space-y-space-sm">
+                                    <div class="flex items-start gap-space-xs text-body-sm font-body-sm">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                                        <span><strong>High Daily Cash Deposit:</strong> Up to ₹50,000/day free at base
+                                            branch network.</span>
+                                    </div>
+                                    <div class="flex items-start gap-space-xs text-body-sm font-body-sm">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                                        <span><strong>100 Free Cheque Leaves</strong> per calendar month with CTS-2010
+                                            compatibility.</span>
+                                    </div>
+                                    <div class="flex items-start gap-space-xs text-body-sm font-body-sm">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                                        <span><strong>Integrated Soundbox &amp; POS:</strong> Zero MDR on UPI
+                                            settlements via CPB QR.</span>
+                                    </div>
+                                    <div class="flex items-start gap-space-xs text-body-sm font-body-sm">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0">check_circle</span>
+                                        <span><strong>Bulk Beneficiary API</strong> integration for automated payroll
+                                            &amp; vendor payouts.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-space-lg space-y-space-xs">
+                                <a class="w-full inline-flex items-center justify-center gap-space-xs bg-inverse-surface hover:bg-on-background text-inverse-on-surface font-label-lg text-label-lg px-space-md py-space-sm rounded-lg transition-colors shadow-sm"
+                                    href="#">
+                                    <span class="material-symbols-outlined text-[18px]">storefront</span>
+                                    <span>Explore Current Accounts</span>
+                                </a>
+                                <a class="w-full inline-flex items-center justify-center text-body-sm font-body-sm text-primary hover:text-on-primary-fixed-variant transition-colors py-1"
+                                    href="#">
+                                    Download MSME Tariff Sheet
+                                </a>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+                <!-- Step-by-Step Account Opening Process Flow -->
+                <section aria-label="Account Opening Workflow"
+                    class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm mb-space-lg" id="process-flow">
+                    <div class="mb-space-lg">
+                        <div
+                            class="flex items-center gap-space-xs text-primary font-semibold text-label-sm font-label-sm uppercase tracking-wider mb-1">
+                            <span class="material-symbols-outlined text-[16px]">bolt</span>
+                            Paperless Digital Onboarding
+                        </div>
+                        <h2 class="text-headline-lg font-headline-lg text-on-surface">Open an Account in 4 Simple Steps
+                        </h2>
+                        <p class="text-body-md font-body-md text-on-surface-variant">Approved under RBI Master Direction
+                            on Digital KYC. No branch visit mandatory.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter-desktop relative">
+                        <!-- Step 1 -->
+                        <div class="bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-space-md">
+                                    <span
+                                        class="text-headline-md font-headline-md font-financial-numeric text-primary bg-surface-container-lowest w-10 h-10 rounded-full flex items-center justify-center shadow-sm">01</span>
+                                    <span
+                                        class="material-symbols-outlined text-secondary text-[24px]">phonelink_ring</span>
+                                </div>
+                                <h3 class="text-headline-sm font-headline-sm text-on-surface">Basic Details &amp; Mobile
+                                    OTP</h3>
+                                <p class="text-body-sm font-body-sm text-on-surface-variant mt-space-xs">
+                                    Enter your mobile number linked with Aadhaar, verify with a one-time passcode (OTP),
+                                    and enter essential demographic details.
+                                </p>
+                            </div>
+                            <div
+                                class="mt-space-md text-label-sm font-label-sm text-secondary bg-surface-container px-space-sm py-1 rounded">
+                                Estimated Time: 45 Seconds
+                            </div>
+                        </div>
+                        <!-- Step 2 -->
+                        <div class="bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-space-md">
+                                    <span
+                                        class="text-headline-md font-headline-md font-financial-numeric text-primary bg-surface-container-lowest w-10 h-10 rounded-full flex items-center justify-center shadow-sm">02</span>
+                                    <span
+                                        class="material-symbols-outlined text-secondary text-[24px]">fingerprint</span>
+                                </div>
+                                <h3 class="text-headline-sm font-headline-sm text-on-surface">DigiLocker KYC
+                                    Verification</h3>
+                                <p class="text-body-sm font-body-sm text-on-surface-variant mt-space-xs">
+                                    Directly fetch verified Aadhaar XML and Permanent Account Number (PAN) records with
+                                    one-touch DigiLocker consent.
+                                </p>
+                            </div>
+                            <div
+                                class="mt-space-md text-label-sm font-label-sm text-secondary bg-surface-container px-space-sm py-1 rounded">
+                                Zero Document Uploads
+                            </div>
+                        </div>
+                        <!-- Step 3 -->
+                        <div class="bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-space-md">
+                                    <span
+                                        class="text-headline-md font-headline-md font-financial-numeric text-primary bg-surface-container-lowest w-10 h-10 rounded-full flex items-center justify-center shadow-sm">03</span>
+                                    <span class="material-symbols-outlined text-secondary text-[24px]">videocam</span>
+                                </div>
+                                <h3 class="text-headline-sm font-headline-sm text-on-surface">3-Minute Video KYC</h3>
+                                <p class="text-body-sm font-body-sm text-on-surface-variant mt-space-xs">
+                                    Connect via encrypted video link with a verified CPB Compliance Officer. Display
+                                    original PAN card and sign on blank white paper.
+                                </p>
+                            </div>
+                            <div
+                                class="mt-space-md text-label-sm font-label-sm text-secondary bg-surface-container px-space-sm py-1 rounded">
+                                Available 8:00 AM - 9:00 PM Daily
+                            </div>
+                        </div>
+                        <!-- Step 4 -->
+                        <div class="bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between mb-space-md">
+                                    <span
+                                        class="text-headline-md font-headline-md font-financial-numeric text-primary bg-surface-container-lowest w-10 h-10 rounded-full flex items-center justify-center shadow-sm">04</span>
+                                    <span
+                                        class="material-symbols-outlined text-secondary text-[24px]">credit_card</span>
+                                </div>
+                                <h3 class="text-headline-sm font-headline-sm text-on-surface">Instant Account Activation
+                                </h3>
+                                <p class="text-body-sm font-body-sm text-on-surface-variant mt-space-xs">
+                                    Account number, IFSC, and Virtual Platinum Debit Card issued immediately. NetBanking
+                                    and UPI are enabled instantaneously.
+                                </p>
+                            </div>
+                            <div
+                                class="mt-space-md text-label-sm font-label-sm text-secondary bg-surface-container px-space-sm py-1 rounded">
+                                Immediate Fund Transfer Ready
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Documentation & Eligibility Checklist Matrix Table -->
+                <section aria-label="Documentation Requirements"
+                    class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm mb-space-lg">
+                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm mb-space-md">
+                        <div>
+                            <h2 class="text-headline-md font-headline-md text-on-surface">KYC Documentation &amp;
+                                Eligibility Checklist</h2>
+                            <p class="text-body-sm font-body-sm text-secondary">Statutory requirements under Reserve
+                                Bank of India Prevention of Money Laundering (PMLA) Rules.</p>
+                        </div>
+                        <div class="flex items-center gap-space-xs text-label-sm font-label-sm text-secondary">
+                            <span class="material-symbols-outlined text-[16px] text-primary">policy</span>
+                            <span>Updated per RBI/DBR/2024-25/110 Guidelines</span>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr
+                                    class="bg-surface-container-low text-on-surface text-label-md font-label-md uppercase tracking-wider">
+                                    <th class="py-space-sm px-space-md rounded-l-lg">Entity Profile</th>
+                                    <th class="py-space-sm px-space-md">Identity Proof (OVD)</th>
+                                    <th class="py-space-sm px-space-md">Proof of Address (POA)</th>
+                                    <th class="py-space-sm px-space-md">Tax Identification</th>
+                                    <th class="py-space-sm px-space-md rounded-r-lg">Operating Mandate</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-body-sm font-body-sm text-on-surface-variant">
+                                <tr class="hover:bg-surface-container-low transition-colors">
+                                    <td class="py-space-md px-space-md font-semibold text-on-surface">
+                                        Individual (Resident Indian)
+                                        <div class="text-label-sm font-label-sm text-secondary font-normal">Age 18+
+                                            years</div>
+                                    </td>
+                                    <td class="py-space-md px-space-md">
+                                        Aadhaar Biometric / DigiLocker XML, Valid Passport, Voter ID Card, or Driving
+                                        License.
+                                    </td>
+                                    <td class="py-space-md px-space-md">
+                                        Aadhaar address or utility bill (Electricity/Piped Gas) not older than 2
+                                        calendar months.
+                                    </td>
+                                    <td class="py-space-md px-space-md font-financial-numeric">
+                                        PAN Card (Form 60/61 if PAN not allocated).
+                                    </td>
+                                    <td class="py-space-md px-space-md">
+                                        Self-operated single mandate.
+                                    </td>
+                                </tr>
+                                <tr
+                                    class="hover:bg-surface-container-low transition-colors bg-surface-container-lowest">
+                                    <td class="py-space-md px-space-md font-semibold text-on-surface">
+                                        Joint Accounts (Max 4 Holders)
+                                        <div class="text-label-sm font-label-sm text-secondary font-normal">Family /
+                                            Co-applicants</div>
+                                    </td>
+                                    <td class="py-space-md px-space-md">
+                                        OVD mandatory for each co-applicant individually.
+                                    </td>
+                                    <td class="py-space-md px-space-md">
+                                        Permanent and Communication address proof for each individual applicant.
+                                    </td>
+                                    <td class="py-space-md px-space-md font-financial-numeric">
+                                        PAN Cards for all secondary and tertiary holders.
+                                    </td>
+                                    <td class="py-space-md px-space-md">
+                                        Either or Survivor / Former or Survivor / Jointly Operated.
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-surface-container-low transition-colors">
+                                    <td class="py-space-md px-space-md font-semibold text-on-surface">
+                                        Sole Proprietorship Firm
+                                        <div class="text-label-sm font-label-sm text-secondary font-normal">Traders,
+                                            Retailers, Agencies</div>
+                                    </td>
+                                    <td class="py-space-md px-space-md">
+                                        Proprietor's Aadhaar &amp; PAN + 2 entity registration certificates.
+                                    </td>
+                                    <td class="py-space-md px-space-md">
+                                        GST Registration Certificate (GSTR-06), Shops &amp; Establishment Act license,
+                                        or MSME Udyam Certificate.
+                                    </td>
+                                    <td class="py-space-md px-space-md font-financial-numeric">
+                                        Proprietor PAN &amp; GSTIN Registration Certificate.
+                                    </td>
+                                    <td class="py-space-md px-space-md">
+                                        Proprietor Sole Signature Mandate under Firm Seal.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                <!-- Institutional Help & Regulatory Banner -->
+                <section
+                    class="bg-surface-container p-space-md rounded-xl flex flex-col md:flex-row items-center justify-between gap-space-md">
+                    <div class="flex items-center gap-space-md">
+                        <div
+                            class="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary shrink-0 shadow-sm">
+                            <span class="material-symbols-outlined text-[28px]">support_agent</span>
+                        </div>
+                        <div>
+                            <h3 class="text-headline-sm font-headline-sm text-on-surface">Need Guided Assistance for
+                                Corporate Bulk Deposits?</h3>
+                            <p class="text-body-sm font-body-sm text-on-surface-variant">
+                                Connect with dedicated CPB Treasury &amp; Wealth Relationship Managers for non-callable
+                                deposits above ₹3.00 Crores.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-space-sm shrink-0">
+                        <a class="inline-flex items-center gap-space-xs bg-surface-container-lowest hover:bg-surface-bright text-primary font-label-lg text-label-lg px-space-md py-space-sm rounded-lg transition-colors shadow-sm"
+                            href="tel:18004190068">
+                            <span class="material-symbols-outlined text-[18px]">call</span>
+                            <span class="font-financial-numeric">1800-419-0068</span>
+                        </a>
+                        <a class="inline-flex items-center gap-space-xs bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg px-space-md py-space-sm rounded-lg transition-colors shadow-sm"
+                            href="#">
+                            <span>Request Treasury Callback</span>
+                        </a>
+                    </div>
+                </section>
+            </div>
+            <!-- Inline Logic for Calculator Preview -->
+            <script>
+                let currentPrincipal = 500000;
+                let currentTenureDays = 444;
+                let currentRate = 7.45;
+                let isSenior = false;
+
+                const amountSlider = document.getElementById('deposit-amount');
+                const amountDisplay = document.getElementById('amount-display');
+                const maturityDisplay = document.getElementById('maturity-amount');
+                const summaryPrincipal = document.getElementById('summary-principal');
+                const summaryInterest = document.getElementById('summary-interest');
+                const summaryRate = document.getElementById('summary-rate');
+                const tenureDisplay = document.getElementById('tenure-display');
+
+                function updateCalculations() {
+                    let effectiveRate = currentRate + (isSenior ? 0.50 : 0.00);
+                    let tenureYears = currentTenureDays / 365.0;
+
+                    // Quarterly compounding formula: A = P * (1 + r/4)^(4*t)
+                    let r = effectiveRate / 100.0;
+                    let n = 4; // Quarterly
+                    let maturity = currentPrincipal * Math.pow((1 + (r / n)), (n * tenureYears));
+                    let totalInterest = maturity - currentPrincipal;
+
+                    amountDisplay.innerText = '₹' + currentPrincipal.toLocaleString('en-IN');
+                    summaryPrincipal.innerText = '₹' + currentPrincipal.toLocaleString('en-IN');
+                    summaryRate.innerText = effectiveRate.toFixed(2) + '% p.a.';
+                    summaryInterest.innerText = '₹' + Math.round(totalInterest).toLocaleString('en-IN');
+                    maturityDisplay.innerText = '₹' + Math.round(maturity).toLocaleString('en-IN');
+                }
+
+                if (amountSlider) {
+                    amountSlider.addEventListener('input', function (e) {
+                        currentPrincipal = parseInt(e.target.value, 10);
+                        updateCalculations();
+                    });
+                }
+
+                function selectTenure(days, rate, label, buttonElement) {
+                    currentTenureDays = days;
+                    currentRate = rate;
+
+                    // Update button styles
+                    const buttons = document.querySelectorAll('.tenure-btn');
+                    buttons.forEach(b => {
+                        b.classList.remove('bg-primary', 'text-on-primary');
+                        b.classList.add('bg-surface-container-low', 'text-on-surface');
+                    });
+                    if (buttonElement) {
+                        buttonElement.classList.remove('bg-surface-container-low', 'text-on-surface');
+                        buttonElement.classList.add('bg-primary', 'text-on-primary');
+                    }
+
+                    if (tenureDisplay) {
+                        tenureDisplay.innerText = label;
+                    }
+                    updateCalculations();
+                }
+
+                function toggleSeniorCitizen() {
+                    const toggle = document.getElementById('senior-citizen-toggle');
+                    isSenior = toggle ? toggle.checked : false;
+                    updateCalculations();
+                }
+
+                // Initial calculation run
+                updateCalculations();
+            </script>
+        </div>
+    </main>
+    <footer class="w-full bg-on-background text-surface-container-high">
+        <div class="max-w-[1280px] mx-auto px-margin-desktop py-space-xl">
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-gutter-desktop mb-space-xl">
+                <div class="flex flex-col gap-space-sm">
+                    <h3
+                        class="text-label-lg font-label-lg text-surface-container-lowest uppercase tracking-wider mb-space-xs">
+                        About CPB Bank</h3><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Corporate Profile</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Board of Directors &amp; Leadership</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Financial Results &amp; Reports</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Investor Relations</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Career Opportunities</a>
+                </div>
+                <div class="flex flex-col gap-space-sm">
+                    <h3
+                        class="text-label-lg font-label-lg text-surface-container-lowest uppercase tracking-wider mb-space-xs">
+                        Products &amp; Solutions</h3><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Savings &amp; Current A/C</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Fixed &amp; Recurring Deposits</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Retail Home &amp; Auto Loans</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Corporate Credit Facilities</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Trade Finance &amp; Forex</a>
+                </div>
+                <div class="flex flex-col gap-space-sm">
+                    <h3
+                        class="text-label-lg font-label-lg text-surface-container-lowest uppercase tracking-wider mb-space-xs">
+                        Customer Service</h3><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">24x7 Helpdesk: 1800-419-0068</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Banking Ombudsman Scheme</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Download Banking Forms</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Grievance Redressal Matrix</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Doorstep Banking Services</a>
+                </div>
+                <div class="flex flex-col gap-space-sm">
+                    <h3
+                        class="text-label-lg font-label-lg text-surface-container-lowest uppercase tracking-wider mb-space-xs">
+                        Security &amp; Safety</h3><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Cyber Fraud Awareness</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Phishing Defense Guidelines</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">SIM Swap Protection Advisory</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Report Unauthorised Trans (1930)</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Emergency Card Blocking</a>
+                </div>
+                <div class="flex flex-col gap-space-sm">
+                    <h3
+                        class="text-label-lg font-label-lg text-surface-container-lowest uppercase tracking-wider mb-space-xs">
+                        Regulatory &amp; Compliance</h3><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">RBI Monetary Policy Updates</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Citizen's Charter</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Fair Practices Code (FPC)</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Schedule of Charges &amp; Fees</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Statutory Audit &amp; Disclosures</a>
+                </div>
+            </div>
+            <div
+                class="bg-inverse-surface p-space-md rounded-lg mb-space-lg flex flex-col md:flex-row items-center justify-between gap-space-md">
+                <div class="flex items-center gap-space-md"><span
+                        class="material-symbols-outlined text-tertiary-fixed text-[32px]">shield</span>
+                    <div class="flex flex-col"><span
+                            class="text-label-lg font-label-lg text-surface-container-lowest font-semibold">DICGC
+                            Deposit Insurance Notice</span><span
+                            class="text-body-sm font-body-sm text-surface-variant">Bank deposits are insured by DICGC
+                            (Deposit Insurance and Credit Guarantee Corporation) up to ₹5,00,000 per depositor.</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-space-lg shrink-0">
+                    <div class="flex items-center gap-space-xs text-surface-variant text-label-sm font-label-sm"><span
+                            class="material-symbols-outlined text-[16px] text-surface-container-lowest">lock</span><span>256-bit
+                            TLS Encrypted</span></div>
+                    <div class="flex items-center gap-space-xs text-surface-variant text-label-sm font-label-sm"><span
+                            class="material-symbols-outlined text-[16px] text-surface-container-lowest">verified</span><span>ISO
+                            27001 Certified</span></div>
+                </div>
+            </div>
+            <div
+                class="flex flex-col sm:flex-row items-center justify-between text-label-sm font-label-sm text-surface-variant pt-space-md gap-space-sm">
+                <p>Copyright © 2025 Code Paglu Bank Limited (CPB). Regulated by the Reserve Bank of India.</p>
+                <div class="flex items-center gap-space-md"><a
+                        class="hover:text-surface-container-lowest transition-colors" href="#">Privacy Policy</a><a
+                        class="hover:text-surface-container-lowest transition-colors" href="#">Terms of Use</a><a
+                        class="hover:text-surface-container-lowest transition-colors" href="#">Hyperlink Policy</a><a
+                        class="hover:text-surface-container-lowest transition-colors" href="#">Sitemap</a></div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

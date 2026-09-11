@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CPB - Code Paglu Commercial Bank</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        @layer base {
+
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                overscroll-behavior: none;
+            }
+
+            main>:first-child {
+                margin-top: 0 !important;
+            }
+
+            main>:last-child {
+                margin-bottom: 0 !important;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script id="tailwind-config">tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#5a2e00",
+                        "on-error-container": "#93000a",
+                        "primary-fixed": "#dbe1ff",
+                        "tertiary-container": "#7c4100",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-bright": "#f9f9ff",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed": "#ffdcc3",
+                        "on-background": "#111c2d",
+                        "surface-tint": "#2156c9",
+                        "surface-variant": "#d8e3fb",
+                        "outline-variant": "#c3c6d6",
+                        "inverse-on-surface": "#ecf1ff",
+                        "secondary-container": "#c4dcff",
+                        "surface": "#f9f9ff",
+                        "inverse-primary": "#b3c5ff",
+                        "on-tertiary-fixed-variant": "#6e3900",
+                        "on-tertiary-fixed": "#2f1500",
+                        "primary": "#003289",
+                        "primary-fixed-dim": "#b3c5ff",
+                        "surface-container": "#e7eeff",
+                        "on-tertiary-container": "#ffb273",
+                        "on-surface": "#111c2d",
+                        "inverse-surface": "#263143",
+                        "on-surface-variant": "#434653",
+                        "tertiary-fixed-dim": "#ffb77d",
+                        "surface-container-low": "#f0f3ff",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#0047ba",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#d2e4ff",
+                        "on-primary-container": "#aec1ff",
+                        "surface-dim": "#cfdaf2",
+                        "background": "#f9f9ff",
+                        "on-secondary-fixed-variant": "#314865",
+                        "surface-container-high": "#dee8ff",
+                        "secondary-fixed-dim": "#b0c8eb",
+                        "on-secondary-fixed": "#001c37",
+                        "surface-container-highest": "#d8e3fb",
+                        "on-primary-fixed-variant": "#003ea6",
+                        "secondary": "#49607e",
+                        "on-primary-fixed": "#00174a",
+                        "on-tertiary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#49617f",
+                        "outline": "#737685"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "space-xs": "0.25rem",
+                        "space-lg": "1.5rem",
+                        "margin": "1.5rem",
+                        "gutter-desktop": "1.5rem",
+                        "margin-desktop": "2.5rem",
+                        "space-md": "1rem",
+                        "space-sm": "0.5rem",
+                        "gutter": "1.25rem",
+                        "space-xl": "2rem"
+                    },
+                    "fontFamily": {
+                        "financial-numeric": ["IBM Plex Sans"],
+                        "headline-lg": ["IBM Plex Sans"],
+                        "headline-lg-mobile": ["IBM Plex Sans"],
+                        "label-md": ["IBM Plex Sans"],
+                        "label-lg": ["IBM Plex Sans"],
+                        "headline-md": ["IBM Plex Sans"],
+                        "label-sm": ["IBM Plex Sans"],
+                        "headline-xl": ["IBM Plex Sans"],
+                        "headline-xl-mobile": ["IBM Plex Sans"],
+                        "body-lg": ["IBM Plex Sans"],
+                        "headline-sm": ["IBM Plex Sans"],
+                        "body-md": ["IBM Plex Sans"],
+                        "body-sm": ["IBM Plex Sans"]
+                    },
+                    "fontSize": {
+                        "financial-numeric": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["22px", { "lineHeight": "30px", "letterSpacing": "0em", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-xl": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-xl-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-sm": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }</script>
+</head>
+
+<body class="bg-background font-body-md text-body-md text-on-surface antialiased">
+    <header class="fixed top-0 w-full z-50 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.06)]">
+        <div class="bg-on-background text-surface-variant h-9 px-margin-desktop">
+            <div class="max-w-[1280px] mx-auto h-full flex items-center justify-between text-label-sm font-label-sm">
+                <div class="flex items-center gap-space-md"><span
+                        class="text-surface-container-lowest font-semibold tracking-wider">SEGMENT:</span>
+                    <div class="flex items-center gap-space-sm"><a
+                            class="text-surface-container-lowest font-medium hover:text-primary-fixed-dim transition-colors"
+                            href="#">Personal</a><span class="text-secondary">|</span><a
+                            class="text-surface-variant hover:text-surface-container-lowest transition-colors"
+                            href="#">NRI</a><span class="text-secondary">|</span><a
+                            class="text-surface-variant hover:text-surface-container-lowest transition-colors"
+                            href="#">Business / SME</a><span class="text-secondary">|</span><a
+                            class="text-surface-variant hover:text-surface-container-lowest transition-colors"
+                            href="#">Corporate</a><span class="text-secondary">|</span><a
+                            class="text-surface-variant hover:text-surface-container-lowest transition-colors"
+                            href="#">Institutional</a><span class="text-secondary">|</span><a
+                            class="text-surface-variant hover:text-surface-container-lowest transition-colors"
+                            href="#">Wealth</a></div>
+                </div>
+                <div class="flex items-center gap-space-lg">
+                    <div class="flex items-center gap-space-xs"><span
+                            class="material-symbols-outlined text-[14px] text-surface-container-lowest">call</span><span
+                            class="text-surface-variant">24x7 Care:</span><span
+                            class="text-surface-container-lowest font-semibold font-financial-numeric">1800-419-0068</span>
+                    </div><a
+                        class="hover:text-surface-container-lowest transition-colors flex items-center gap-space-xs"
+                        href="#"><span class="material-symbols-outlined text-[14px]">location_on</span>Locate Branch
+                        &amp; ATM</a><a
+                        class="hover:text-surface-container-lowest transition-colors flex items-center gap-space-xs"
+                        href="#"><span class="material-symbols-outlined text-[14px]">percent</span>Rates &amp;
+                        Charges</a><a class="hover:text-surface-container-lowest transition-colors" href="#">Regulatory
+                        Disclosures</a>
+                    <div class="flex items-center gap-space-xs bg-inverse-surface px-space-xs py-0.5 rounded"><span
+                            class="material-symbols-outlined text-[13px]">translate</span><span
+                            class="text-surface-container-lowest">EN / हिन्दी</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="h-20 bg-surface-container-lowest px-margin-desktop">
+            <div class="max-w-[1280px] mx-auto h-full flex items-center justify-between gap-space-lg">
+                <div class="flex items-center gap-space-md"><img alt="CPB Code Paglu Bank Logo"
+                        class="h-8 w-auto object-contain"
+                        src="https://lh3.googleusercontent.com/aida/AEtjO1XZWHXbXdudoSMhFLDsnn9TAtobCsWRsLTwKvpJhqKXCcb6P5w-0EiZZ8t5j88HQi1qLu0gMBR_AbvIBHGKnOBp5-a7edeAteqj2wbS_aCXtQw0t0tjURR7ScCwdF0MfRMI2HMCRDxDggd8DwRjLF5LvtiMEyW2m3ZeOXk72uWsK8eNWENo9x31SskPcoVCvMfPldavvulH68h3QIHEEf8UjBxgJ3yXuqJ1TdWKBJvxTCiBMBiO-8Nqs0I" />
+                    <div class="flex flex-col"><span
+                            class="text-headline-sm font-headline-sm text-primary tracking-tight font-bold leading-none">CPB
+                            BANK</span><span
+                            class="text-label-sm font-label-sm text-secondary tracking-widest uppercase text-[9px]">Code
+                            Paglu Commercial Bank</span></div>
+                </div>
+                <nav class="hidden xl:flex items-center gap-space-lg h-full"
+                    data-active-classes="text-primary font-bold border-b-2 border-primary"><a
+                        class="text-label-lg font-label-lg text-on-surface-variant hover:text-primary transition-colors h-full flex items-center"
+                        data-path="accounts" href="#">Accounts</a><a
+                        class="text-label-lg font-label-lg text-on-surface-variant hover:text-primary transition-colors h-full flex items-center"
+                        data-path="cards" href="#">Cards</a><a aria-current="page"
+                        class="transition-colors h-full flex items-center text-primary font-bold border-b-2 border-primary"
+                        data-path="loans" href="#">Loans</a><a
+                        class="text-label-lg font-label-lg text-on-surface-variant hover:text-primary transition-colors h-full flex items-center"
+                        data-path="investments-and-wealth" href="#">Investments &amp; Wealth</a><a
+                        class="text-label-lg font-label-lg text-on-surface-variant hover:text-primary transition-colors h-full flex items-center"
+                        data-path="digital-banking" href="#">Digital Banking</a><a
+                        class="text-label-lg font-label-lg text-on-surface-variant hover:text-primary transition-colors h-full flex items-center"
+                        data-path="security-and-fraud-center" href="#">Security &amp; Fraud Center</a><a
+                        class="text-label-lg font-label-lg text-on-surface-variant hover:text-primary transition-colors h-full flex items-center"
+                        data-path="branch-and-atm-locator" href="#">Locator</a></nav>
+                <div class="flex items-center gap-space-md">
+                    <div class="relative hidden lg:block"><input
+                            class="w-56 h-9 pl-8 pr-3 bg-surface-container-low text-body-sm font-body-sm text-on-surface placeholder:text-outline rounded-lg focus:outline-none focus:ring-1 focus:ring-primary"
+                            placeholder="Search IFSC, schemes, forms..." type="text" /><span
+                            class="material-symbols-outlined absolute left-2.5 top-2.5 text-[16px] text-outline">search</span>
+                    </div><a
+                        class="flex items-center gap-space-xs bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg px-space-md py-space-sm rounded-lg transition-colors shadow-sm"
+                        data-path="secure-netbanking-login" href="#"><span
+                            class="material-symbols-outlined text-[18px]">lock</span><span>NetBanking</span></a>
+                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span
+                            class="material-symbols-outlined text-on-primary text-[18px]">person</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="bg-secondary-container text-on-secondary-container h-10 px-margin-desktop flex items-center">
+            <div class="max-w-[1280px] mx-auto w-full flex items-center justify-between text-body-sm font-body-sm">
+                <div class="flex items-center gap-space-sm overflow-hidden"><span
+                        class="material-symbols-outlined text-primary text-[18px] shrink-0">verified_user</span><span
+                        class="font-label-md font-label-md uppercase tracking-wider text-primary shrink-0">RBI
+                        Advisory:</span><span class="truncate text-on-surface-variant">Never share your OTP, UPI PIN,
+                        CVV, or NetBanking password with anyone. Bank officials will never solicit credentials.</span>
+                </div>
+                <div class="shrink-0 ml-space-md flex items-center gap-space-xs"><span
+                        class="material-symbols-outlined text-error text-[16px]">warning</span><span
+                        class="text-label-sm font-label-sm">National Cyber Fraud Helpline:</span><span
+                        class="font-bold font-financial-numeric text-label-md text-error">1930</span></div>
+            </div>
+        </div>
+    </header>
+    <main class="w-full pt-36 min-h-screen bg-background" id="page-content">
+        <div class="max-w-[1280px] mx-auto px-margin-desktop py-space-lg">
+            <div class="flex flex-col w-full">
+                <!-- Breadcrumb & Top Bar Navigation Anchor -->
+                <div
+                    class="flex flex-wrap items-center justify-between gap-space-sm pb-space-md text-label-md font-label-md text-on-surface-variant">
+                    <div class="flex items-center gap-space-xs">
+                        <a class="hover:text-primary transition-colors" href="#">Home</a>
+                        <span class="text-outline-variant">/</span>
+                        <a class="hover:text-primary transition-colors" href="#">Lending Solutions</a>
+                        <span class="text-outline-variant">/</span>
+                        <span class="text-primary font-semibold">Retail &amp; SME Loans</span>
+                    </div>
+                    <div class="flex items-center gap-space-md">
+                        <span
+                            class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-surface-container rounded text-label-sm font-label-sm text-secondary">
+                            <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                            EBLR Benchmark Valid as of: Today, 08:30 IST
+                        </span>
+                        <span
+                            class="hidden md:inline-flex items-center gap-1 text-label-sm font-label-sm text-on-surface-variant">
+                            <span class="material-symbols-outlined text-[16px] text-primary">verified</span>
+                            RBI Fair Lending Certified
+                        </span>
+                    </div>
+                </div>
+                <!-- Editorial Section Header (No Duplicated H1) -->
+                <div
+                    class="bg-surface-container-lowest p-space-lg md:p-space-xl rounded-xl shadow-sm mb-space-lg relative overflow-hidden">
+                    <div class="max-w-3xl relative z-10">
+                        <div class="flex items-center gap-space-xs mb-space-xs">
+                            <span
+                                class="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded font-label-sm text-label-sm uppercase tracking-wider font-bold">Institutional
+                                Financing Matrix</span>
+                            <span class="text-label-sm font-label-sm text-secondary">| Sovereign &amp; Retail
+                                Window</span>
+                        </div>
+                        <h2
+                            class="text-headline-xl font-headline-xl text-on-surface tracking-tight font-bold mb-space-xs">
+                            CPB Loans &amp; Institutional Financing</h2>
+                        <p class="text-body-lg font-body-lg text-on-surface-variant leading-relaxed">Competitive
+                            benchmark-linked rates, zero hidden charges, and regulatory digital in-principle sanction in
+                            10 minutes.</p>
+                    </div>
+                    <div class="absolute right-0 top-0 bottom-0 w-1/3 hidden lg:block opacity-10 pointer-events-none">
+                        <svg class="w-full h-full" fill="none" viewbox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                            <path class="text-primary" d="M0 200L150 50L250 120L400 0V200H0Z" fill="currentColor">
+                            </path>
+                        </svg>
+                    </div>
+                </div>
+                <!-- Live Benchmark Interest Rates Dashboard -->
+                <section class="mb-space-xl">
+                    <div class="flex items-center justify-between mb-space-md">
+                        <div>
+                            <h3 class="text-headline-md font-headline-md text-on-surface">Live External Benchmark
+                                Dashboard</h3>
+                            <p class="text-body-sm font-body-sm text-on-surface-variant">Pegged transparently to RBI
+                                Repo Rate under Monetary Policy Committee Mandate</p>
+                        </div>
+                        <a class="text-label-lg font-label-lg text-primary hover:underline flex items-center gap-1"
+                            href="#regulatory-notes">
+                            <span>Policy Master Circular</span>
+                            <span class="material-symbols-outlined text-[16px]">north_east</span>
+                        </a>
+                    </div>
+                    <!-- 5-Metric Benchmark Strip -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-space-md">
+                        <!-- Card 1: CPB RLLR -->
+                        <div
+                            class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col justify-between relative overflow-hidden">
+                            <div class="h-1 w-full bg-primary absolute top-0 left-0"></div>
+                            <div>
+                                <div
+                                    class="flex items-center justify-between text-label-sm font-label-sm text-secondary uppercase tracking-wider">
+                                    <span>CPB Base Anchor</span>
+                                    <span
+                                        class="material-symbols-outlined text-[18px] text-primary">account_balance</span>
+                                </div>
+                                <div class="mt-2 text-headline-sm font-headline-sm text-on-surface">CPB RLLR</div>
+                                <p class="text-body-sm font-body-sm text-on-surface-variant">Repo Linked Lending Rate
+                                </p>
+                            </div>
+                            <div class="mt-4 pt-space-xs flex items-baseline gap-1">
+                                <span
+                                    class="text-headline-lg font-headline-lg font-financial-numeric text-primary">9.10%</span>
+                                <span class="text-label-sm font-label-sm text-secondary">p.a.</span>
+                            </div>
+                        </div>
+                        <!-- Card 2: Express Home Loan -->
+                        <div
+                            class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col justify-between relative overflow-hidden">
+                            <div class="h-1 w-full bg-surface-tint absolute top-0 left-0"></div>
+                            <div>
+                                <div
+                                    class="flex items-center justify-between text-label-sm font-label-sm text-secondary uppercase tracking-wider">
+                                    <span>Retail Priority</span>
+                                    <span class="material-symbols-outlined text-[18px] text-surface-tint">home</span>
+                                </div>
+                                <div class="mt-2 text-headline-sm font-headline-sm text-on-surface">Home Loan</div>
+                                <p class="text-body-sm font-body-sm text-on-surface-variant">Salaried &amp;
+                                    Professionals</p>
+                            </div>
+                            <div class="mt-4 pt-space-xs flex items-baseline gap-1">
+                                <span class="text-label-sm font-label-sm text-on-surface-variant">From</span>
+                                <span
+                                    class="text-headline-lg font-headline-lg font-financial-numeric text-on-surface">8.40%</span>
+                                <span class="text-label-sm font-label-sm text-secondary">p.a.</span>
+                            </div>
+                        </div>
+                        <!-- Card 3: Personal Loan -->
+                        <div
+                            class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col justify-between relative overflow-hidden">
+                            <div class="h-1 w-full bg-secondary absolute top-0 left-0"></div>
+                            <div>
+                                <div
+                                    class="flex items-center justify-between text-label-sm font-label-sm text-secondary uppercase tracking-wider">
+                                    <span>Clean Credit</span>
+                                    <span class="material-symbols-outlined text-[18px] text-secondary">person</span>
+                                </div>
+                                <div class="mt-2 text-headline-sm font-headline-sm text-on-surface">Personal Loan</div>
+                                <p class="text-body-sm font-body-sm text-on-surface-variant">Unsecured Instant Line</p>
+                            </div>
+                            <div class="mt-4 pt-space-xs flex items-baseline gap-1">
+                                <span class="text-label-sm font-label-sm text-on-surface-variant">From</span>
+                                <span
+                                    class="text-headline-lg font-headline-lg font-financial-numeric text-on-surface">10.49%</span>
+                                <span class="text-label-sm font-label-sm text-secondary">p.a.</span>
+                            </div>
+                        </div>
+                        <!-- Card 4: Green EV / Auto -->
+                        <div
+                            class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col justify-between relative overflow-hidden">
+                            <div class="h-1 w-full bg-tertiary absolute top-0 left-0"></div>
+                            <div>
+                                <div
+                                    class="flex items-center justify-between text-label-sm font-label-sm text-secondary uppercase tracking-wider">
+                                    <span>Special EV Subsidy</span>
+                                    <span
+                                        class="material-symbols-outlined text-[18px] text-tertiary">electric_car</span>
+                                </div>
+                                <div class="mt-2 text-headline-sm font-headline-sm text-on-surface">Auto &amp; EV Credit
+                                </div>
+                                <p class="text-body-sm font-body-sm text-on-surface-variant">0.25% EV Concession</p>
+                            </div>
+                            <div class="mt-4 pt-space-xs flex items-baseline gap-1">
+                                <span class="text-label-sm font-label-sm text-on-surface-variant">From</span>
+                                <span
+                                    class="text-headline-lg font-headline-lg font-financial-numeric text-on-surface">8.75%</span>
+                                <span class="text-label-sm font-label-sm text-secondary">p.a.</span>
+                            </div>
+                        </div>
+                        <!-- Card 5: MSME Business Term Loan -->
+                        <div
+                            class="bg-surface-container-lowest p-space-md rounded-lg shadow-sm flex flex-col justify-between relative overflow-hidden">
+                            <div class="h-1 w-full bg-primary-container absolute top-0 left-0"></div>
+                            <div>
+                                <div
+                                    class="flex items-center justify-between text-label-sm font-label-sm text-secondary uppercase tracking-wider">
+                                    <span>Enterprise Suite</span>
+                                    <span
+                                        class="material-symbols-outlined text-[18px] text-primary-container">store</span>
+                                </div>
+                                <div class="mt-2 text-headline-sm font-headline-sm text-on-surface">MSME Term &amp; WC
+                                </div>
+                                <p class="text-body-sm font-body-sm text-on-surface-variant">Working Capital / CGTMSE
+                                </p>
+                            </div>
+                            <div class="mt-4 pt-space-xs flex items-baseline gap-1">
+                                <span class="text-label-sm font-label-sm text-on-surface-variant">From</span>
+                                <span
+                                    class="text-headline-lg font-headline-lg font-financial-numeric text-primary-container">9.25%</span>
+                                <span class="text-label-sm font-label-sm text-secondary">p.a.</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Interactive Loan EMI Calculator & Amortization Module -->
+                <section class="mb-space-xl">
+                    <div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden">
+                        <div
+                            class="p-space-lg bg-surface-container-low flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+                            <div>
+                                <span
+                                    class="px-2.5 py-0.5 bg-primary text-on-primary rounded text-label-sm font-label-sm uppercase font-bold tracking-wider">Financial
+                                    Engine</span>
+                                <h3 class="text-headline-lg font-headline-lg text-on-surface mt-1">Loan EMI &amp;
+                                    Principal Amortization Simulator</h3>
+                                <p class="text-body-md font-body-md text-on-surface-variant">Compute standard monthly
+                                    liability using exact reducing-balance formula aligned with RBI master directions.
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-space-sm">
+                                <button
+                                    class="px-3 py-1.5 bg-surface-container-lowest hover:bg-surface-variant text-on-surface rounded text-label-sm font-label-sm transition-colors shadow-sm"
+                                    onclick="setPreset(5000000, 8.4, 20)" type="button">Home (₹50L / 8.4%)</button>
+                                <button
+                                    class="px-3 py-1.5 bg-surface-container-lowest hover:bg-surface-variant text-on-surface rounded text-label-sm font-label-sm transition-colors shadow-sm"
+                                    onclick="setPreset(1200000, 10.49, 5)" type="button">Personal (₹12L /
+                                    10.49%)</button>
+                                <button
+                                    class="px-3 py-1.5 bg-surface-container-lowest hover:bg-surface-variant text-on-surface rounded text-label-sm font-label-sm transition-colors shadow-sm"
+                                    onclick="setPreset(1800000, 8.75, 7)" type="button">Car/EV (₹18L / 8.75%)</button>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
+                            <!-- Controls Column (7 Cols) -->
+                            <div class="lg:col-span-7 p-space-lg md:p-space-xl flex flex-col gap-space-lg">
+                                <!-- Loan Amount Slider -->
+                                <div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <label class="text-label-lg font-label-lg text-on-surface"
+                                            for="amountRange">Loan Quantum (Principal)</label>
+                                        <div class="flex items-center gap-1 bg-surface-container-low px-3 py-1 rounded">
+                                            <span class="text-secondary font-semibold">₹</span>
+                                            <input
+                                                class="w-32 bg-transparent text-right font-financial-numeric text-financial-numeric text-on-surface focus:outline-none"
+                                                id="amountInput" max="20000000" min="100000" step="50000" type="number"
+                                                value="5000000" />
+                                        </div>
+                                    </div>
+                                    <input
+                                        class="w-full h-2 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-primary-container"
+                                        id="amountRange" max="20000000" min="100000" step="50000" type="range"
+                                        value="5000000" />
+                                    <div class="flex justify-between text-label-sm font-label-sm text-secondary mt-1">
+                                        <span>₹1,00,000</span>
+                                        <span>₹1,00,00,000</span>
+                                        <span>₹2,00,00,000</span>
+                                    </div>
+                                </div>
+                                <!-- Interest Rate Slider -->
+                                <div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <label class="text-label-lg font-label-lg text-on-surface"
+                                            for="rateRange">Benchmark Rate of Interest (% p.a.)</label>
+                                        <div class="flex items-center gap-1 bg-surface-container-low px-3 py-1 rounded">
+                                            <input
+                                                class="w-20 bg-transparent text-right font-financial-numeric text-financial-numeric text-on-surface focus:outline-none"
+                                                id="rateInput" max="18" min="6.5" step="0.05" type="number"
+                                                value="8.40" />
+                                            <span class="text-secondary font-semibold">%</span>
+                                        </div>
+                                    </div>
+                                    <input
+                                        class="w-full h-2 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-primary-container"
+                                        id="rateRange" max="18" min="6.5" step="0.05" type="range" value="8.40" />
+                                    <div class="flex justify-between text-label-sm font-label-sm text-secondary mt-1">
+                                        <span>6.50% (Repo Concession)</span>
+                                        <span>12.00%</span>
+                                        <span>18.00% (Unsecured)</span>
+                                    </div>
+                                </div>
+                                <!-- Tenure Slider -->
+                                <div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <label class="text-label-lg font-label-lg text-on-surface"
+                                            for="tenureRange">Repayment Tenure (Years)</label>
+                                        <div class="flex items-center gap-2 bg-surface-container-low px-3 py-1 rounded">
+                                            <input
+                                                class="w-14 bg-transparent text-right font-financial-numeric text-financial-numeric text-on-surface focus:outline-none"
+                                                id="tenureInput" max="30" min="1" step="1" type="number" value="20" />
+                                            <span class="text-body-sm font-body-sm text-secondary"
+                                                id="tenureMonthsDisplay">(240 Mos)</span>
+                                        </div>
+                                    </div>
+                                    <input
+                                        class="w-full h-2 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-primary-container"
+                                        id="tenureRange" max="30" min="1" step="1" type="range" value="20" />
+                                    <div class="flex justify-between text-label-sm font-label-sm text-secondary mt-1">
+                                        <span>1 Year (12 Mos)</span>
+                                        <span>15 Years</span>
+                                        <span>30 Years (360 Mos)</span>
+                                    </div>
+                                </div>
+                                <!-- Dynamic Regulatory Alert -->
+                                <div
+                                    class="p-space-sm bg-surface-container-low rounded-lg flex items-start gap-space-sm">
+                                    <span
+                                        class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">info</span>
+                                    <p class="text-body-sm font-body-sm text-on-surface-variant">
+                                        Zero prepayment penalties apply to all individual retail floating-rate term
+                                        loans as per Reserve Bank of India Master Circular.
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Metric Output Column (5 Cols) -->
+                            <div
+                                class="lg:col-span-5 bg-surface-container p-space-lg md:p-space-xl flex flex-col justify-between">
+                                <div>
+                                    <span
+                                        class="text-label-sm font-label-sm uppercase tracking-wider text-secondary font-semibold">Estimated
+                                        Monthly Outflow</span>
+                                    <div class="mt-2 flex items-baseline gap-2">
+                                        <span
+                                            class="text-headline-xl font-headline-xl font-financial-numeric text-primary"
+                                            id="emiDisplay">₹43,075</span>
+                                        <span class="text-label-md font-label-md text-on-surface-variant">/ month</span>
+                                    </div>
+                                    <!-- SVG Donut Chart for Split -->
+                                    <div
+                                        class="mt-space-md p-space-md bg-surface-container-lowest rounded-lg shadow-sm">
+                                        <div class="flex items-center justify-between gap-space-md">
+                                            <div class="relative w-28 h-28 shrink-0">
+                                                <svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+                                                    <!-- Background circle -->
+                                                    <path class="text-surface-container-high"
+                                                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                                        fill="none" stroke="currentColor" stroke-width="5"></path>
+                                                    <!-- Interest Dash Path (Calculated dynamically) -->
+                                                    <path class="text-tertiary-container"
+                                                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                                        fill="none" id="donutInterestPath" stroke="currentColor"
+                                                        stroke-dasharray="54, 100" stroke-linecap="round"
+                                                        stroke-width="5"></path>
+                                                    <!-- Principal Dash Path -->
+                                                    <path class="text-primary-container"
+                                                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                                        fill="none" id="donutPrincipalPath" stroke="currentColor"
+                                                        stroke-dasharray="46, 100" stroke-dashoffset="-54"
+                                                        stroke-linecap="round" stroke-width="5"></path>
+                                                </svg>
+                                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                                    <span
+                                                        class="text-label-sm font-label-sm text-secondary">Ratio</span>
+                                                    <span
+                                                        class="text-label-md font-label-md font-financial-numeric text-on-surface"
+                                                        id="ratioDisplay">46:54</span>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-col gap-space-sm flex-1">
+                                                <div>
+                                                    <div
+                                                        class="flex items-center justify-between text-label-sm font-label-sm">
+                                                        <span class="flex items-center gap-1.5 text-on-surface">
+                                                            <span
+                                                                class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+                                                            Principal
+                                                        </span>
+                                                        <span
+                                                            class="font-financial-numeric font-semibold text-on-surface"
+                                                            id="totalPrincipalDisplay">₹50,00,000</span>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div
+                                                        class="flex items-center justify-between text-label-sm font-label-sm">
+                                                        <span class="flex items-center gap-1.5 text-on-surface">
+                                                            <span
+                                                                class="w-2.5 h-2.5 rounded-full bg-tertiary-container"></span>
+                                                            Total Interest
+                                                        </span>
+                                                        <span
+                                                            class="font-financial-numeric font-semibold text-on-surface"
+                                                            id="totalInterestDisplay">₹53,38,069</span>
+                                                    </div>
+                                                </div>
+                                                <div class="pt-2">
+                                                    <div
+                                                        class="flex items-center justify-between text-label-sm font-label-sm">
+                                                        <span class="font-semibold text-on-surface">Total
+                                                            Repayable</span>
+                                                        <span class="font-financial-numeric font-bold text-primary"
+                                                            id="totalPayableDisplay">₹1,03,38,069</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-space-lg flex flex-col gap-space-sm">
+                                    <a class="w-full py-3 bg-primary-container hover:bg-primary text-on-primary text-center font-label-lg text-label-lg rounded transition-colors shadow-sm flex items-center justify-center gap-2"
+                                        href="#digital-workflow">
+                                        <span class="material-symbols-outlined text-[18px]">verified</span>
+                                        <span>Apply with Pre-Approved Sanction</span>
+                                    </a>
+                                    <button
+                                        class="w-full py-2.5 bg-surface-container-lowest hover:bg-surface-variant text-on-surface text-center font-label-lg text-label-lg rounded transition-colors flex items-center justify-center gap-2 shadow-sm"
+                                        onclick="toggleAmortizationTable()" type="button">
+                                        <span class="material-symbols-outlined text-[18px]">table_chart</span>
+                                        <span id="amortizationToggleText">View Amortization Schedule
+                                            (Year-by-Year)</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Expandable Amortization Schedule Drawer -->
+                        <div class="hidden bg-surface-container-lowest p-space-lg" id="amortizationSchedule">
+                            <div class="flex items-center justify-between mb-space-md">
+                                <div>
+                                    <h4 class="text-headline-sm font-headline-sm text-on-surface">Yearly Amortization
+                                        &amp; Outstanding Debt Matrix</h4>
+                                    <p class="text-body-sm font-body-sm text-on-surface-variant">Illustrative
+                                        year-on-year breakdown assuming constant interest benchmark without prepayments.
+                                    </p>
+                                </div>
+                                <button
+                                    class="flex items-center gap-1 text-label-sm font-label-sm text-primary hover:underline"
+                                    onclick="downloadAmortizationCSV()" type="button">
+                                    <span class="material-symbols-outlined text-[16px]">download</span>
+                                    <span>Download CSV</span>
+                                </button>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr
+                                            class="bg-surface-container-low text-label-sm font-label-sm text-secondary uppercase tracking-wider">
+                                            <th class="py-3 px-4">Financial Year</th>
+                                            <th class="py-3 px-4 text-right">Opening Balance</th>
+                                            <th class="py-3 px-4 text-right">Principal Paid</th>
+                                            <th class="py-3 px-4 text-right">Interest Paid</th>
+                                            <th class="py-3 px-4 text-right">Total Annual Outflow</th>
+                                            <th class="py-3 px-4 text-right">Closing Balance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="text-body-sm font-body-sm divide-y divide-surface-container-high"
+                                        id="amortizationTableBody">
+                                        <!-- Dynamically Populated by script -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Product Cards Grid (4 Primary Offerings) -->
+                <section class="mb-space-xl">
+                    <div class="flex flex-col md:flex-row md:items-end justify-between mb-space-lg">
+                        <div>
+                            <span
+                                class="px-2.5 py-0.5 bg-secondary-container text-on-secondary-container rounded text-label-sm font-label-sm uppercase font-bold tracking-wider">Product
+                                Suite</span>
+                            <h3 class="text-headline-lg font-headline-lg text-on-surface mt-1">CPB Credit &amp;
+                                Institutional Financing Facilities</h3>
+                            <p class="text-body-md font-body-md text-on-surface-variant">Tailored credit facilities
+                                backed by structured liquidity, fast-track digital appraisal, and statutory
+                                transparency.</p>
+                        </div>
+                        <div
+                            class="mt-4 md:mt-0 flex items-center gap-space-sm text-label-sm font-label-sm text-on-surface-variant">
+                            <span class="flex items-center gap-1"><span
+                                    class="w-2 h-2 rounded-full bg-primary"></span>Zero Prepayment Penalty</span>
+                            <span class="flex items-center gap-1"><span
+                                    class="w-2 h-2 rounded-full bg-primary-container"></span>DigiLocker
+                                Integration</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-space-lg">
+                        <!-- Product A: Express Home Loan -->
+                        <div
+                            class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col justify-between">
+                            <div class="relative h-48 w-full bg-surface-container overflow-hidden">
+                                <img class="w-full h-full object-cover"
+                                    data-alt="Modern architectural house exterior with warm lighting and manicured lawn, photographed at dusk with corporate blue skies and institutional elegance, showcasing stability and wealth creation"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuADGlp3BnQ0IDR_nt8qAChVdjvV1AL1oh1vR3SOnI14lr-m4IiyJrpxcpUdQ0ZKPrDPUnJ3qWpfvI63B4WQThHy7yKgCN9kiRbGInRvQ6xmMcFfcqcW60l8b0lFZGaIYdetxNi57cWAbi0lNgb_7J04loTRi3bJWv__WiSx8cxdy63U5V_wQzz8A2RR7ouPcdf9AwiND6bft7j9EQdWKJIBBtxFSmrFO6eBPWP8Qr2T4FhkxTkJTrsz" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-on-background/80 via-transparent to-transparent">
+                                </div>
+                                <div
+                                    class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-surface-container-lowest">
+                                    <div>
+                                        <span
+                                            class="text-label-sm font-label-sm uppercase tracking-wider text-surface-variant font-semibold">Floating
+                                            Benchmark-Linked</span>
+                                        <h4 class="text-headline-md font-headline-md font-bold leading-tight">CPB
+                                            Express Home Loan</h4>
+                                    </div>
+                                    <span
+                                        class="px-2.5 py-1 bg-surface-container-lowest/20 backdrop-blur rounded text-label-sm font-label-sm font-financial-numeric">From
+                                        8.40% p.a.</span>
+                                </div>
+                            </div>
+                            <div class="p-space-lg flex-1 flex flex-col justify-between">
+                                <ul
+                                    class="flex flex-col gap-space-sm text-body-sm font-body-sm text-on-surface-variant mb-space-lg">
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span>
+                                        <span>Transparent floating rates tied dynamically to RBI Repo rate adjustments
+                                            without lag.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span>
+                                        <span>Repayment tenure options stretched up to 30 years (360 EMIs) to maximize
+                                            eligibility.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span>
+                                        <span>Zero prepayment &amp; foreclosure charges for individual residential
+                                            borrowers.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span>
+                                        <span>Digital legal title search &amp; certified technical property evaluation
+                                            across 500+ pin-codes.</span>
+                                    </li>
+                                </ul>
+                                <div class="pt-space-md flex items-center justify-between">
+                                    <div class="flex flex-col">
+                                        <span class="text-label-sm font-label-sm text-secondary">Processing Fee</span>
+                                        <span class="font-financial-numeric font-semibold text-on-surface">0.25% (Max
+                                            ₹10,000)</span>
+                                    </div>
+                                    <button
+                                        class="px-space-md py-2 bg-primary hover:bg-primary-container text-on-primary rounded text-label-lg font-label-lg transition-colors shadow-sm"
+                                        onclick="initiateLoan('Home Loan')" type="button">
+                                        Check Pre-Sanction
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Product B: Pre-Approved Personal Loan -->
+                        <div
+                            class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col justify-between">
+                            <div class="relative h-48 w-full bg-surface-container overflow-hidden">
+                                <img class="w-full h-full object-cover"
+                                    data-alt="Professional Indian executive working on a sleek laptop inside an upscale corporate headquarters with architectural glass windows and cool morning ambient light"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCV1dgTzpal4J25MOB1fjUobqueAw2cImIU0W1sLOyQGnrVeI1AfvRWANqL-Pgxj7W3WzDsb9BLkdeKIEwFV68L5ME_4csynPkWwBO9hGvGdszKAbOgUbmfysR7tCmQ4_VcuajW1wN_9OCDXSG6eUptmFDjTmCwHYTDYf327H23QKFaCp1psLbBvozQ48HpFvKZBfQA6IIQX-VdnePUJtee6ZkJqcWun2LrZ8z-zD5LF-yQioY5NoA" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-on-background/80 via-transparent to-transparent">
+                                </div>
+                                <div
+                                    class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-surface-container-lowest">
+                                    <div>
+                                        <span
+                                            class="text-label-sm font-label-sm uppercase tracking-wider text-surface-variant font-semibold">Direct
+                                            Disbursal in 3 Seconds</span>
+                                        <h4 class="text-headline-md font-headline-md font-bold leading-tight">Instant
+                                            Pre-Approved Personal Loan</h4>
+                                    </div>
+                                    <span
+                                        class="px-2.5 py-1 bg-surface-container-lowest/20 backdrop-blur rounded text-label-sm font-label-sm font-financial-numeric">From
+                                        10.49% p.a.</span>
+                                </div>
+                            </div>
+                            <div class="p-space-lg flex-1 flex flex-col justify-between">
+                                <ul
+                                    class="flex flex-col gap-space-sm text-body-sm font-body-sm text-on-surface-variant mb-space-lg">
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span>
+                                        <span>Sanctions up to ₹25,00,000 for verified CPB salary and premier savings
+                                            account holders.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span>
+                                        <span>100% paperless digital journey: Zero physical physical branches, slips, or
+                                            wet signatures.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span>
+                                        <span>Under-3-second direct RTGS/NEFT credit straight into your primary CPB
+                                            operative account.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span>
+                                        <span>Flexible micro-tenure structures ranging from 12 to 60 calendar
+                                            months.</span>
+                                    </li>
+                                </ul>
+                                <div class="pt-space-md flex items-center justify-between">
+                                    <div class="flex flex-col">
+                                        <span class="text-label-sm font-label-sm text-secondary">Documentation</span>
+                                        <span class="font-label-md font-semibold text-on-surface">Zero
+                                            (Pre-Underwritten)</span>
+                                    </div>
+                                    <button
+                                        class="px-space-md py-2 bg-primary hover:bg-primary-container text-on-primary rounded text-label-lg font-label-lg transition-colors shadow-sm"
+                                        onclick="initiateLoan('Personal Loan')" type="button">
+                                        Claim Pre-Approved Line
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Product C: Green Vehicle / Auto Loan -->
+                        <div
+                            class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col justify-between">
+                            <div class="relative h-48 w-full bg-surface-container overflow-hidden">
+                                <img class="w-full h-full object-cover"
+                                    data-alt="Modern electric vehicle plugged into an institutional charging station in front of an upscale minimalist corporate office building in daytime sunlight"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBETalfU5BCtV9sQIXp5p0LfSCn-Tfo9yTxtvpSHiqqR_wDmYbxAQz54_DMf7JgSUQS1Qo5MqE4He7WyH0W2TqQ6IQFYJ3eZFMQdxTKyaXJVWKbE4rfD9yMZVd86tEeLZK5FNwOCJMkuAcTturQ5xL3-qX_yGhvKggkH3Cq7wjatdHxMw4dWPmfxqRxH-GjdWViaibuaH-WxuLxO442u9pyd2LqfOqimWer_3wEwp__fzCW5lRAU4zN" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-on-background/80 via-transparent to-transparent">
+                                </div>
+                                <div
+                                    class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-surface-container-lowest">
+                                    <div>
+                                        <span
+                                            class="text-label-sm font-label-sm uppercase tracking-wider text-surface-variant font-semibold">ESG
+                                            Concession Programme</span>
+                                        <h4 class="text-headline-md font-headline-md font-bold leading-tight">CPB Green
+                                            Vehicle &amp; Auto Loan</h4>
+                                    </div>
+                                    <span
+                                        class="px-2.5 py-1 bg-surface-container-lowest/20 backdrop-blur rounded text-label-sm font-label-sm font-financial-numeric">From
+                                        8.75% p.a.</span>
+                                </div>
+                            </div>
+                            <div class="p-space-lg flex-1 flex flex-col justify-between">
+                                <ul
+                                    class="flex flex-col gap-space-sm text-body-sm font-body-sm text-on-surface-variant mb-space-lg">
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span>
+                                        <span>Special 25 bps (0.25%) interest concession exclusively for electric
+                                            four-wheelers.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span>
+                                        <span>Up to 100% on-road financing covering RTO registration, battery warranty,
+                                            and state road taxes.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span>
+                                        <span>Extended repayment terms up to 84 months (7 years) with step-down EMI
+                                            alternatives.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span>
+                                        <span>Instant direct tie-up delivery order dispatch to 2,400+ authorized
+                                            automobile dealerships.</span>
+                                    </li>
+                                </ul>
+                                <div class="pt-space-md flex items-center justify-between">
+                                    <div class="flex flex-col">
+                                        <span class="text-label-sm font-label-sm text-secondary">Financing Cap</span>
+                                        <span class="font-financial-numeric font-semibold text-on-surface">Up to 100%
+                                            On-Road</span>
+                                    </div>
+                                    <button
+                                        class="px-space-md py-2 bg-primary hover:bg-primary-container text-on-primary rounded text-label-lg font-label-lg transition-colors shadow-sm"
+                                        onclick="initiateLoan('Auto Loan')" type="button">
+                                        Calculate Auto EMI
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Product D: MSME Enterprise Facility -->
+                        <div
+                            class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col justify-between">
+                            <div class="relative h-48 w-full bg-surface-container overflow-hidden">
+                                <img class="w-full h-full object-cover"
+                                    data-alt="High-tech automated manufacturing facility with precision industrial machinery and engineers monitoring automated control systems under balanced clean lighting"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo9uXBX2diyd6fmewnI526mSyUUzfEu8SgyM73Cs9rI4EpC5oLOW7Beu8b5bvVnBxk0RpI1Rw1A2Tx4qf1xsDoRnMKqdv1FU9T6-mHWLymJuoUzc_3TT_53hZdm0ThrT-TTRz8loylo4uFDCoigyckITSuutEpgt_24mpCph6YBhO9EBgzkPQI4ggNNMAjVnQpqMNjCTQwgMyNR8qWoVD5VX2kcV4rPkbQa8Y-_Ah9YyL6-UYwVoBe" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-on-background/80 via-transparent to-transparent">
+                                </div>
+                                <div
+                                    class="absolute bottom-3 left-4 right-4 flex items-center justify-between text-surface-container-lowest">
+                                    <div>
+                                        <span
+                                            class="text-label-sm font-label-sm uppercase tracking-wider text-surface-variant font-semibold">Institutional
+                                            Treasury &amp; Credit</span>
+                                        <h4 class="text-headline-md font-headline-md font-bold leading-tight">MSME &amp;
+                                            Enterprise Credit Facility</h4>
+                                    </div>
+                                    <span
+                                        class="px-2.5 py-1 bg-surface-container-lowest/20 backdrop-blur rounded text-label-sm font-label-sm font-financial-numeric">From
+                                        9.25% p.a.</span>
+                                </div>
+                            </div>
+                            <div class="p-space-lg flex-1 flex flex-col justify-between">
+                                <ul
+                                    class="flex flex-col gap-space-sm text-body-sm font-body-sm text-on-surface-variant mb-space-lg">
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span>
+                                        <span>Working Capital (Cash Credit / Overdraft), Inland/Foreign Letters of
+                                            Credit (LC) &amp; Bank Guarantees.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span>
+                                        <span>Collateral-free credit backing up to ₹5 Crore under Government of India
+                                            CGTMSE guarantee scheme.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span>
+                                        <span>GST-streamlined appraisal: Automated turn-around via direct Goods &amp;
+                                            Services Tax API pulling.</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">check_circle</span>
+                                        <span>Dedicated Relationship Manager &amp; priority trade desk access for
+                                            cross-border fx remittances.</span>
+                                    </li>
+                                </ul>
+                                <div class="pt-space-md flex items-center justify-between">
+                                    <div class="flex flex-col">
+                                        <span class="text-label-sm font-label-sm text-secondary">Collateral
+                                            Cushion</span>
+                                        <span class="font-financial-numeric font-semibold text-on-surface">CGTMSE up to
+                                            ₹5 Cr</span>
+                                    </div>
+                                    <button
+                                        class="px-space-md py-2 bg-primary-container hover:bg-primary text-on-primary rounded text-label-lg font-label-lg transition-colors shadow-sm"
+                                        onclick="initiateLoan('MSME Credit')" type="button">
+                                        Connect SME Desk
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- 4-Stage Digital Sanction Workflow -->
+                <section class="mb-space-xl" id="digital-workflow">
+                    <div class="bg-surface-container-lowest p-space-lg md:p-space-xl rounded-xl shadow-sm">
+                        <div class="max-w-2xl mb-space-lg">
+                            <span
+                                class="px-2.5 py-0.5 bg-secondary-container text-on-secondary-container rounded text-label-sm font-label-sm uppercase font-bold tracking-wider">Fast-Track
+                                Origination</span>
+                            <h3 class="text-headline-lg font-headline-lg text-on-surface mt-1">4-Stage Express Sanction
+                                Journey</h3>
+                            <p class="text-body-md font-body-md text-on-surface-variant">From eligibility check to legal
+                                disbursement in 10 minutes through India Stack and RBI Account Aggregator framework.</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md relative">
+                            <!-- Step 1 -->
+                            <div
+                                class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between relative">
+                                <div>
+                                    <div class="flex items-center justify-between mb-space-sm">
+                                        <span
+                                            class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-financial-numeric text-label-md font-bold">01</span>
+                                        <span class="material-symbols-outlined text-primary text-[20px]">speed</span>
+                                    </div>
+                                    <h4 class="text-headline-sm font-headline-sm text-on-surface mb-1">Check
+                                        In-Principle Eligibility</h4>
+                                    <p class="text-body-sm font-body-sm text-on-surface-variant">Instant soft bureau
+                                        query across CIBIL, Experian &amp; CRIF High Mark with zero negative impact on
+                                        your credit score rating.</p>
+                                </div>
+                                <div
+                                    class="mt-space-md pt-2 text-label-sm font-label-sm text-primary font-semibold flex items-center gap-1">
+                                    <span>Latency: ~45 Seconds</span>
+                                </div>
+                            </div>
+                            <!-- Step 2 -->
+                            <div
+                                class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between relative">
+                                <div>
+                                    <div class="flex items-center justify-between mb-space-sm">
+                                        <span
+                                            class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-financial-numeric text-label-md font-bold">02</span>
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[20px]">cloud_sync</span>
+                                    </div>
+                                    <h4 class="text-headline-sm font-headline-sm text-on-surface mb-1">Account
+                                        Aggregator &amp; KYC</h4>
+                                    <p class="text-body-sm font-body-sm text-on-surface-variant">One-tap consent via
+                                        RBI-regulated Account Aggregator (AA) for last 6 months bank statements, and
+                                        DigiLocker for instant PAN/Aadhaar verification.</p>
+                                </div>
+                                <div
+                                    class="mt-space-md pt-2 text-label-sm font-label-sm text-primary font-semibold flex items-center gap-1">
+                                    <span>Paperless API Validation</span>
+                                </div>
+                            </div>
+                            <!-- Step 3 -->
+                            <div
+                                class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between relative">
+                                <div>
+                                    <div class="flex items-center justify-between mb-space-sm">
+                                        <span
+                                            class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-financial-numeric text-label-md font-bold">03</span>
+                                        <span
+                                            class="material-symbols-outlined text-primary text-[20px]">assignment_turned_in</span>
+                                    </div>
+                                    <h4 class="text-headline-sm font-headline-sm text-on-surface mb-1">Algorithmic
+                                        Sanction Letter</h4>
+                                    <p class="text-body-sm font-body-sm text-on-surface-variant">Underwriting algorithm
+                                        outputs an official, binding In-Principle Sanction Letter detailing loan
+                                        quantum, benchmark rate, and APR charges.</p>
+                                </div>
+                                <div
+                                    class="mt-space-md pt-2 text-label-sm font-label-sm text-primary font-semibold flex items-center gap-1">
+                                    <span>Digitally Timestamped</span>
+                                </div>
+                            </div>
+                            <!-- Step 4 -->
+                            <div
+                                class="bg-surface-container-low p-space-md rounded-lg flex flex-col justify-between relative">
+                                <div>
+                                    <div class="flex items-center justify-between mb-space-sm">
+                                        <span
+                                            class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-financial-numeric text-label-md font-bold">04</span>
+                                        <span class="material-symbols-outlined text-primary text-[20px]">payments</span>
+                                    </div>
+                                    <h4 class="text-headline-sm font-headline-sm text-on-surface mb-1">e-Sign &amp;
+                                        Direct Disbursal</h4>
+                                    <p class="text-body-sm font-body-sm text-on-surface-variant">Execute the loan
+                                        agreement via Aadhaar OTP e-Sign (NeSL compliant e-stamping). Funds are
+                                        disbursed straight to the destination bank account.</p>
+                                </div>
+                                <div
+                                    class="mt-space-md pt-2 text-label-sm font-label-sm text-primary font-semibold flex items-center gap-1">
+                                    <span>Direct Account Credit</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Immediate Application Box -->
+                        <div
+                            class="mt-space-lg p-space-md bg-surface-container rounded-lg flex flex-col md:flex-row items-center justify-between gap-space-md">
+                            <div class="flex items-center gap-space-md">
+                                <span
+                                    class="w-12 h-12 rounded-full bg-surface-container-lowest flex items-center justify-center text-primary shrink-0 shadow-sm">
+                                    <span class="material-symbols-outlined text-[24px]">fingerprint</span>
+                                </span>
+                                <div>
+                                    <div class="text-headline-sm font-headline-sm text-on-surface">Ready to start your
+                                        digital credit application?</div>
+                                    <div class="text-body-sm font-body-sm text-on-surface-variant">Provide your
+                                        registered mobile number linked to Aadhaar to begin soft evaluation.</div>
+                                </div>
+                            </div>
+                            <div class="flex w-full md:w-auto items-center gap-2">
+                                <input
+                                    class="px-3 py-2 bg-surface-container-lowest rounded text-body-md font-body-md text-on-surface placeholder:text-outline focus:outline-none w-full md:w-52 shadow-sm"
+                                    maxlength="10" placeholder="Enter 10-digit mobile" type="tel" />
+                                <button
+                                    class="px-space-md py-2 bg-primary-container hover:bg-primary text-on-primary rounded text-label-lg font-label-lg transition-colors whitespace-nowrap shadow-sm"
+                                    type="button">
+                                    Proceed with OTP
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Grievance & Regulatory Lending Disclosures Matrix -->
+                <section class="mb-space-xl" id="regulatory-notes">
+                    <div class="bg-surface-container-lowest p-space-lg md:p-space-xl rounded-xl shadow-sm">
+                        <div class="flex items-center gap-2 mb-space-md">
+                            <span class="material-symbols-outlined text-primary text-[24px]">gavel</span>
+                            <h3 class="text-headline-md font-headline-md text-on-surface">Statutory Compliance, Fair
+                                Practices Code &amp; Lending Disclosures</h3>
+                        </div>
+                        <p class="text-body-sm font-body-sm text-on-surface-variant mb-space-lg">
+                            In strict adherence with Reserve Bank of India (RBI) Master Directions on Fair Practices
+                            Code for Lenders, Guidelines on Digital Lending (2022), and Recovery Agent Framework.
+                        </p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+                            <!-- Schedule of Charges & Foreclosure Rules -->
+                            <div class="bg-surface-container-low p-space-md rounded-lg">
+                                <div
+                                    class="text-label-lg font-label-lg text-on-surface font-semibold mb-space-xs flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-secondary text-[18px]">rule</span>
+                                    <span>Foreclosure &amp; Prepayment Norms</span>
+                                </div>
+                                <p class="text-body-sm font-body-sm text-on-surface-variant mb-2">
+                                    Individual floating-rate term loans (Home, Auto, Personal) bear <strong>0.00%
+                                        prepayment penalty</strong>, irrespective of the source of prepayment.
+                                </p>
+                                <ul class="text-body-sm font-body-sm text-secondary space-y-1">
+                                    <li>• Fixed rate term loans: Nil penalty after 24 elapsed EMIs.</li>
+                                    <li>• Commercial entity term loans: Max 1.5% on outstanding balance.</li>
+                                    <li>• Duplicate NOC / Title Release charge: Nil.</li>
+                                </ul>
+                            </div>
+                            <!-- Empanelled LSPs & DSAs -->
+                            <div class="bg-surface-container-low p-space-md rounded-lg">
+                                <div
+                                    class="text-label-lg font-label-lg text-on-surface font-semibold mb-space-xs flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-secondary text-[18px]">badge</span>
+                                    <span>Empanelled Direct Selling Agents (DSAs)</span>
+                                </div>
+                                <p class="text-body-sm font-body-sm text-on-surface-variant mb-2">
+                                    CPB engages strictly certified, code-compliant Lending Service Providers (LSPs) and
+                                    DSAs. No cash collections are permissible.
+                                </p>
+                                <ul class="text-body-sm font-body-sm text-secondary space-y-1">
+                                    <li>• Authorized DSAs carry QR-verifiable CPB credentials.</li>
+                                    <li>• Processing fees payable only to CPB Central Escrow account.</li>
+                                    <li>• List of all active sourcing agencies accessible on portal.</li>
+                                </ul>
+                            </div>
+                            <!-- Grievance Redressal Escrow -->
+                            <div class="bg-surface-container-low p-space-md rounded-lg">
+                                <div
+                                    class="text-label-lg font-label-lg text-on-surface font-semibold mb-space-xs flex items-center gap-1.5">
+                                    <span
+                                        class="material-symbols-outlined text-secondary text-[18px]">support_agent</span>
+                                    <span>Nodal Grievance Redressal Officer</span>
+                                </div>
+                                <p class="text-body-sm font-body-sm text-on-surface-variant mb-2">
+                                    Unsatisfied loan applicants may escalate complaints directly to our designated
+                                    Principal Nodal Officer before approaching the RBI Ombudsman.
+                                </p>
+                                <div class="text-body-sm font-body-sm text-on-surface-variant space-y-0.5">
+                                    <div class="font-semibold text-on-surface">Shri Arvind S. Ramanathan, PNO</div>
+                                    <div>Toll-Free Escalate Line: <span
+                                            class="font-financial-numeric text-primary font-semibold">1800-419-0069</span>
+                                    </div>
+                                    <div>Email: <span class="text-primary font-medium">nodalofficer@cpbbank.in</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Legal Disclosure Footnote Strip -->
+                        <div
+                            class="mt-space-lg pt-space-md bg-surface-container-low p-space-sm rounded text-label-sm font-label-sm text-secondary flex flex-col md:flex-row items-center justify-between gap-space-sm">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[16px] text-primary">security</span>
+                                <span>Annual Percentage Rate (APR) transparently provided in Key Fact Statement (KFS)
+                                    prior to loan contract execution.</span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <a class="hover:text-primary transition-colors" href="#">Download Fair Practice Charter
+                                    (PDF)</a>
+                                <span>•</span>
+                                <a class="hover:text-primary transition-colors" href="#">RBI Ombudsman Scheme 2021</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- Interactive Engine Logic: Dynamic EMI, Donut Updates, Amortization Computation -->
+            <script>
+                // DOM References
+                const amountRange = document.getElementById('amountRange');
+                const amountInput = document.getElementById('amountInput');
+                const rateRange = document.getElementById('rateRange');
+                const rateInput = document.getElementById('rateInput');
+                const tenureRange = document.getElementById('tenureRange');
+                const tenureInput = document.getElementById('tenureInput');
+                const tenureMonthsDisplay = document.getElementById('tenureMonthsDisplay');
+
+                const emiDisplay = document.getElementById('emiDisplay');
+                const totalPrincipalDisplay = document.getElementById('totalPrincipalDisplay');
+                const totalInterestDisplay = document.getElementById('totalInterestDisplay');
+                const totalPayableDisplay = document.getElementById('totalPayableDisplay');
+                const ratioDisplay = document.getElementById('ratioDisplay');
+
+                const donutPrincipalPath = document.getElementById('donutPrincipalPath');
+                const donutInterestPath = document.getElementById('donutInterestPath');
+
+                const amortizationSchedule = document.getElementById('amortizationSchedule');
+                const amortizationToggleText = document.getElementById('amortizationToggleText');
+                const amortizationTableBody = document.getElementById('amortizationTableBody');
+
+                // Format INR Currency
+                function formatINR(number) {
+                    return new Intl.NumberFormat('en-IN', {
+                        style: 'currency',
+                        currency: 'INR',
+                        maximumFractionDigits: 0
+                    }).format(Math.round(number));
+                }
+
+                // Calculate & Refresh Matrix
+                function calculateLoan() {
+                    const P = parseFloat(amountInput.value) || 0;
+                    const annualRate = parseFloat(rateInput.value) || 0;
+                    const years = parseFloat(tenureInput.value) || 1;
+                    const n = years * 12;
+                    const r = (annualRate / 12) / 100;
+
+                    tenureMonthsDisplay.textContent = `(${n} Mos)`;
+
+                    if (P <= 0 || annualRate <= 0 || n <= 0) return;
+
+                    // Standard EMI formula: [P * r * (1 + r)^n] / [(1 + r)^n - 1]
+                    const emi = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+                    const totalPayable = emi * n;
+                    const totalInterest = totalPayable - P;
+
+                    emiDisplay.textContent = formatINR(emi);
+                    totalPrincipalDisplay.textContent = formatINR(P);
+                    totalInterestDisplay.textContent = formatINR(totalInterest);
+                    totalPayableDisplay.textContent = formatINR(totalPayable);
+
+                    // Donut percentages
+                    const principalPercent = Math.max(1, Math.min(99, Math.round((P / totalPayable) * 100)));
+                    const interestPercent = 100 - principalPercent;
+
+                    ratioDisplay.textContent = `${principalPercent}:${interestPercent}`;
+
+                    if (donutInterestPath && donutPrincipalPath) {
+                        donutInterestPath.setAttribute('stroke-dasharray', `${interestPercent}, 100`);
+                        donutPrincipalPath.setAttribute('stroke-dasharray', `${principalPercent}, 100`);
+                        donutPrincipalPath.setAttribute('stroke-dashoffset', `-${interestPercent}`);
+                    }
+
+                    // Populate Amortization
+                    generateAmortizationSchedule(P, r, emi, years);
+                }
+
+                // Year-by-year Amortization Generator
+                function generateAmortizationSchedule(principal, monthlyRate, emi, years) {
+                    if (!amortizationTableBody) return;
+                    amortizationTableBody.innerHTML = '';
+
+                    let balance = principal;
+                    const currentYear = new Date().getFullYear();
+
+                    for (let y = 1; y <= years; y++) {
+                        let annualInterest = 0;
+                        let annualPrincipal = 0;
+                        const openingBalance = balance;
+
+                        for (let m = 1; m <= 12; m++) {
+                            if (balance <= 0) break;
+                            const interestForMonth = balance * monthlyRate;
+                            let principalForMonth = emi - interestForMonth;
+
+                            if (principalForMonth > balance) {
+                                principalForMonth = balance;
+                            }
+
+                            annualInterest += interestForMonth;
+                            annualPrincipal += principalForMonth;
+                            balance -= principalForMonth;
+                        }
+
+                        const row = document.createElement('tr');
+                        row.className = y % 2 === 0 ? 'bg-surface-container-low/40' : 'bg-surface-container-lowest';
+                        row.innerHTML = `
+        <td class="py-2.5 px-4 font-medium text-on-surface">FY ${currentYear + y - 1}-${(currentYear + y).toString().slice(-2)} (Yr ${y})</td>
+        <td class="py-2.5 px-4 text-right font-financial-numeric text-on-surface-variant">${formatINR(openingBalance)}</td>
+        <td class="py-2.5 px-4 text-right font-financial-numeric text-primary font-semibold">${formatINR(annualPrincipal)}</td>
+        <td class="py-2.5 px-4 text-right font-financial-numeric text-tertiary-container">${formatINR(annualInterest)}</td>
+        <td class="py-2.5 px-4 text-right font-financial-numeric text-on-surface">${formatINR(annualPrincipal + annualInterest)}</td>
+        <td class="py-2.5 px-4 text-right font-financial-numeric text-on-surface font-semibold">${formatINR(Math.max(0, balance))}</td>
+      `;
+                        amortizationTableBody.appendChild(row);
+
+                        if (balance <= 0) break;
+                    }
+                }
+
+                // Toggle Amortization Schedule
+                function toggleAmortizationTable() {
+                    if (!amortizationSchedule) return;
+                    const isHidden = amortizationSchedule.classList.contains('hidden');
+                    if (isHidden) {
+                        amortizationSchedule.classList.remove('hidden');
+                        amortizationToggleText.textContent = "Hide Amortization Breakdown";
+                    } else {
+                        amortizationSchedule.classList.add('hidden');
+                        amortizationToggleText.textContent = "View Amortization Schedule (Year-by-Year)";
+                    }
+                }
+
+                // Fast Presets
+                function setPreset(principal, rate, years) {
+                    amountRange.value = principal;
+                    amountInput.value = principal;
+                    rateRange.value = rate;
+                    rateInput.value = rate.toFixed(2);
+                    tenureRange.value = years;
+                    tenureInput.value = years;
+                    calculateLoan();
+                }
+
+                // Quick Action Initiator
+                function initiateLoan(productType) {
+                    alert(`Initiating digital journey for CPB ${productType}. Bureau pull will be executed via secure sandbox.`);
+                }
+
+                // Simple CSV Downloader for Schedule
+                function downloadAmortizationCSV() {
+                    const P = amountInput.value;
+                    const R = rateInput.value;
+                    const T = tenureInput.value;
+                    let csvContent = "data:text/csv;charset=utf-8,";
+                    csvContent += "CPB Bank - Loan Amortization Schedule\r\n";
+                    csvContent += `Loan Amount: ${P}, Interest Rate: ${R}%, Tenure: ${T} Years\r\n\r\n`;
+                    csvContent += "Financial Year,Opening Balance,Principal Paid,Interest Paid,Total Outflow,Closing Balance\r\n";
+
+                    const rows = amortizationTableBody.querySelectorAll('tr');
+                    rows.forEach(r => {
+                        const cols = Array.from(r.querySelectorAll('td')).map(td => `"${td.innerText.replace(/[₹,]/g, '').trim()}"`);
+                        csvContent += cols.join(",") + "\r\n";
+                    });
+
+                    const encodedUri = encodeURI(csvContent);
+                    const link = document.createElement("a");
+                    link.setAttribute("href", encodedUri);
+                    link.setAttribute("download", `CPB_Amortization_Schedule_${P}.csv`);
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+
+                // Two-way synchronization event listeners
+                amountRange.addEventListener('input', (e) => {
+                    amountInput.value = e.target.value;
+                    calculateLoan();
+                });
+                amountInput.addEventListener('input', (e) => {
+                    amountRange.value = e.target.value;
+                    calculateLoan();
+                });
+
+                rateRange.addEventListener('input', (e) => {
+                    rateInput.value = parseFloat(e.target.value).toFixed(2);
+                    calculateLoan();
+                });
+                rateInput.addEventListener('input', (e) => {
+                    rateRange.value = e.target.value;
+                    calculateLoan();
+                });
+
+                tenureRange.addEventListener('input', (e) => {
+                    tenureInput.value = e.target.value;
+                    calculateLoan();
+                });
+                tenureInput.addEventListener('input', (e) => {
+                    tenureRange.value = e.target.value;
+                    calculateLoan();
+                });
+
+                // Initial Execution
+                calculateLoan();
+            </script>
+        </div>
+    </main>
+    <footer class="w-full bg-on-background text-surface-container-high">
+        <div class="max-w-[1280px] mx-auto px-margin-desktop py-space-xl">
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-gutter-desktop mb-space-xl">
+                <div class="flex flex-col gap-space-sm">
+                    <h3
+                        class="text-label-lg font-label-lg text-surface-container-lowest uppercase tracking-wider mb-space-xs">
+                        About CPB Bank</h3><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Corporate Profile</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Board of Directors &amp; Leadership</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Financial Results &amp; Reports</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Investor Relations</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Career Opportunities</a>
+                </div>
+                <div class="flex flex-col gap-space-sm">
+                    <h3
+                        class="text-label-lg font-label-lg text-surface-container-lowest uppercase tracking-wider mb-space-xs">
+                        Products &amp; Solutions</h3><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Savings &amp; Current A/C</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Fixed &amp; Recurring Deposits</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Retail Home &amp; Auto Loans</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Corporate Credit Facilities</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Trade Finance &amp; Forex</a>
+                </div>
+                <div class="flex flex-col gap-space-sm">
+                    <h3
+                        class="text-label-lg font-label-lg text-surface-container-lowest uppercase tracking-wider mb-space-xs">
+                        Customer Service</h3><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">24x7 Helpdesk: 1800-419-0068</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Banking Ombudsman Scheme</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Download Banking Forms</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Grievance Redressal Matrix</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Doorstep Banking Services</a>
+                </div>
+                <div class="flex flex-col gap-space-sm">
+                    <h3
+                        class="text-label-lg font-label-lg text-surface-container-lowest uppercase tracking-wider mb-space-xs">
+                        Security &amp; Safety</h3><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Cyber Fraud Awareness</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Phishing Defense Guidelines</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">SIM Swap Protection Advisory</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Report Unauthorised Trans (1930)</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Emergency Card Blocking</a>
+                </div>
+                <div class="flex flex-col gap-space-sm">
+                    <h3
+                        class="text-label-lg font-label-lg text-surface-container-lowest uppercase tracking-wider mb-space-xs">
+                        Regulatory &amp; Compliance</h3><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">RBI Monetary Policy Updates</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Citizen's Charter</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Fair Practices Code (FPC)</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Schedule of Charges &amp; Fees</a><a
+                        class="text-body-sm font-body-sm text-surface-variant hover:text-surface-container-lowest transition-colors"
+                        href="#">Statutory Audit &amp; Disclosures</a>
+                </div>
+            </div>
+            <div
+                class="bg-inverse-surface p-space-md rounded-lg mb-space-lg flex flex-col md:flex-row items-center justify-between gap-space-md">
+                <div class="flex items-center gap-space-md"><span
+                        class="material-symbols-outlined text-tertiary-fixed text-[32px]">shield</span>
+                    <div class="flex flex-col"><span
+                            class="text-label-lg font-label-lg text-surface-container-lowest font-semibold">DICGC
+                            Deposit Insurance Notice</span><span
+                            class="text-body-sm font-body-sm text-surface-variant">Bank deposits are insured by DICGC
+                            (Deposit Insurance and Credit Guarantee Corporation) up to ₹5,00,000 per depositor.</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-space-lg shrink-0">
+                    <div class="flex items-center gap-space-xs text-surface-variant text-label-sm font-label-sm"><span
+                            class="material-symbols-outlined text-[16px] text-surface-container-lowest">lock</span><span>256-bit
+                            TLS Encrypted</span></div>
+                    <div class="flex items-center gap-space-xs text-surface-variant text-label-sm font-label-sm"><span
+                            class="material-symbols-outlined text-[16px] text-surface-container-lowest">verified</span><span>ISO
+                            27001 Certified</span></div>
+                </div>
+            </div>
+            <div
+                class="flex flex-col sm:flex-row items-center justify-between text-label-sm font-label-sm text-surface-variant pt-space-md gap-space-sm">
+                <p>Copyright © 2025 Code Paglu Bank Limited (CPB). Regulated by the Reserve Bank of India.</p>
+                <div class="flex items-center gap-space-md"><a
+                        class="hover:text-surface-container-lowest transition-colors" href="#">Privacy Policy</a><a
+                        class="hover:text-surface-container-lowest transition-colors" href="#">Terms of Use</a><a
+                        class="hover:text-surface-container-lowest transition-colors" href="#">Hyperlink Policy</a><a
+                        class="hover:text-surface-container-lowest transition-colors" href="#">Sitemap</a></div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
