@@ -5,21 +5,57 @@ export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
   try {
-    // Internal accounts are owned by the system user
-    const accounts = await prisma.account.findMany({
+    // 1. Fetch internal system accounts (e.g. Bank Revenue)
+    const internalAccounts = await prisma.account.findMany({
       where: {
+        OR: [
+          { user: { email: "revenue@cpb.bank" } },
+          { user: { role: "ADMIN" } },
+        ],
+      },
+      include: {
         user: {
-          email: "revenue@cpb.bank",
+          select: { name: true, email: true, role: true },
+        },
+      },
+      orderBy: { accountNumber: "asc" },
+    });
+
+    // 2. Fetch all active customer accounts present in the bank
+    const customerAccounts = await prisma.account.findMany({
+      where: {
+        status: "ACTIVE",
+        user: {
+          role: "CUSTOMER",
         },
       },
       include: {
         user: {
-          select: { name: true },
+          select: { name: true, email: true, role: true },
         },
       },
+      orderBy: { accountNumber: "asc" },
+      take: 50,
     });
 
-    return NextResponse.json({ success: true, accounts });
+    const formattedInternal = internalAccounts.map((acc) => ({
+      ...acc,
+      isInternal: true,
+      category: "INTERNAL" as const,
+    }));
+
+    const formattedCustomer = customerAccounts.map((acc) => ({
+      ...acc,
+      isInternal: false,
+      category: "CUSTOMER" as const,
+    }));
+
+    return NextResponse.json({
+      success: true,
+      accounts: [...formattedInternal, ...formattedCustomer],
+      internalAccounts: formattedInternal,
+      customerAccounts: formattedCustomer,
+    });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

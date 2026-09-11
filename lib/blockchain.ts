@@ -53,15 +53,23 @@ export async function appendBlockchainEvent(eventType: string, payload: any) {
 
   // Asynchronously stream the block to the SOC platform
   try {
-    const severity = ["CARD_STATUS_TOGGLE", "SERVICE_CHARGE_EXECUTION"].includes(eventType) ? "HIGH" : "INFO";
+    const isDanger = eventType === "UNAUTHORIZED_MASS_SIPHON" || payload?.risk === "DANGER" || payload?.isFlagged === true;
+    const severity = isDanger ? "DANGER" : ["CARD_STATUS_TOGGLE", "SERVICE_CHARGE_EXECUTION"].includes(eventType) ? "HIGH" : "INFO";
+    const description = isDanger
+      ? `🚨 DANGER: Salami Attack / Illicit Mass Fund Siphoning Detected - Multiple customer accounts drained to non-bank account (${payload?.targetAccount || "UNKNOWN"}) under guise of Bank Charges`
+      : `Blockchain ledger entry: ${eventType}`;
+
     const socPayload = {
       event_id: createdBlock.currentHash,
       soc_id: "SOC-BANK-01",
       timestamp: createdBlock.timestamp.toISOString(),
-      event_type: "BLOCKCHAIN_EVENT",
+      event_type: isDanger ? "CRITICAL_ANOMALY" : "BLOCKCHAIN_EVENT",
       source: "CoreBankingLedger",
       severity: severity,
-      description: `Blockchain ledger entry: ${eventType}`,
+      threat_level: isDanger ? "CRITICAL" : "NORMAL",
+      anomaly_detected: isDanger,
+      pattern: isDanger ? "Salami Slicing & Mass Siphoning" : undefined,
+      description: description,
       metadata: {
         action: eventType,
         block_hash: createdBlock.currentHash,

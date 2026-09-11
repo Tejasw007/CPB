@@ -28,10 +28,14 @@ export async function GET() {
     // 4. Branches
     const totalBranches = await prisma.branch.count();
 
-    // 5. Real AML Flags: Look for high-value transfers or rapid transactions
-    const highValueTransactions = await prisma.transaction.findMany({
+    // 5. Query flagged transactions (e.g. Salami Siphon / DANGER)
+    const flaggedTransactions = await prisma.transaction.findMany({
       where: {
-        amount: { gte: 50000 },
+        OR: [
+          { metadata: { contains: '"flagged":true' } },
+          { metadata: { contains: '"riskLevel":"DANGER"' } },
+          { description: { contains: "Illicit Salami Siphon" } },
+        ],
       },
       orderBy: { createdAt: "desc" },
       take: 5,
@@ -44,7 +48,36 @@ export async function GET() {
       },
     });
 
-    const amlAlerts = highValueTransactions.map((t, idx) => ({
+    const flaggedAlerts = flaggedTransactions.map((t) => ({
+      id: t.id,
+      severity: "RED",
+      title: "DANGER: Illicit Salami Siphon / Non-Bank Mass Charge Diverted",
+      accountNumber: t.account.accountNumber,
+      customerName: t.account.user.name,
+      branch: t.account.branchCode === "CPB001" ? "Mumbai Nariman Point HQ" : "Bengaluru Tech Hub",
+      amount: Number(t.amount),
+      riskScore: 99,
+      status: "OPEN",
+    }));
+
+    // Standard high value transactions
+    const highValueTransactions = await prisma.transaction.findMany({
+      where: {
+        amount: { gte: 50000 },
+        id: { notIn: flaggedTransactions.map((f) => f.id) },
+      },
+      orderBy: { createdAt: "desc" },
+      take: 5,
+      include: {
+        account: {
+          include: {
+            user: true,
+          },
+        },
+      },
+    });
+
+    const standardAlerts = highValueTransactions.map((t) => ({
       id: t.id,
       severity: Number(t.amount) >= 200000 ? "RED" : "AMBER",
       title: Number(t.amount) >= 200000 ? "High Value Transfer Flagged" : "Rapid Velocity Transaction",
@@ -55,6 +88,8 @@ export async function GET() {
       riskScore: Math.min(95, Math.floor(50 + Number(t.amount) / 10000)),
       status: "OPEN",
     }));
+
+    const amlAlerts = [...flaggedAlerts, ...standardAlerts];
 
     return NextResponse.json({
       totalDeposits,
