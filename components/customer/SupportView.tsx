@@ -28,7 +28,7 @@ export function SupportView() {
 
   const handleSendReply = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!replyMessage.trim()) return;
+    if (!replyMessage.trim() || !currentUser) return;
     if (activeTicket) {
       activeTicket.messages.push({
         id: `msg-${Date.now()}`,
@@ -44,11 +44,12 @@ export function SupportView() {
 
   const handleCreateTicket = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!currentUser) return;
     const newTicket = {
       id: `ticket-${Date.now()}`,
       ticketNumber: `CPB-TCK-${Math.floor(1000 + Math.random() * 9000)}`,
-      userId: currentUser?.id,
-      userName: currentUser?.name,
+      userId: currentUser.id,
+      userName: currentUser.name,
       subject: newSubject,
       category: newCategory as any,
       status: "OPEN" as any,
@@ -58,9 +59,9 @@ export function SupportView() {
       messages: [
         {
           id: `msg-${Date.now()}`,
-          senderId: currentUser?.id,
-          senderRole: currentUser?.role,
-          senderName: currentUser?.name,
+          senderId: currentUser.id,
+          senderRole: currentUser.role,
+          senderName: currentUser.name,
           message: newDescription,
           createdAt: new Date().toISOString(),
         },
