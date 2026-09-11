@@ -2,11 +2,10 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { BankUser, BankAccount, BankTransaction, BankBeneficiary, BankCard, BankLoan, BankFixedDeposit, BankTicket } from "@/lib/types";
-import { DEMO_PERSONAS, getDefaultUser } from "@/lib/auth/session";
 
 interface BankContextType {
-  currentUser: BankUser;
-  setCurrentUser: (user: BankUser, sessionId?: string) => void;
+  currentUser: BankUser | null;
+  setCurrentUser: (user: BankUser | null, sessionId?: string | null) => void;
   currentSessionId: string | null;
   accounts: BankAccount[];
   selectedAccount: BankAccount | null;
@@ -53,7 +52,7 @@ interface BankContextType {
 const BankContext = createContext<BankContextType | undefined>(undefined);
 
 export function BankProvider({ children }: { children: React.ReactNode }) {
-  const [currentUser, setCurrentUser] = useState<BankUser>(getDefaultUser());
+  const [currentUser, setCurrentUser] = useState<BankUser | null>(null);
   const [currentSessionId, setCurrentSessionId] = useState<string | null>(null);
   const [accounts, setAccounts] = useState<BankAccount[]>([]);
   const [selectedAccount, setSelectedAccount] = useState<BankAccount | null>(null);
@@ -111,6 +110,7 @@ export function BankProvider({ children }: { children: React.ReactNode }) {
   ]);
 
   const loadData = async () => {
+    if (!currentUser) return;
     setIsLoading(true);
     try {
       const res = await fetch(`/api/data?userId=${encodeURIComponent(currentUser.email)}`);
@@ -153,6 +153,7 @@ export function BankProvider({ children }: { children: React.ReactNode }) {
     destinationIfsc?: string;
     destinationAccountName?: string;
   }) => {
+    if (!currentUser) return { success: false, message: "Unauthenticated" };
     try {
       const res = await fetch("/api/transfers", {
         method: "POST",
@@ -182,6 +183,7 @@ export function BankProvider({ children }: { children: React.ReactNode }) {
     ifsc: string;
     nickname?: string;
   }) => {
+    if (!currentUser) return { success: false, message: "Unauthenticated" };
     try {
       const res = await fetch("/api/beneficiaries", {
         method: "POST",
@@ -232,6 +234,7 @@ export function BankProvider({ children }: { children: React.ReactNode }) {
     tenureMonths: number;
     purpose: string;
   }) => {
+    if (!currentUser) return { success: false, message: "Unauthenticated" };
     try {
       const res = await fetch("/api/loans", {
         method: "POST",
@@ -250,6 +253,7 @@ export function BankProvider({ children }: { children: React.ReactNode }) {
   };
 
   const bookFixedDeposit = async (principal: number, tenureMonths: number) => {
+    if (!currentUser) return { success: false, message: "Unauthenticated" };
     try {
       if (!selectedAccount) throw new Error("Please select an active savings account.");
       const res = await fetch("/api/fixed-deposits", {
@@ -283,10 +287,17 @@ export function BankProvider({ children }: { children: React.ReactNode }) {
         currentUser,
         setCurrentUser: (user, sessionId) => {
           setCurrentUser(user);
-          localStorage.setItem("cpb_session_user", JSON.stringify(user));
+          if (user) {
+            localStorage.setItem("cpb_session_user", JSON.stringify(user));
+          } else {
+            localStorage.removeItem("cpb_session_user");
+          }
           if (sessionId) {
             setCurrentSessionId(sessionId);
             localStorage.setItem("cpb_session_id", sessionId);
+          } else if (sessionId === null) {
+            setCurrentSessionId(null);
+            localStorage.removeItem("cpb_session_id");
           }
         },
         currentSessionId,
@@ -310,7 +321,7 @@ export function BankProvider({ children }: { children: React.ReactNode }) {
         notifications,
         markNotificationRead,
         logout: () => {
-          setCurrentUser(getDefaultUser());
+          setCurrentUser(null);
           setCurrentSessionId(null);
           localStorage.removeItem("cpb_session_user");
           localStorage.removeItem("cpb_session_id");

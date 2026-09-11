@@ -6,7 +6,11 @@ export const dynamic = "force-dynamic";
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const userEmail = searchParams.get("userId") || "rajesh.sharma@example.com";
+    const userEmail = searchParams.get("userId");
+
+    if (!userEmail) {
+      return NextResponse.json({ error: "Unauthorized access" }, { status: 401 });
+    }
 
     // 1. Fetch user by email
     const user = await prisma.user.findUnique({

@@ -102,8 +102,8 @@ export function StaffDashboard({ initialTab }: { initialTab?: string }) {
           branchCode: "CPB001",
           accountType,
           initialDeposit: Number(initialDeposit),
-          staffId: currentUser.id,
-          staffName: currentUser.name,
+          staffId: currentUser?.id,
+          staffName: currentUser?.name,
         }),
       });
       const data = await res.json();
@@ -148,8 +148,8 @@ export function StaffDashboard({ initialTab }: { initialTab?: string }) {
           action: "counter_deposit",
           targetAccountNumber: counterAcc,
           amount: totalDepositAmount,
-          tellerUserId: currentUser.id,
-          tellerName: currentUser.name,
+          tellerUserId: currentUser?.id,
+          tellerName: currentUser?.name,
           depositorName,
           remarks: "Cash counter deposit",
           branchCode: "CPB001",
@@ -194,7 +194,7 @@ export function StaffDashboard({ initialTab }: { initialTab?: string }) {
           </div>
           <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Staff Operational Desk</h1>
           <p className="text-xs text-slate-500 mt-0.5">
-            Logged in as: <span className="text-slate-900 font-semibold">{currentUser.name}</span> ({currentUser.staffDesignation || "Branch Operations"})
+            Logged in as: <span className="text-slate-900 font-semibold">{currentUser?.name || "Staff"}</span> ({currentUser?.staffDesignation || "Branch Operations"})
           </p>
         </div>
 

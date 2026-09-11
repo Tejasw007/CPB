@@ -75,8 +75,8 @@ export function ServerDashboard() {
         body: JSON.stringify({
           action: "execute_query",
           sqlQuery,
-          infraAdminId: currentUser.id,
-          infraAdminName: currentUser.name,
+          infraAdminId: currentUser?.id,
+          infraAdminName: currentUser?.name,
         }),
       });
       const data = await res.json();
@@ -104,8 +104,8 @@ export function ServerDashboard() {
         action: "rollback",
         targetVersion: "v2.13.8",
         reason: rollbackReason,
-        infraAdminId: currentUser.id,
-        infraAdminName: currentUser.name,
+        infraAdminId: currentUser?.id,
+        infraAdminName: currentUser?.name,
       }),
     });
     if (res.ok) {
@@ -127,9 +127,13 @@ export function ServerDashboard() {
             <span className="text-xs text-slate-500 font-mono">• Production (AWS ap-south-1)</span>
           </div>
           <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Infrastructure & SRE Portal</h1>
-          <p className="text-xs text-slate-500 mt-0.5">
-            Lead SRE: <span className="text-slate-900 font-semibold">{currentUser.name}</span> • Version:{" "}
-            <span className="text-emerald-700 font-mono font-bold">v2.14.0 (SHA #8f92a1c)</span>
+        </div>
+
+        <div className="hidden md:flex flex-col text-right">
+          <span className="text-[10px] text-blue-700 font-bold uppercase tracking-wider bg-blue-100/50 px-2.5 py-0.5 rounded-full inline-block w-fit ml-auto mb-1">Live Environment</span>
+          <p className="text-xs text-slate-500 font-medium">
+            Lead SRE: <span className="text-slate-900 font-semibold">{currentUser?.name || "DevOps"}</span> • Version:{" "}
+            <span className="font-mono text-blue-600 font-bold">1.42.0</span>
           </p>
         </div>
 

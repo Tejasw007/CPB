@@ -11,7 +11,7 @@ export function TransactionListener() {
   const [animation, setAnimation] = useState<{type: "SENT"|"RECEIVED", amount: number, name: string} | null>(null);
 
   useEffect(() => {
-    if (!currentUser || !currentUser.id || currentUser.id.startsWith("admin") || currentUser.id.startsWith("staff")) return;
+    if (!currentUser || !currentUser.id || currentUser.id.startsWith("admin") || currentUser.id.startsWith("staff") || currentUser.id.startsWith("server")) return;
     
     // Connect to Server-Sent Events (SSE) endpoint
     const es = new EventSource(`/api/sse?userId=${currentUser.id}`);

@@ -159,44 +159,46 @@ export function Navbar({ portalType }: NavbarProps) {
         </div>
 
         {/* User Profile & Sign Out Dropdown */}
-        <div className="relative">
-          <button
-            onClick={() => setShowProfileMenu(!showProfileMenu)}
-            className="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-slate-300 transition-all text-left shadow-sm"
-          >
-            <div className="w-8 h-8 rounded-full overflow-hidden border border-blue-200 bg-slate-100 flex-shrink-0">
-              {currentUser.avatarUrl ? (
-                <img src={currentUser.avatarUrl} alt={currentUser.name} className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center font-bold text-xs text-blue-600">
-                  {currentUser.name[0]}
+        {currentUser && (
+          <div className="relative">
+            <button
+              onClick={() => setShowProfileMenu(!showProfileMenu)}
+              className="flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-slate-300 transition-all text-left shadow-sm"
+            >
+              <div className="w-8 h-8 rounded-full overflow-hidden border border-blue-200 bg-slate-100 flex-shrink-0">
+                {currentUser.avatarUrl ? (
+                  <img src={currentUser.avatarUrl} alt={currentUser.name} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center font-bold text-xs text-blue-600">
+                    {currentUser.name[0]}
+                  </div>
+                )}
+              </div>
+              <div className="hidden sm:block">
+                <div className="flex items-center gap-1.5">
+                  <p className="text-xs font-bold text-slate-900 leading-none">{currentUser.name}</p>
                 </div>
-              )}
-            </div>
-            <div className="hidden sm:block">
-              <div className="flex items-center gap-1.5">
-                <p className="text-xs font-bold text-slate-900 leading-none">{currentUser.name}</p>
+                <p className="text-[10px] text-slate-500 leading-none mt-1 font-mono">{currentUser.email}</p>
               </div>
-              <p className="text-[10px] text-slate-500 leading-none mt-1 font-mono">{currentUser.email}</p>
-            </div>
-            <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
-          </button>
+              <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+            </button>
 
-          {showProfileMenu && (
-            <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-white p-2 z-50 border border-slate-200 shadow-2xl animate-in fade-in zoom-in-95 duration-150 space-y-1">
-              <div className="px-3 py-2 border-b border-slate-100">
-                <p className="text-xs font-bold text-slate-900 leading-tight">{currentUser.name}</p>
-                <p className="text-[10px] text-slate-500 font-mono mt-0.5">{currentUser.email}</p>
+            {showProfileMenu && (
+              <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-white p-2 z-50 border border-slate-200 shadow-2xl animate-in fade-in zoom-in-95 duration-150 space-y-1">
+                <div className="px-3 py-2 border-b border-slate-100">
+                  <p className="text-xs font-bold text-slate-900 leading-tight">{currentUser.name}</p>
+                  <p className="text-[10px] text-slate-500 font-mono mt-0.5">{currentUser.email}</p>
+                </div>
+                <button
+                  onClick={handleSignOut}
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-left text-xs font-semibold text-red-600 hover:bg-red-50 transition-all"
+                >
+                  <LogOut className="w-4 h-4" /> Sign Out
+                </button>
               </div>
-              <button
-                onClick={handleSignOut}
-                className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-left text-xs font-semibold text-red-600 hover:bg-red-50 transition-all"
-              >
-                <LogOut className="w-4 h-4" /> Sign Out
-              </button>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        )}
       </div>
     </header>
   );

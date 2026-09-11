@@ -118,7 +118,7 @@ export function DashboardView({ onNavigate }: { onNavigate: (tab: string) => voi
             <span className="text-xs text-slate-500 font-mono">• Mumbai HQ</span>
           </div>
           <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-            Welcome back, {currentUser.name}
+            Welcome back, {currentUser?.name || "Customer"}
           </h1>
           <p className="text-xs text-slate-500 mt-0.5">
             Your CPB portfolio is operating at optimum liquidity.
@@ -297,7 +297,7 @@ export function DashboardView({ onNavigate }: { onNavigate: (tab: string) => voi
               <div className="flex justify-between items-end text-xs">
                 <div>
                   <p className="text-[9px] text-white/50 uppercase tracking-widest">Card Holder</p>
-                  <p className="font-semibold text-white tracking-wide">{primaryCard?.cardHolderName || currentUser.name.toUpperCase()}</p>
+                  <p className="font-semibold text-white tracking-wide">{primaryCard?.cardHolderName || currentUser?.name?.toUpperCase() || "CUSTOMER"}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-[9px] text-white/50 uppercase tracking-widest">Expires</p>

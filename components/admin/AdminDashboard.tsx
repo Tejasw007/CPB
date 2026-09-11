@@ -139,7 +139,7 @@ export function AdminDashboard({ activeTab = "admin-overview" }: { activeTab?: s
           </div>
           <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Executive Admin & Risk Radar</h1>
           <p className="text-xs text-slate-500 mt-0.5">
-            CISO: <span className="text-slate-900 font-semibold">{currentUser.name}</span> • Security Level:{" "}
+            CISO: <span className="text-slate-900 font-semibold">{currentUser?.name || "Admin"}</span> • Security Level:{" "}
             <span className="text-blue-600 font-mono font-bold">DEFCON 4 (NORMAL)</span>
           </p>
         </div>
