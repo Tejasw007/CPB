@@ -3,59 +3,50 @@ import React from 'react';
 import { Header } from '@/components/marketing/Header';
 import { Footer } from '@/components/marketing/Footer';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 export default function Page() {
   return (
     <>
       <Header />
-      <main className="w-full pt-36 min-h-screen bg-background" id="page-content">
+      <main className="w-full pt-0 min-h-screen bg-background" id="page-content">
         <div className="max-w-[1280px] mx-auto px-margin-desktop py-space-lg">
             <div className="flex flex-col w-full">
                 
-                <section
-                    className="w-full bg-error text-on-error rounded-xl p-space-lg shadow-md mb-space-xl relative overflow-hidden">
-                    <div
-                        className="absolute -right-8 -top-8 w-44 h-44 rounded-full bg-surface-container-lowest opacity-5 pointer-events-none">
-                    </div>
-                    <div
-                        className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-space-lg relative z-10">
-                        <div className="flex items-start gap-space-md">
-                            <div className="p-space-sm bg-error-container text-on-error-container rounded-lg shrink-0 mt-1">
-                                <span className="material-symbols-outlined text-[32px]"
-                                    style={{ fontVariationSettings: "'FILL' 1" }}>gpp_maybe</span>
-                            </div>
-                            <div className="flex flex-col gap-space-xs">
-                                <div
-                                    className="inline-flex items-center gap-space-xs text-error-container font-label-sm text-label-sm tracking-widest uppercase">
-                                    <span className="material-symbols-outlined text-[14px]">crisis_alert</span>
-                                    <span>Mandatory Statutory Advisory • Reserve Bank of India Directive</span>
-                                </div>
-                                <h2
-                                    className="text-headline-lg font-headline-lg font-bold text-surface-container-lowest leading-tight">
-                                    CPB Bank NEVER asks for Password, OTP, Card PIN, or CVV.
-                                </h2>
-                                <p className="text-body-md font-body-md text-error-container">
-                                    If you suspect unauthorized access or shared sensitive data by mistake, trigger an
-                                    emergency freeze immediately.
-                                </p>
-                            </div>
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="relative w-full rounded-2xl overflow-hidden mb-space-2xl shadow-2xl bg-surface-container-lowest border border-error group"
+                >
+                    <div className="absolute inset-0 bg-gradient-to-br from-error via-background to-black"></div>
+                    
+                    <div className="relative z-10 px-space-xl py-[100px] md:w-3/4 flex flex-col items-start">
+                        <div className="inline-flex items-center gap-space-xs px-space-sm py-1 bg-error/10 text-error-container border border-error/20 rounded-full text-label-sm font-label-sm uppercase tracking-widest mb-space-md backdrop-blur-md">
+                            <span className="material-symbols-outlined text-[16px]">crisis_alert</span>
+                            Mandatory Statutory Advisory
                         </div>
-                        <div className="flex flex-col sm:flex-row lg:flex-col shrink-0 gap-space-sm w-full lg:w-auto">
-                            <a className="flex items-center justify-center gap-space-sm bg-surface-container-lowest text-error hover:bg-surface-container-low px-space-lg py-space-sm rounded-lg transition-colors font-label-lg text-label-lg shadow-sm"
+                        <h1 className="text-display-sm md:text-display-md font-display-sm md:font-display-md text-surface-container-lowest tracking-tight font-bold mb-space-xs mt-space-sm">
+                            CPB Bank <span className="text-error">NEVER</span> asks for Password, OTP, or CVV.
+                        </h1>
+                        <p className="text-body-lg font-body-lg text-surface-variant leading-relaxed mb-space-xl max-w-2xl">
+                            If you suspect unauthorized access or shared sensitive data by mistake, trigger an emergency freeze immediately.
+                        </p>
+                        
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-md w-full">
+                            <a className="flex items-center justify-center gap-space-sm bg-surface-container-lowest text-error hover:bg-surface-container-low px-space-xl py-space-md rounded-full transition-colors font-label-lg text-label-lg shadow-xl"
                                 href="tel:1930">
-                                <span className="material-symbols-outlined text-[20px]">phone_in_talk</span>
-                                <span>National Cyber Cell: <strong
-                                        className="font-financial-numeric text-financial-numeric">1930</strong></span>
+                                <span className="material-symbols-outlined text-[24px]">phone_in_talk</span>
+                                <span>National Cyber Cell: <strong className="font-financial-numeric">1930</strong></span>
                             </a>
-                            <a className="flex items-center justify-center gap-space-sm bg-on-error-container text-surface-container-lowest hover:bg-black/40 px-space-lg py-space-sm rounded-lg transition-colors font-label-lg text-label-lg"
+                            <a className="flex items-center justify-center gap-space-sm bg-error text-on-error hover:bg-error/80 px-space-xl py-space-md rounded-full transition-colors font-label-lg text-label-lg shadow-xl"
                                 href="tel:18004190068">
-                                <span className="material-symbols-outlined text-[20px]">headset_mic</span>
-                                <span>CPB 24x7 War Room: <span
-                                        className="font-financial-numeric text-financial-numeric">1800-419-0068</span></span>
+                                <span className="material-symbols-outlined text-[24px]">headset_mic</span>
+                                <span>CPB 24x7 War Room: <strong className="font-financial-numeric">1800-419-0068</strong></span>
                             </a>
                         </div>
                     </div>
-                </section>
+                </motion.div>
                 
                 <section className="w-full mb-space-xl">
                     <div className="flex items-center justify-between mb-space-md">

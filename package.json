@@ -19,7 +19,7 @@
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
     "firebase": "^10.12.4",
-    "framer-motion": "^11.3.19",
+    "framer-motion": "^11.18.2",
     "html5-qrcode": "^2.3.8",
     "lucide-react": "^0.417.0",
     "mysql2": "^3.24.2",

@@ -3,12 +3,13 @@ import React from 'react';
 import { Header } from '@/components/marketing/Header';
 import { Footer } from '@/components/marketing/Footer';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 export default function Page() {
   return (
     <>
       <Header />
-      <main className="w-full pt-36 min-h-screen bg-background" id="page-content">
+      <main className="w-full pt-0 min-h-screen bg-background" id="page-content">
         <div className="max-w-[1280px] mx-auto px-margin-desktop py-space-lg">
             <div className="flex flex-col w-full">
                 
@@ -28,52 +29,56 @@ export default function Page() {
                     </div>
                 </div>
                 
-                <div
-                    className="relative bg-surface-container-lowest p-space-lg md:p-space-xl rounded-xl shadow-sm mb-space-xl">
-                    <div className="max-w-4xl">
-                        <span
-                            className="text-label-md font-label-md uppercase tracking-wider text-primary font-semibold mb-space-xs inline-block">Portfolio
-                            Hub 2025</span>
-                        <h1 className="text-headline-xl font-headline-xl text-primary tracking-tight mb-space-xs">CPB
-                            Credit, Debit &amp; Forex Cards</h1>
-                        <p className="text-body-lg font-body-lg text-secondary max-w-3xl">
-                            Precision-engineered for enterprise rewards, institutional travel, contactless payments, and
-                            multi-currency global expense management with 256-bit encrypted core ledger integration.
-                        </p>
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="relative w-full rounded-2xl overflow-hidden mb-space-2xl shadow-2xl bg-surface-container-lowest border border-outline-variant group"
+                >
+                    <div className="absolute inset-0 w-full h-full">
+                        <img 
+                            src="/images/hero_cards_1789122892758.jpg" 
+                            alt="Premium Black Metal Credit Card"
+                            className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000 ease-out"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent"></div>
                     </div>
                     
-                    <div
-                        className="grid grid-cols-2 md:grid-cols-4 gap-space-md mt-space-lg pt-space-md bg-surface-container-low p-space-md rounded-lg">
-                        <div className="flex flex-col">
-                            <span className="text-label-sm font-label-sm uppercase text-secondary">Zero-Liability
-                                Period</span>
-                            <span className="text-financial-numeric font-financial-numeric text-primary">Instant
-                                Freeze</span>
-                            <span className="text-body-sm font-body-sm text-on-surface-variant">Via CPB NetBanking
-                                app</span>
-                        </div>
-                        <div className="flex flex-col">
-                            <span className="text-label-sm font-label-sm uppercase text-secondary">Forex Currencies</span>
-                            <span className="text-financial-numeric font-financial-numeric text-primary">16 Locked FX</span>
-                            <span className="text-body-sm font-body-sm text-on-surface-variant">Multi-wallet hedge</span>
-                        </div>
-                        <div className="flex flex-col">
-                            <span className="text-label-sm font-label-sm uppercase text-secondary">Complimentary
-                                Lounge</span>
-                            <span className="text-financial-numeric font-financial-numeric text-primary">2 Visits /
-                                Qtr</span>
-                            <span className="text-body-sm font-body-sm text-on-surface-variant">Domestic &amp; Int.
-                                Hubs</span>
-                        </div>
-                        <div className="flex flex-col">
-                            <span className="text-label-sm font-label-sm uppercase text-secondary">Interest-Free
-                                Window</span>
-                            <span className="text-financial-numeric font-financial-numeric text-primary">Up to 50
-                                Days</span>
-                            <span className="text-body-sm font-body-sm text-on-surface-variant">Commercial line tiers</span>
+                    <div className="relative z-10 px-space-xl py-[100px] md:w-3/4">
+                        <span className="inline-block px-space-sm py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-label-sm font-label-sm uppercase tracking-widest mb-space-md backdrop-blur-md">
+                            Portfolio Hub 2025
+                        </span>
+                        <h1 className="text-display-sm md:text-display-md font-display-sm md:font-display-md text-on-surface tracking-tight mb-space-xs">
+                            CPB Premium <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Credit & Forex</span> Cards
+                        </h1>
+                        <p className="text-body-lg font-body-lg text-on-surface-variant mb-space-xl max-w-2xl">
+                            Precision-engineered for enterprise rewards, institutional travel, contactless payments, and multi-currency global expense management with 256-bit encrypted core ledger integration.
+                        </p>
+                        
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-space-md bg-surface-container-lowest/40 backdrop-blur-md p-space-md rounded-xl border border-outline/50 w-full max-w-4xl">
+                            <div className="flex flex-col">
+                                <span className="text-label-sm font-label-sm uppercase text-secondary">Zero-Liability Period</span>
+                                <span className="text-title-md font-title-md text-primary mt-1">Instant Freeze</span>
+                                <span className="text-body-sm font-body-sm text-on-surface-variant">Via CPB App</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-label-sm font-label-sm uppercase text-secondary">Forex Currencies</span>
+                                <span className="text-title-md font-title-md text-primary mt-1">16 Locked FX</span>
+                                <span className="text-body-sm font-body-sm text-on-surface-variant">Multi-wallet hedge</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-label-sm font-label-sm uppercase text-secondary">Lounge Access</span>
+                                <span className="text-title-md font-title-md text-primary mt-1">Unlimited</span>
+                                <span className="text-body-sm font-body-sm text-on-surface-variant">Priority Pass</span>
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-label-sm font-label-sm uppercase text-secondary">Interest-Free Window</span>
+                                <span className="text-title-md font-title-md text-primary mt-1">Up to 50 Days</span>
+                                <span className="text-body-sm font-body-sm text-on-surface-variant">Commercial tiers</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
                 
                 <div className="flex items-center gap-space-xs overflow-x-auto pb-space-sm mb-space-lg">
                     <button

@@ -3,12 +3,13 @@ import React from 'react';
 import { Header } from '@/components/marketing/Header';
 import { Footer } from '@/components/marketing/Footer';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 export default function Page() {
   return (
     <>
       <Header />
-      <main className="w-full pt-36 min-h-screen bg-background" id="page-content">
+      <main className="w-full pt-0 min-h-screen bg-background" id="page-content">
         <div className="max-w-[1280px] mx-auto px-margin-desktop py-space-lg">
             <div className="flex flex-col w-full">
                 
@@ -35,30 +36,44 @@ export default function Page() {
                     </div>
                 </div>
                 
-                <div
-                    className="bg-surface-container-lowest p-space-lg md:p-space-xl rounded-xl shadow-sm mb-space-lg relative overflow-hidden">
-                    <div className="max-w-3xl relative z-10">
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="relative w-full rounded-2xl overflow-hidden mb-space-2xl shadow-2xl bg-surface-container-lowest border border-outline-variant group"
+                >
+                    <div className="absolute inset-0 w-full h-full">
+                        <img 
+                            src="/images/hero_loans_1789123060553.jpg" 
+                            alt="Premium Gold Key indicating Financial Growth"
+                            className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000 ease-out"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent"></div>
+                    </div>
+                    
+                    <div className="relative z-10 px-space-xl py-[100px] md:w-3/4">
                         <div className="flex items-center gap-space-xs mb-space-xs">
-                            <span
-                                className="px-2 py-0.5 bg-secondary-container text-on-secondary-container rounded font-label-sm text-label-sm uppercase tracking-wider font-bold">Institutional
-                                Financing Matrix</span>
-                            <span className="text-label-sm font-label-sm text-secondary">| Sovereign &amp; Retail
-                                Window</span>
+                            <span className="px-3 py-1 bg-primary/10 text-primary border border-primary/20 rounded-full font-label-sm text-label-sm uppercase tracking-wider font-bold backdrop-blur-md">
+                                Institutional Financing Matrix
+                            </span>
+                            <span className="text-label-sm font-label-sm text-secondary">| Sovereign & Retail Window</span>
                         </div>
-                        <h2
-                            className="text-headline-xl font-headline-xl text-on-surface tracking-tight font-bold mb-space-xs">
-                            CPB Loans &amp; Institutional Financing</h2>
-                        <p className="text-body-lg font-body-lg text-on-surface-variant leading-relaxed">Competitive
-                            benchmark-linked rates, zero hidden charges, and regulatory digital in-principle sanction in
-                            10 minutes.</p>
+                        <h1 className="text-display-sm md:text-display-md font-display-sm md:font-display-md text-on-surface tracking-tight font-bold mb-space-xs mt-space-sm">
+                            CPB Loans & <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-amber-300">Institutional Financing</span>
+                        </h1>
+                        <p className="text-body-lg font-body-lg text-on-surface-variant leading-relaxed mb-space-xl max-w-2xl">
+                            Competitive benchmark-linked rates, zero hidden charges, and regulatory digital in-principle sanction in 10 minutes.
+                        </p>
+                        
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-md">
+                            <a className="inline-flex items-center justify-center gap-space-sm bg-gradient-to-r from-yellow-600 to-amber-500 hover:shadow-lg hover:shadow-yellow-500/30 hover:-translate-y-1 text-on-primary font-label-lg text-label-lg px-space-xl py-space-md rounded-full transition-all duration-300"
+                                href="#apply-now">
+                                <span>Check Eligibility</span>
+                                <span className="material-symbols-outlined text-[20px]">how_to_reg</span>
+                            </a>
+                        </div>
                     </div>
-                    <div className="absolute right-0 top-0 bottom-0 w-1/3 hidden lg:block opacity-10 pointer-events-none">
-                        <svg className="w-full h-full" fill="none" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
-                            <path className="text-primary" d="M0 200L150 50L250 120L400 0V200H0Z" fill="currentColor">
-                            </path>
-                        </svg>
-                    </div>
-                </div>
+                </motion.div>
                 
                 <section className="mb-space-xl">
                     <div className="flex items-center justify-between mb-space-md">

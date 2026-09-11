@@ -4,12 +4,13 @@ import { Header } from '@/components/marketing/Header';
 import { Footer } from '@/components/marketing/Footer';
 import Link from 'next/link';
 import { EmiCalculator } from '@/components/marketing/EmiCalculator';
+import { motion } from 'framer-motion';
 
 export default function Home() {
   return (
     <>
       <Header />
-      <main className="w-full pt-36 min-h-screen bg-background" id="page-content">
+      <main className="w-full pt-0 min-h-screen bg-background" id="page-content">
         <div className="max-w-[1280px] mx-auto px-margin-desktop py-space-lg">
             <div className="flex flex-col w-full">
                 
@@ -19,36 +20,47 @@ export default function Home() {
                     <span className="material-symbols-outlined text-[14px]">chevron_right</span>
                     <span className="text-on-surface font-semibold">Accounts &amp; Deposits</span>
                 </nav>
-                
-                <header className="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm mb-space-lg">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
-                        <div className="space-y-space-xs max-w-3xl">
-                            <div
-                                className="inline-flex items-center gap-space-xs px-space-xs py-0.5 bg-surface-container rounded text-label-sm font-label-sm text-primary uppercase tracking-wider">
-                                <span className="material-symbols-outlined text-[14px]">assured_workload</span>
-                                RBI Regulated Scheduled Commercial Bank
-                            </div>
-                            <h1 className="text-headline-xl font-headline-xl text-primary tracking-tight">CPB Retail &amp;
-                                Institutional Deposit Accounts</h1>
-                            <p className="text-body-lg font-body-lg text-on-surface-variant">
-                                Transparent interest yields, multi-tier regulatory compliance, and seamless paperless
-                                digital account opening under RBI guidelines.
-                            </p>
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="relative w-full rounded-2xl overflow-hidden mb-space-2xl shadow-2xl bg-surface-container-lowest border border-outline-variant group"
+                >
+                    <div className="absolute inset-0 w-full h-full">
+                        <img 
+                            src="/images/hero_home_1789122875387.jpg" 
+                            alt="Premium Banking abstract composition"
+                            className="w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-1000 ease-out"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent"></div>
+                    </div>
+                    
+                    <div className="relative z-10 px-space-xl py-[120px] md:w-2/3">
+                        <div className="inline-flex items-center gap-space-xs px-space-sm py-1 bg-primary/10 text-primary border border-primary/20 rounded-full text-label-sm font-label-sm uppercase tracking-widest mb-space-md backdrop-blur-md">
+                            <span className="material-symbols-outlined text-[16px]">assured_workload</span>
+                            RBI Regulated Scheduled Commercial Bank
                         </div>
-                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-sm shrink-0">
-                            <a className="inline-flex items-center justify-center gap-space-xs bg-surface-container-low text-primary hover:bg-surface-container font-label-lg text-label-lg px-space-md py-space-sm rounded-lg transition-colors"
-                                href="#quick-calculator">
-                                <span className="material-symbols-outlined text-[18px]">calculate</span>
-                                <span>Yield Calculator</span>
-                            </a>
-                            <a className="inline-flex items-center justify-center gap-space-xs bg-primary-container hover:bg-primary text-on-primary font-label-lg text-label-lg px-space-md py-space-sm rounded-lg transition-colors shadow-sm"
+                        <h1 className="text-display-sm md:text-display-md font-display-sm md:font-display-md text-on-surface tracking-tight mb-space-md">
+                            Elevate Your Banking with <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-500">Code Paglu</span>
+                        </h1>
+                        <p className="text-body-lg font-body-lg text-on-surface-variant mb-space-xl max-w-xl">
+                            Experience transparent interest yields, multi-tier security, and seamless paperless digital onboarding designed for the modern economy.
+                        </p>
+                        
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-md">
+                            <a className="inline-flex items-center justify-center gap-space-sm bg-gradient-to-r from-primary to-primary-container hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-1 text-on-primary font-label-lg text-label-lg px-space-xl py-space-md rounded-full transition-all duration-300"
                                 href="#process-flow">
-                                <span className="material-symbols-outlined text-[18px]">verified</span>
-                                <span>Instant Video KYC</span>
+                                <span>Open Account Instantly</span>
+                                <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
+                            </a>
+                            <a className="inline-flex items-center justify-center gap-space-sm bg-surface-container-lowest/50 backdrop-blur-md border border-outline hover:bg-surface-container-low text-on-surface font-label-lg text-label-lg px-space-xl py-space-md rounded-full transition-colors"
+                                href="#quick-calculator">
+                                <span className="material-symbols-outlined text-[20px]">calculate</span>
+                                <span>Yield Calculator</span>
                             </a>
                         </div>
                     </div>
-                </header>
+                </motion.div>
                 
                 <section aria-label="Deposit Rates Strip"
                     className="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm mb-space-lg">
